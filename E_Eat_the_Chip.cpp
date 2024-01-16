@@ -29,43 +29,43 @@ int mod = 1000000007;
 float pi = acos(-1);
 int inf = 1e18;
 
-// map<int, vector<int>> adj;
-int n, m;
-unordered_map<pair<int, int>, int> visited, level;
-vector<pair<int, int>> alice_moves = {{1, 0}, {1, -1}, {1, 1}};
-vector<pair<int, int>> bob_moves = {{-1, 0}, {-1, -1}, {-1, 1}};
-
-bool isValid(int x, int y) {
-    if (x < 1 or x > n or y < 1 or y > m)
-        return false;
-    if (visited[{x, y}] == 1)
-        return false;
-    return true;
-}
-
-void bfs(int x, int y) {
-    queue<pair<int, int>> q;
-    q.push({x, y});
-    visited[{x, y}] = 1;
-    level[{x, y}] = 0;
-    while (!q.empty()) {
-        pair<int, int> p = q.front();
-        q.pop();
-        for (auto i : alice_moves) {
-            int x1 = p.first + i.first;
-            int y1 = p.second + i.second;
-            if (isValid(x1, y1)) {
-                visited[{x1, y1}] = 1;
-                level[{x1, y1}] = level[{p.first, p.second}] + 1;
-                q.push({x1, y1});
-            }
-        }
-    }
-}
-
 void solve() {
-    int x1, x2, y1, y2;
-    cin >> n >> m >> x1 >> y1 >> x2 >> y2;
+    int n, m;
+    cin >> n >> m;
+    vector<vector<int>> v(2, vector<int>(2));
+    cin >> v[0][0] >> v[0][1] >> v[1][0] >> v[1][1];
+    if (v[0][0] >= v[1][0]) {
+        cout << "Draw" << endl;
+        return;
+    }
+    int winner = -1, turn = 0;
+    while (v[0][0] < v[1][0]) {
+        int dist = v[0][0] - v[1][0];
+        if (dist & 1) {
+            if (v[turn][1] > v[!turn][1])
+                v[turn][1]--;
+            if (v[turn][1] < v[!turn][1])
+                v[turn][1]++;
+        }
+        else {
+            if (v[turn][1] > v[!turn][1] && v[turn][1] + 1 <= m)
+                v[turn][1]++;
+            if (v[turn][1] < v[!turn][1] && v[turn][1] - 1 >= 1)
+                v[turn][1]--;
+        }
+        v[turn][0] += turn ? -1 : 1;
+        if (v[0] == v[1]) {
+            winner = turn;
+            break;
+        }
+        turn ^= 1;
+    }
+    if (winner == -1)
+        cout << "Draw" << endl;
+    else if (winner == 0)
+        cout << "Alice" << endl;
+    else
+        cout << "Bob" << endl;
 }
 
 int32_t main() {

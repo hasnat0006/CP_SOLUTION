@@ -15,38 +15,41 @@ using namespace std;
 
 #define int long long
 #define float long double
-#define pb push_back
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
-#define dosomic(x) fixed << setprecision(x)
 #define endl "\n"
-#define case(x) cout << "Case " << x << ": "
 #define YUSUF ios_base::sync_with_stdio(false),
 #define REZA cin.tie(NULL),
 #define HASNAT cout.tie(NULL)
 
 int mod = 1000000007;
-float pi = acos(-1);
 int inf = 1e18;
 
 void solve() {
-    int n, k;
-    cin >> n >> k;
-    string s;
-    cin >> s;
-    int cnt = 0, ans = 0;
-    for (int i = 0; i < n; i++) {
-        if (s[i] == '*')
-            cnt++;
+    int n, p, l, t;
+    cin >> n >> p >> l >> t;
+    int unlock_assignments = 1 + (n - 1) / 7;
+    dbg(unlock_assignments);
+    int high = n, low = 0, ans = n;
+    while (low <= high) {
+        int possibleDays = (high + low + 1) / 2;
+        dbg(low, high, possibleDays);
+        int perDayPoints = l + t;
+        int remainingAssignments = unlock_assignments - possibleDays;
+        int points =
+            l * possibleDays + min(unlock_assignments, possibleDays) * t;
+        dbg(points);
+        if (remainingAssignments > 0)
+            points += min(remainingAssignments, possibleDays) * t;
+        if (points >= p) {
+            ans = min(ans, possibleDays);
+            high = possibleDays - 1;
+        }
         else
-            cnt = 0;
-        ans = max(ans, cnt);
+            low = possibleDays + 1;
+        dbg(ans, points);
     }
-    if (ans >= k) {
-        cout << "YES" << endl;
-        return;
-    }
-    cout << "NO" << endl;
+    cout << n - ans << endl;
 }
 
 int32_t main() {
@@ -54,7 +57,7 @@ int32_t main() {
     int t = 1;
     cin >> t;
     for (int i = 1; i <= t; i++) {
-        // case(i)
+        dbg(i, "-----------");
         solve();
     }
     return 0;

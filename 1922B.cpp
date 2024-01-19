@@ -25,13 +25,30 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
-void solve() {}
+void solve() {
+    int n;
+    cin >> n;
+    vector<int> v(n), cnt(n + 1);
+    for (int i = 0; i < n; i++) {
+        cin >> v[i];
+        cnt[v[i]]++;
+    }
+    dbg(cnt);
+    int smaller = 0, ans = 0;
+    for (int i = 0; i <= n; i++) {
+        ans += (cnt[i] * (cnt[i] - 1) * (cnt[i] - 2)) / 6;
+        ans += (cnt[i] * (cnt[i] - 1)) / 2 * smaller;
+        smaller += cnt[i];
+    }
+    cout << ans << endl;
+}
 
 int32_t main() {
     YUSUF REZA HASNAT;
     int t = 1;
     cin >> t;
     for (int i = 1; i <= t; i++) {
+        // dbg(i, "-----------");
         solve();
     }
     return 0;

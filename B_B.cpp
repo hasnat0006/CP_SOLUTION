@@ -4,12 +4,7 @@
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "C:\Users\Yusuf Reza Hasnat\OneDrive\Desktop\CP\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
+
 
 using namespace std;
 
@@ -28,23 +23,25 @@ int inf = 1e18;
 void solve() {
     int n;
     cin >> n;
-    if (n % 2) {
-        cout << "Impossible" << endl;
-        return;
+    int arr[n][n];
+    int sum1 = 0, sum2 = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cin >> arr[i][j];
+            if (i == j)
+                sum1 += arr[i][j];
+            if (i + j == n - 1)
+                sum2 += arr[i][j];
+        }
     }
-    int nn = n;
-    int cnt = 0;
-    while(n % 2 == 0)
-        cnt++, n /= 2;
-    cout << nn / (1 << cnt) << " " << (1 << cnt) << endl;
+    cout << abs(sum1 - sum2) << endl;
 }
 
 int32_t main() {
     YUSUF REZA HASNAT;
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for (int i = 1; i <= t; i++) {
-        cout << "Case " << i << ": ";
         solve();
     }
     return 0;

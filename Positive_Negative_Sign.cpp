@@ -3,49 +3,43 @@
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 #ifndef ONLINE_JUDGE
 #include "C:\Users\Yusuf Reza Hasnat\OneDrive\Desktop\CP\debug.h"
-#else
+#else 
 #define dbg(x...)
 #define dbgc(x...)
 #endif
 
 using namespace std;
 
-#define int long long
+#define int   long long
 #define float long double
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 #define endl "\n"
 #define YUSUF ios_base::sync_with_stdio(false),
-#define REZA cin.tie(NULL),
+#define REZA  cin.tie(NULL), 
 #define HASNAT cout.tie(NULL)
 
-int mod = 1000000007;
-int inf = 1e18;
+int mod  = 1000000007;
+int inf  = 1e18;
 
-void solve() {
-    int n;
-    cin >> n;
-    if (n % 2) {
-        cout << "Impossible" << endl;
-        return;
-    }
-    int nn = n;
-    int cnt = 0;
-    while(n % 2 == 0)
-        cnt++, n /= 2;
-    cout << nn / (1 << cnt) << " " << (1 << cnt) << endl;
+void solve()
+{
+    int n, m;
+    cin >> n >> m;
+    cout << (m * m) * (n / (2 * m)) << endl;    
 }
 
-int32_t main() {
+int32_t main()
+{
     YUSUF REZA HASNAT;
     int t = 1;
     cin >> t;
-    for (int i = 1; i <= t; i++) {
+    for (int i = 1; i <= t; i++){
         cout << "Case " << i << ": ";
-        solve();
+        solve(); 
     }
     return 0;
 }

@@ -26,17 +26,21 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n;
-    cin >> n;
-    if (n % 2) {
-        cout << "Impossible" << endl;
-        return;
+    int n, k;
+    cin >> n >> k;
+    string s, ans;
+    cin >> s;
+    ans = s;
+    vector<int> v;
+    for (int i = k; i > 0; i -= 2)
+        v.push_back(i);
+    for (int i = k % 2 ? 2 : 1; i <= k; i += 2)
+        v.push_back(i);
+    dbg(v);
+    for (int i = 0; i < k; i++) {
+        ans[v[i] - 1] = s[i];
     }
-    int nn = n;
-    int cnt = 0;
-    while(n % 2 == 0)
-        cnt++, n /= 2;
-    cout << nn / (1 << cnt) << " " << (1 << cnt) << endl;
+    cout << ans << endl;
 }
 
 int32_t main() {
@@ -44,7 +48,6 @@ int32_t main() {
     int t = 1;
     cin >> t;
     for (int i = 1; i <= t; i++) {
-        cout << "Case " << i << ": ";
         solve();
     }
     return 0;

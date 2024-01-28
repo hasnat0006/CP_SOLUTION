@@ -26,17 +26,9 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n;
-    cin >> n;
-    if (n % 2) {
-        cout << "Impossible" << endl;
-        return;
-    }
-    int nn = n;
-    int cnt = 0;
-    while(n % 2 == 0)
-        cnt++, n /= 2;
-    cout << nn / (1 << cnt) << " " << (1 << cnt) << endl;
+    int a, b;
+    cin >> a >> b;
+    cout << max(a, b) << endl;
 }
 
 int32_t main() {
@@ -44,7 +36,6 @@ int32_t main() {
     int t = 1;
     cin >> t;
     for (int i = 1; i <= t; i++) {
-        cout << "Case " << i << ": ";
         solve();
     }
     return 0;

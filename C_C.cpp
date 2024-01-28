@@ -30,22 +30,30 @@ float pi = acos(-1);
 int inf = 1e18;
 
 void solve() {
-    int n;
-    cin >> n;
+    int n, m, k;
+    cin >> n >> m >> k;
     vector<int> v(n);
-    int sum = 0;
-    for (int i = 0; i < n; i++) {
-        cin >> v[i];
-        if (v[i] % 2)
-            sum++;
+    map<int, vector<int>> mp;
+    for (int &i : v) {
+        cin >> i;
+        mp[i % k].push_back(i);
     }
-    cout << (sum) / 2 << endl;
+    for (auto i : mp) {
+        if (i.second.size() >= m) {
+            cout << "Yes" << endl;
+            for(int k = 0; k < m;k++)
+                cout << i.second[k] << " ";
+            cout << endl;
+            return;
+        }
+    }
+    cout << "No" << endl;
 }
 
 int32_t main() {
     YUSUF REZA HASNAT;
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for (int i = 1; i <= t; i++) {
         // case(i)
         solve();

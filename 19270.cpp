@@ -22,19 +22,28 @@ int inf = 1e18;
 void solve() {
     int n;
     cin >> n;
-    vector<int> v(n);
-    int sum = 0;
+    string s;
+    cin >> s;
+    int id = -1, id1 = -1;
     for (int i = 0; i < n; i++) {
-        cin >> v[i];
-        sum += v[i];
+        if (s[i] == 'B') {
+            id = i;
+            break;
+        }
     }
-    cout << sum << endl;
+    for (int i = n - 1; i >= 0; i--) {
+        if (s[i] == 'B') {
+            id1 = i;
+            break;
+        }
+    }
+    cout << id1 - id + 1 << endl;
 }
 
 int32_t main() {
     YUSUF REZA HASNAT;
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

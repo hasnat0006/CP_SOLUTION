@@ -21,20 +21,18 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n;
-    cin >> n;
-    int arr[n][n];
-    int sum1 = 0, sum2 = 0;
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            cin >> arr[i][j];
-            if (i == j)
-                sum1 += arr[i][j];
-            if (i + j == n - 1)
-                sum2 += arr[i][j];
-        }
+    int x1, v1, x2, v2;
+    cin >> x1 >> v1 >> x2 >> v2;
+    if (x1 == x2) {
+        cout << "YES" << endl;
+        return;
     }
-    cout << abs(sum1 - sum2) << endl;
+    if (x1 > x2 and v1 >= v2 or x2 > x1 and v2 >= v1) {
+        cout << "NO" << endl;
+        return;
+    }
+    (x2 - x1) % (v1 - v2) == 0 ? cout <<  "YES" << endl : cout << "NO" << endl;
+    // cout << "YES" << endl;
 }
 
 int32_t main() {

@@ -4,7 +4,6 @@
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-
 using namespace std;
 
 #define int long long
@@ -20,15 +19,18 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    int sum = 0;
-    for (int i = 0; i < n; i++) {
-        cin >> v[i];
-        sum += v[i];
+    string a, b;
+    cin >> a >> b;
+    int c = 0, cnt = 0;
+    for (int i = 0; i < b.size(); i++) {
+        while (b[i] != a[c] and c < a.size())
+            c++;
+        if (b[i] == a[c])
+            cnt++, c++;
+        if (c == a.size())
+            break;
     }
-    cout << sum << endl;
+    cnt == b.size() ? cout << "YES" << endl : cout << "NO" << endl;
 }
 
 int32_t main() {

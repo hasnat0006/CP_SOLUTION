@@ -19,26 +19,30 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
+int minSteps(int n, int k) {
+    if (k > n)
+        swap(n, k);
+    if (k == 1)
+        return n - 1;
+    if (n % k == 0)
+        return inf;
+    return minSteps(n % k, k) + n / k;
+}
+
 void solve() {
-    int n, k;
-    cin >> n >> k;
-    vector<int> ans(n + 1);
-    int l = 1, r = n;
-    for (int i = 1; i <= k; i++) {
-        for (int j = i; j <= n; j += k) {
-            i % 2 ? ans[j] = l++ : ans[j] = r--;
-        }
-    }
+    int n;
+    cin >> n;
+    int ans = inf;
     for (int i = 1; i <= n; i++) {
-        cout << ans[i] << " ";
+        ans = min(ans, minSteps(n, i));
     }
-    cout << endl;
+    cout << ans << endl;
 }
 
 int32_t main() {
     YUSUF REZA HASNAT;
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

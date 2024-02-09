@@ -4,7 +4,12 @@
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-
+#ifndef ONLINE_JUDGE
+#include "C:\Users\Yusuf Reza Hasnat\OneDrive\Desktop\CP\debug.h"
+#else 
+#define dbg(x...)
+#define dbgc(x...)
+#endif
 using namespace std;
 
 #define int long long
@@ -20,19 +25,14 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n, k;
-    cin >> n >> k;
-    vector<int> ans(n + 1);
-    int l = 1, r = n;
-    for (int i = 1; i <= k; i++) {
-        for (int j = i; j <= n; j += k) {
-            i % 2 ? ans[j] = l++ : ans[j] = r--;
-        }
-    }
-    for (int i = 1; i <= n; i++) {
-        cout << ans[i] << " ";
-    }
-    cout << endl;
+    int n;
+    cin >> n;
+    int x = log2(n);
+    dbg(x);
+    if (x < 7)
+        cout << "NO" << endl;
+    else
+        cout << "YES" << endl;
 }
 
 int32_t main() {

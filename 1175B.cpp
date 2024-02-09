@@ -25,43 +25,48 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
-void solve() {
-    int n, ans = 0;
-    cin >> n;
-    vector<int> start;
-    int multiloop = 1, maxlimit = (pow(2, 32)) - 1;
-    dbg(maxlimit);
-    int f = 0;
-    int cnt = 0;
-    while (n--) {
-        string s;
-        cin >> s;
-        if (s == "for") {
-            int x;
-            cin >> x;
-            if (cnt)
-                cnt++;
-            else {
-                multiloop *= x;
-                if (multiloop > maxlimit)
-                    cnt++, multiloop /= x;
-            }
-            start.push_back(x);
+int n, ans = 0;
+vector<int> start;
+int multiloop = 1, maxlimit = (pow(2, 32)) - 1;
+int f = 0;
+int cnt = 0;
+
+void loop(int i) {
+    if (i == n)
+        return;
+    string s;
+    cin >> s;
+    if (s == "for") {
+        int x;
+        cin >> x;
+        if (cnt)
+            cnt++;
+        else {
+            multiloop *= x;
+            if (multiloop > maxlimit)
+                cnt++, multiloop /= x;
         }
-        else if (s == "end") {
-            cnt ? cnt-- : multiloop /= start.back();
-            start.pop_back();
-        }
-        else if (s == "add") {
-            if (cnt)
+        start.push_back(x);
+    }
+    else if (s == "end") {
+        cnt ? cnt-- : multiloop /= start.back();
+        start.pop_back();
+    }
+    else if (s == "add") {
+        if (cnt)
+            f = 1;
+        else {
+            ans += multiloop;
+            if (ans > maxlimit)
                 f = 1;
-            else {
-                ans += multiloop;
-                if (ans > maxlimit)
-                    f = 1;
-            }
         }
     }
+    loop(i + 1);
+}
+
+void solve() {
+    cin >> n;
+    loop(0);
     f ? cout << "OVERFLOW!!!" << endl : cout << ans << endl;
 }
 

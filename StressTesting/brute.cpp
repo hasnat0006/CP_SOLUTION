@@ -4,6 +4,7 @@
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
+
 using namespace std;
 
 #define int long long
@@ -18,25 +19,66 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
-void solve() {
-    string a, b;
-    cin >> a >> b;
-    int c = 0, cnt = 0;
-    for (int i = 0; i < b.size(); i++) {
-        while (b[i] != a[c] and c < a.size())
-            c++;
-        if (b[i] == a[c])
-            cnt++, c++;
-        if (c == a.size())
-            break;
+bool isPrime(int n) {
+    if (n < 4)
+        return true;
+    if (n % 2 == 0)
+        return false;
+    for (int i = 3; i * i <= n; i += 2) {
+        if (n % i == 0)
+            return false;
     }
-    cnt == b.size() ? cout << "YES" << endl : cout << "NO" << endl;
+    return true;
 }
 
+void solve() {
+    int n;
+    cin >> n;
+    bool one = false;
+    vector<int> a(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+        if (a[i] == 1)
+            one = true;
+    }
+    if (one) {
+        cout << n << '\n';
+        return;
+    }
+    sort(a.begin(), a.end());
+    map<int, int> mp;
+    vector<int> v;
+    for (int i = 0; i < n; ++i) {
+        if (mp[a[i]] < 0)
+            continue;
+        if (isPrime(a[i])) {
+            v.push_back(a[i]);
+            mp[a[i]] = -a[i];
+            continue;
+        }
+        bool found = false;
+        for (int j = 0; j < v.size(); ++j) {
+            if (a[i] % v[j] == 0) {
+                // a[i] = v[j];
+                mp[a[i]] = -v[j];
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            v.push_back(a[i]);
+            mp[a[i]] = -a[i];
+        }
+    }
+    long long res = 0;
+    for (int i : a)
+        res += -mp[i];
+    cout << res << endl;
+}
 int32_t main() {
     YUSUF REZA HASNAT;
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

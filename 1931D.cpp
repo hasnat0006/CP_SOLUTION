@@ -19,6 +19,14 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
+/*
+
+1.  (ai - aj) % y = 0 it can be written as ai % y = aj % y
+2.  (ai + aj) % x = 0 it can be written as ai % x = (x - aj % x) % x
+so we can use a map to store the frequency of the pair (ai % x, ai % y) and for each ai we can check how many pairs (xMod, yMod) are there such that xMod = (x - ai % x) % x and yMod = ai % y and add that to the answer and then increment the frequency of the pair (ai % x, ai % y) in the map.
+
+*/
+
 void solve() {
     int n, x, y;
     cin >> n >> x >> y;
@@ -26,12 +34,12 @@ void solve() {
     for (int i = 0; i < n; i++)
         cin >> v[i];
     int ans = 0;
-    for (int i = 0; i < n; i++) {
-        for (int j = i + 1; j < n; j++) {
-            if ((v[i] + v[j]) % x == 0 && abs(v[i] - v[j]) % y == 0) {
-                ans++;
-            }
-        }
+    map<pair<int, int>, int> mp;
+    for(auto i : v){
+        int xMod = (x - i % x) % x;
+        int yMod = i % y;
+        ans += mp[{xMod, yMod}];
+        mp[{i % x, i % y}]++;
     }
     cout << ans << endl;
 }

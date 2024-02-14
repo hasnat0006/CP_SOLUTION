@@ -20,20 +20,20 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n, x, y;
-    cin >> n >> x >> y;
-    vector<int> v(n);
-    for (int i = 0; i < n; i++)
-        cin >> v[i];
-    int ans = 0;
-    for (int i = 0; i < n; i++) {
-        for (int j = i + 1; j < n; j++) {
-            if ((v[i] + v[j]) % x == 0 && abs(v[i] - v[j]) % y == 0) {
-                ans++;
+    int n;
+    cin >> n;
+    vector<int> v;
+    for(int i = 1; i <= 26; i++){
+        for(int j = 1; j <= 26; j++){
+            for(int k = 1; k <= 26; k++){
+                if(i + j + k == n){
+                    cout << (char)('a' + i - 1) << (char)('a' + j - 1) << (char)('a' + k - 1) << endl;
+                    return;
+                }
             }
         }
     }
-    cout << ans << endl;
+
 }
 
 int32_t main() {

@@ -4,12 +4,7 @@
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "C:\Users\Yusuf Reza Hasnat\OneDrive\Desktop\CP\debug.h"
-#else 
-#define dbg(x...)
-#define dbgc(x...)
-#endif
+
 using namespace std;
 
 #define int long long
@@ -23,15 +18,15 @@ using namespace std;
 
 int mod = 1000000007;
 int inf = 1e18;
+
 class DisjointSet {
    public:
     vector<int> parent, size;
-    set<pair<int, int>> ans;
     DisjointSet(int n) {
         parent.resize(n + 1);
         size.resize(n + 1, 1);
         for (int i = 1; i <= n; i++)
-            parent[i] = i, ans.insert({1, i});
+            parent[i] = i;
     }
     int findUPar(int u) {
         if (u == parent[u])
@@ -55,37 +50,44 @@ class DisjointSet {
 };
 
 void solve() {
-    int n, q;
-    cin >> n >> q;
+    int n, k;
+    cin >> n >> k;
     DisjointSet dsu(n);
-    map<int,int> mp;
-    for(int i = 1; i <= n; i++) {
-        mp[i] = 1;
+    int ans = 0;
+    for (int i = 0; i < k; i++) {
+        int type, u, v;
+        cin >> type >> u >> v;
+        if (u > n or v > n) {
+            ans++;
+            continue;
+        }
+        if (type == 1) {
+            if (dsu.findUPar(u) != dsu.findUPar(v) and
+                (dsu.findUPar(u) != u or dsu.findUPar(v) != v))
+                ans++;
+            else
+                dsu.unionBySize(u, v);
+        }
+        else {
+            if (dsu.findUPar(u) == dsu.findUPar(v))
+                ans++;
+            else {
+                if (dsu.findUPar(u) == u and dsu.findUPar(v) == v) {
+                    dsu.parent[u] = -1;
+                    dsu.parent[v] = -2;
+                }
+                
+            }
+        }
+        cout << i + 1 << " -> " << ans << "\n";
     }
-    while (q--) {
-        int u, v;
-        cin >> u >> v;
-        dsu.ans.erase({dsu.size[dsu.findUPar(u)], u});
-        dsu.ans.erase({dsu.size[dsu.findUPar(v)], v});
-        // cout << "Ultimate Parent of " << u << " is -> " << dsu.findUPar(u) << endl;
-        // cout << "Ultimate Parent of " << v << " is -> " << dsu.findUPar(v) << endl;
-        dsu.ans.erase({mp[dsu.findUPar(u)], dsu.findUPar(u)});
-        dsu.ans.erase({mp[dsu.findUPar(v)], dsu.findUPar(v)});
-        dsu.unionBySize(u, v);
-        dsu.ans.insert({dsu.size[dsu.findUPar(u)], dsu.findUPar(u)});
-        mp[dsu.findUPar(u)] = dsu.size[dsu.findUPar(u)];
-        // dbgc(dsu.ans);
-        cout << dsu.ans.rbegin()->first - dsu.ans.begin()->first << endl;
-    }
-    // for(auto i : dsu.ans) {
-    //     cout << i.first << " " << i.second << endl;
-    // }
+    cout << ans << endl;
 }
 
 int32_t main() {
     YUSUF REZA HASNAT;
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

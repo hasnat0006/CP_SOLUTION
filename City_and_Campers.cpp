@@ -67,19 +67,13 @@ void solve() {
         cin >> u >> v;
         dsu.ans.erase({dsu.size[dsu.findUPar(u)], u});
         dsu.ans.erase({dsu.size[dsu.findUPar(v)], v});
-        // cout << "Ultimate Parent of " << u << " is -> " << dsu.findUPar(u) << endl;
-        // cout << "Ultimate Parent of " << v << " is -> " << dsu.findUPar(v) << endl;
         dsu.ans.erase({mp[dsu.findUPar(u)], dsu.findUPar(u)});
         dsu.ans.erase({mp[dsu.findUPar(v)], dsu.findUPar(v)});
         dsu.unionBySize(u, v);
         dsu.ans.insert({dsu.size[dsu.findUPar(u)], dsu.findUPar(u)});
         mp[dsu.findUPar(u)] = dsu.size[dsu.findUPar(u)];
-        // dbgc(dsu.ans);
         cout << dsu.ans.rbegin()->first - dsu.ans.begin()->first << endl;
     }
-    // for(auto i : dsu.ans) {
-    //     cout << i.first << " " << i.second << endl;
-    // }
 }
 
 int32_t main() {

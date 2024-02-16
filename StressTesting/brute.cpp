@@ -1,47 +1,35 @@
-//!-----------------------------------------------------!//
-//!                  YUSUF REZA HASNAT                  !//
-//!-----------------------------------------------------!//
-
-#pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-
 using namespace std;
-
-#define int long long
-#define float long double
-#define vf(v) (v).begin(), (v).end()
-#define vr(v) (v).rbegin(), (v).rend()
-#define endl "\n"
-#define YUSUF ios_base::sync_with_stdio(false),
-#define REZA cin.tie(NULL),
-#define HASNAT cout.tie(NULL)
-
-int mod = 1000000007;
-int inf = 1e18;
-
-void solve() {
-    int n, x, y;
-    cin >> n >> x >> y;
-    vector<int> v(n);
-    for (int i = 0; i < n; i++)
-        cin >> v[i];
-    int ans = 0;
-    for (int i = 0; i < n; i++) {
-        for (int j = i + 1; j < n; j++) {
-            if ((v[i] + v[j]) % x == 0 && abs(v[i] - v[j]) % y == 0) {
-                ans++;
-            }
-        }
-    }
-    cout << ans << endl;
+#define PII pair<int,int>
+set <PII> keep;
+int parent [100005]; 
+int sz[100005]; 
+int findset (int a)
+{
+	if(parent[a]==0)return a;return parent[a]=findset(parent[a]);
 }
-
-int32_t main() {
-    YUSUF REZA HASNAT;
-    int t = 1;
-    cin >> t;
-    for (int i = 1; i <= t; i++) {
-        solve();
-    }
-    return 0;
+void merge (int a,int b)
+{
+	int k = findset(a), kk = findset(b); 
+	if(k==kk)return;
+	parent[k]=kk; 
+	keep.erase(PII(sz[kk], kk));
+	keep.erase(PII(sz[k], k));
+	sz[kk]+=sz[k];
+	keep.insert(PII(sz[kk],kk));
+}
+int main()
+{
+	ios_base::sync_with_stdio(0); 
+	int N, Q; cin >> N >> Q;
+	for (int g=1;g<=N;g++)keep.insert(PII(1, g)),sz[g]=1;
+	for (int g=0; g<Q; g++)
+	{
+		int a, b; cin >> a >> b;
+		merge(a, b); 
+		set <PII> :: iterator ending = keep.end(); ending--; 
+		set <PII> :: iterator beginning = keep.begin(); 
+		cout << (*ending).first-(*beginning).first << '\n'; 
+	}	
+	return 0; 
 }

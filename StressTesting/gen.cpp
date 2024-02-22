@@ -105,13 +105,10 @@ const int max_tests = 10;
 
 // complete this function according to the requirements
 void generate_test() {
-    int n = rand(1, 10000);
-    int q = rand(1, 10000);
-    cout << n << " " << q << '\n';
-    for(int i = 0; i < q; i++) {
-        int u = rand(1, n);
-        int v = rand(1, n);
-        cout << u << " " << v << '\n';
+    int n = rand(1, 100);
+    cout << 1 << " " << n << '\n';
+    for(int i = 0; i < n; i++) {
+        cout << rand(0, pow(2, 31) - 1) << ' ';
     }
 }
 

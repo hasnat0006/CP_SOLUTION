@@ -19,35 +19,26 @@ using namespace std;
 int mod = 1000000007;
 float pi = 3.141592653589793238462643383279502884197;
 int inf = 1e18;
-
 map<int, vector<int>> adj;
 map<int, int> visited, color, level;
 
-bool dfs(int start, int clr)
-{
+bool dfs(int start, int clr) {
     color[start] = clr, visited[start] = 1;
-    for (auto child : adj[start])
-    {
-        if (!visited[child])
-        {
+    for (auto child : adj[start]) {
+        if (!visited[child]) {
             dfs(child, clr ^ 1);
         }
     }
 }
 
-void reset()
-{
-    adj.clear(), color.clear(), visited.clear(), level.clear();
-}
+void reset() { adj.clear(), color.clear(), visited.clear(), level.clear(); }
 
-void solve()
-{
+void solve() {
     reset();
     int n, x, y;
     cin >> n;
     set<int> st;
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++) {
         cin >> x >> y;
         st.insert(x);
         st.insert(y);
@@ -58,8 +49,7 @@ void solve()
         if (!visited[it])
             dfs(it, 0);
     int red = 0, green = 0;
-    for (auto it : color)
-    {
+    for (auto it : color) {
         if (it.second)
             green++;
         else
@@ -68,8 +58,7 @@ void solve()
     cout << max(red, green) << endl;
 }
 
-int32_t main()
-{
+int32_t main() {
     YUSUF REZA HASNAT;
     int t = 1;
     cin >> t;

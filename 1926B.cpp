@@ -4,9 +4,10 @@
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
+
 using namespace std;
 
-#define int unsigned long long
+#define int long long
 #define float long double
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
@@ -21,29 +22,25 @@ int inf = 1e18;
 void solve() {
     int n;
     cin >> n;
-    int arr[n];
-    map<int, int> freq;
+    string arr[n];
     for (int i = 0; i < n; i++) {
-        int x;
-        cin >> x;
-        arr[i] = x;
-        freq[x]++;
+        string s;
+        cin >> s;
+        arr[i] = s;
     }
-    sort(arr, arr + n);
-    map<int, int> cal;
-    int ans = 0;
+    bool isSq = true;
+    set<int> ans;
     for (int i = 0; i < n; i++) {
-        if (cal[arr[i]] == 1)
-            continue;
-        bitset<31> b = (arr[i]);
-        b.flip();
-        int s = b.to_ullong();
-        if (freq[s]) 
-            cal[s] = 1;
-        ans += max(freq[arr[i]], freq[s]);
-        cal[arr[i]] = 1;
+        int cnt = 0;
+        for (int j = 0; j < n; j++) {
+            if (arr[i][j] == '1') {
+                cnt++;
+            }
+        }
+        if (cnt)
+            ans.insert(cnt);
     }
-    cout << ans << endl;
+    ans.size() == 1 ? cout << "SQUARE" << endl : cout << "TRIANGLE" << endl;
 }
 
 int32_t main() {

@@ -1,118 +1,55 @@
+//!-----------------------------------------------------!//
+//!                  YUSUF REZA HASNAT                  !//
+//!-----------------------------------------------------!//
+
+#pragma GCC optimize("O3")
 #include <bits/stdc++.h>
+
 using namespace std;
 
-class Node {
-   public:
-    Node *right, *left;
-    int val, height;
-    Node() {
-        right = left = NULL;
-        val = 0, height = 0;
-    }
-    Node(int n) {
-        right = left = NULL;
-        val = n, height = 0;
-    }
-};
+#define int long long
+#define float long double
+#define vf(v) (v).begin(), (v).end()
+#define vr(v) (v).rbegin(), (v).rend()
+#define endl "\n"
+#define YUSUF ios_base::sync_with_stdio(false),
+#define REZA cin.tie(NULL),
+#define HASNAT cout.tie(NULL)
 
-class AVL {
-    Node *root;
+int mod = 1000000007;
+int inf = 1e18;
 
-   public:
-    AVL() { root = NULL; }
-    Node *get_root() { return root; }
-    int findHeight(Node *u) { return (u == NULL) ? -1 : u->height; }
-    void LeftRotation(Node *&u) {
-        Node *v = u->right;
-        u->right = v->left;
-        v->left = u;
-        u->height = max(findHeight(u->right), findHeight(u->left)) + 1;
-        v->height = max(findHeight(v->left), findHeight(v->right)) + 1;
-        u = v;
+void solve() {
+    int n;
+    cin >> n;
+    vector<int> v(n);
+    for (int i = 0; i < n; i++) {
+        cin >> v[i];
     }
-    void RightRotation(Node *&u) {
-        Node *v = u->left;
-        u->left = v->right;
-        v->right = u;
-        u->height = max(findHeight(u->right), findHeight(u->left)) + 1;
-        v->height = max(findHeight(v->right), findHeight(v->left)) + 1;
-        u = v;
-    }
-    void LeftRightRotation(Node *&u) {
-        LeftRotation(u->left);
-        RightRotation(u);
-    }
-    void RightLeftRotation(Node *&u) {
-        RightRotation(u->right);
-        LeftRotation(u);
-    }
-    void balance(Node *u) {
-        if (u == NULL)
-            return;
-        if (findHeight(u->left) - findHeight(u->right) > 1) {
-            findHeight(u->left->left) >= findHeight(u->left->right)
-                ? RightRotation(u)
-                : LeftRightRotation(u);
+    int i = 0, j = n - 1, cnt = 0;
+    while (i < j) {
+        while (v[i] != 1 && i < n)
+            i++;
+        while (v[j] != 0 && j >= 0)
+            j--;
+        // cout << i << " " << j << " " << cnt << endl;
+        if (i < j) {
+            swap(v[i], v[j]);
+            cnt++;
+            i++;
+            j--;
         }
-        else if (findHeight(u->right) - findHeight(u->left) > 1) {
-            findHeight(u->right->right) >= findHeight(u->right->left)
-                ? LeftRotation(u)
-                : RightLeftRotation(u);
-        }
-        u->height = max(findHeight(u->left), findHeight(u->right)) + 1;
+        // cout << i << " " << j << " " << cnt << endl;
     }
-    void insert(int n, Node *&u) {
-        if (u == NULL)
-            u = new Node(n);
-        else if (n < u->val)
-            insert(n, u->left);
-        else if (n > u->val)
-            insert(n, u->right);
-        balance(u);
-    }
-    void print_in_order(Node *it) {
-        if (it == NULL)
-            return;
-        print_in_order(it->left);
-        cout << it->val << " ";
-        print_in_order(it->right);
-    }
-    Node *find_minimum(Node *it) {
-        while (it != NULL)
-            it = it->left;
-        return it;
-    }
-    void *delete_element(int n, Node *it) {
-        if (it == NULL)
-            return it;
-        else if (n < it->val) {
-            delete_element(n, it->left);
-        }
-        else if (n > it->val) {
-            delete_element(n, it->right);
-        }
-        else if (it->left != NULL and it->right != NULL) {
-            it->val = find_minimum(it->right)->val;
-            delete_element(it->val, it->right);
-        }
-        else {
-            Node *oldNode = it;
-            it = (it->left != NULL) ? it->left : it->right;
-            delete oldNode;
-        }
-    }
-};
+    cout << cnt << endl;
+}
 
-int main() {
-    AVL b;
-    Node *root = b.get_root();
-    b.insert(10, root);
-    b.insert(7, root);
-    b.insert(2, root);
-    b.insert(5, root);
-    b.insert(20, root);
-    b.insert(15, root);
-    b.insert(25, root);
-    b.print_in_order(b.get_root());
+int32_t main() {
+    YUSUF REZA HASNAT;
+    int t = 1;
+    cin >> t;
+    for (int i = 1; i <= t; i++) {
+        solve();
+    }
     return 0;
 }

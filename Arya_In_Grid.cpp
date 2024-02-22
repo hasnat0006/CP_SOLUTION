@@ -4,9 +4,15 @@
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
+#ifndef ONLINE_JUDGE
+#include "C:\Users\Yusuf Reza Hasnat\OneDrive\Desktop\CP\debug.h"
+#else
+#define dbg(x...)
+#define dbgc(x...)
+#endif
 using namespace std;
 
-#define int unsigned long long
+#define int long long
 #define float long double
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
@@ -19,31 +25,18 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n;
-    cin >> n;
-    int arr[n];
-    map<int, int> freq;
-    for (int i = 0; i < n; i++) {
-        int x;
-        cin >> x;
-        arr[i] = x;
-        freq[x]++;
-    }
-    sort(arr, arr + n);
-    map<int, int> cal;
-    int ans = 0;
-    for (int i = 0; i < n; i++) {
-        if (cal[arr[i]] == 1)
-            continue;
-        bitset<31> b = (arr[i]);
-        b.flip();
-        int s = b.to_ullong();
-        if (freq[s]) 
-            cal[s] = 1;
-        ans += max(freq[arr[i]], freq[s]);
-        cal[arr[i]] = 1;
-    }
-    cout << ans << endl;
+    int n, m, x, y, l;
+    cin >> n >> m >> x >> y >> l;
+    int left = (y - 1) / l;
+    int right = (m - y) / l;
+    int up = (x - 1) / l;
+    int down = (n - x) / l;
+    dbg(left, right, up, down);
+    int row = left + right + 1;
+    int col = up + down + 1;
+    dbg(row, col);
+    cout << row * col << endl;
+    // cout << left + right + up + down << endl;
 }
 
 int32_t main() {

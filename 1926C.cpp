@@ -4,9 +4,10 @@
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
+
 using namespace std;
 
-#define int unsigned long long
+#define int long long
 #define float long double
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
@@ -17,38 +18,28 @@ using namespace std;
 
 int mod = 1000000007;
 int inf = 1e18;
+int sum[200005];
+
+int DigitSum(int n) {
+    int sum = 0;
+    while (n > 0) {
+        sum += n % 10;
+        n /= 10;
+    }
+    return sum;
+}
 
 void solve() {
     int n;
     cin >> n;
-    int arr[n];
-    map<int, int> freq;
-    for (int i = 0; i < n; i++) {
-        int x;
-        cin >> x;
-        arr[i] = x;
-        freq[x]++;
-    }
-    sort(arr, arr + n);
-    map<int, int> cal;
-    int ans = 0;
-    for (int i = 0; i < n; i++) {
-        if (cal[arr[i]] == 1)
-            continue;
-        bitset<31> b = (arr[i]);
-        b.flip();
-        int s = b.to_ullong();
-        if (freq[s]) 
-            cal[s] = 1;
-        ans += max(freq[arr[i]], freq[s]);
-        cal[arr[i]] = 1;
-    }
-    cout << ans << endl;
+    cout << sum[n] << endl;
 }
 
 int32_t main() {
     YUSUF REZA HASNAT;
     int t = 1;
+    for(int i = 1; i <= 200000; i++)
+        sum[i] = sum[i - 1] + DigitSum(i);
     cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();

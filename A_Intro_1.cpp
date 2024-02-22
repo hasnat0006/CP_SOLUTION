@@ -4,9 +4,10 @@
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
+
 using namespace std;
 
-#define int unsigned long long
+#define int long long
 #define float long double
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
@@ -18,38 +19,34 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
+int cnt = 0;
+int dp[100005];
+int n;
+int findAns(int sum) {
+    if (dp[sum] != -1) {
+        return dp[sum];
+    }
+    int cnt = 0;
+    for (int i = 1; i <= 6; i++) {
+        if (sum - i >= 0)
+            cnt += findAns(sum - i) + 1;
+    }
+}
+
 void solve() {
-    int n;
+    memset(dp, -1, sizeof(dp));
     cin >> n;
-    int arr[n];
-    map<int, int> freq;
-    for (int i = 0; i < n; i++) {
-        int x;
-        cin >> x;
-        arr[i] = x;
-        freq[x]++;
+    // findAns(0);
+    cout << findAns(n) << endl;
+    for (int i = 0; i <= n; i++) {
+        cout << dp[i] << " ";
     }
-    sort(arr, arr + n);
-    map<int, int> cal;
-    int ans = 0;
-    for (int i = 0; i < n; i++) {
-        if (cal[arr[i]] == 1)
-            continue;
-        bitset<31> b = (arr[i]);
-        b.flip();
-        int s = b.to_ullong();
-        if (freq[s]) 
-            cal[s] = 1;
-        ans += max(freq[arr[i]], freq[s]);
-        cal[arr[i]] = 1;
-    }
-    cout << ans << endl;
 }
 
 int32_t main() {
     YUSUF REZA HASNAT;
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

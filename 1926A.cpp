@@ -4,9 +4,10 @@
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
+
 using namespace std;
 
-#define int unsigned long long
+#define int long long
 #define float long double
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
@@ -19,31 +20,17 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n;
-    cin >> n;
-    int arr[n];
-    map<int, int> freq;
+    string s;
+    cin >> s;
+    int n = s.size();
+    int a = 0, b = 0;
     for (int i = 0; i < n; i++) {
-        int x;
-        cin >> x;
-        arr[i] = x;
-        freq[x]++;
+        if (s[i] == 'A')
+            a++;
+        else
+            b++;
     }
-    sort(arr, arr + n);
-    map<int, int> cal;
-    int ans = 0;
-    for (int i = 0; i < n; i++) {
-        if (cal[arr[i]] == 1)
-            continue;
-        bitset<31> b = (arr[i]);
-        b.flip();
-        int s = b.to_ullong();
-        if (freq[s]) 
-            cal[s] = 1;
-        ans += max(freq[arr[i]], freq[s]);
-        cal[arr[i]] = 1;
-    }
-    cout << ans << endl;
+    a > b ? cout << "A" << endl : cout << "B" << endl;
 }
 
 int32_t main() {

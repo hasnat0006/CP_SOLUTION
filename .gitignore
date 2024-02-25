@@ -3,3 +3,4 @@
 *.prob
 .vscode/
 .cph/
+output/

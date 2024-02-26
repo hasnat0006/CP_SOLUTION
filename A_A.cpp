@@ -1,5 +1,6 @@
 //!-----------------------------------------------------!//
-//!                  YUSUF REZA HASNAT                  !//
+//!              Author: YUSUF REZA HASNAT              !//
+//!             Created: 26|02|2024 21:01:01            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -12,29 +13,20 @@ using namespace std;
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 #define endl "\n"
-#define YUSUF ios_base::sync_with_stdio(false),
-#define REZA cin.tie(NULL),
-#define HASNAT cout.tie(NULL)
 
 int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    int sum = 0;
-    for (int i = 0; i < n; i++) {
-        cin >> v[i];
-        sum += v[i];
-    }
-    cout << sum << endl;
+    int x, y;
+    cin >> x >> y;
+    (x > y * 10) ? cout << "YES" << endl : cout << "NO" << endl;
 }
 
 int32_t main() {
-    YUSUF REZA HASNAT;
+    ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

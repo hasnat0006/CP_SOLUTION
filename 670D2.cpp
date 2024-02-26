@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 26|02|2024 21:43:37            !//
+//!             Created: 26|02|2024 14:05:50            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -17,40 +17,42 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
-void solve() {
-    float n, cap;
-    cin >> n >> cap;
-    vector<int> v(2 * n);
-    for (int &i : v)
-        cin >> i;
-    sort(vf(v));
+int n, k;
+vector<int> need, have;
 
-    auto isPossible = [&](float mid) {
-        float per = mid / (2 * n + n * 1.0);
-        float girl = per;
-        float boy = per * 2;
+void solve() {
+    cin >> n >> k;
+    need.resize(n);
+    have.resize(n);
+    for (int &i : need)
+        cin >> i;
+    int low = 0, high = 0, ans = 0;
+    for (int i = 0; i < n; i++) {
+        cin >> have[i];
+        high = max(high, (have[i] + k) / need[i] + 1);
+    }
+
+    auto isPossible = [&](int mid) {
+        int usedK = 0;
         for (int i = 0; i < n; i++) {
-            if (v[i] < girl)
-                return false;
-        }
-        for (int i = n; i < 2 * n; i++) {
-            if (v[i] < boy)
+            if (need[i] * mid > have[i])
+                usedK += need[i] * mid - have[i];
+            if (usedK > k)
                 return false;
         }
         return true;
     };
 
-    float low = 0, high = cap, ans = 0;
-    while (abs(low - high) > 1e-6) {
-        float mid = (low + high) / 2;
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
         if (isPossible(mid)) {
             ans = mid;
-            low = mid;
+            low = mid + 1;
         }
         else
-            high = mid;
+            high = mid - 1;
     }
-    cout << fixed << setprecision(6) << ans << endl;
+    cout << ans << endl;
 }
 
 int32_t main() {

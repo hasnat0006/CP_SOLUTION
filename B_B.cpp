@@ -1,5 +1,6 @@
 //!-----------------------------------------------------!//
-//!                  YUSUF REZA HASNAT                  !//
+//!              Author: YUSUF REZA HASNAT              !//
+//!             Created: 26|02|2024 21:06:32            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -12,35 +13,28 @@ using namespace std;
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 #define endl "\n"
-#define YUSUF ios_base::sync_with_stdio(false),
-#define REZA  cin.tie(NULL), 
-#define HASNAT cout.tie(NULL)
 
-int mod  = 1000000007;
-int inf  = 1e18;
+int mod = 1000000007;
+int inf = 1e18;
 
-void solve()
-{
-    int n;
-    map<string, int> m;
-    cin >> n;
-    for(int i = 0; i < n; i++){
-        string s;
-        cin >> s;
-        m[s]++;
+void solve() {
+    string s;
+    cin >> s;
+    int left = 0, right = 0;
+    int id = s.find('^');
+    for (int i = 0; i < id; i++) {
+        if (s[i] >= '0' && s[i] <= '9')
+            left += (id - i) * (s[i] - '0');
     }
-    int q = 0;
-    cin >> q;
-    for(int i = 0; i < q; i++){
-        string s;
-        cin >> s;
-        cout << m[s] << endl;
+    for (int i = id + 1; i < s.size(); i++) {
+        if (s[i] >= '0' && s[i] <= '9')
+            right += (i - id) * (s[i] - '0');
     }
+    (left == right) ? cout << "balance" << endl : (left > right) ? cout << "left" << endl : cout << "right" << endl;
 }
 
-int32_t main()
-{
-    YUSUF REZA HASNAT;
+int32_t main() {
+    ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL);
     int t = 1;
     //cin >> t;
     for (int i = 1; i <= t; i++){

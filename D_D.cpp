@@ -1,5 +1,6 @@
 //!-----------------------------------------------------!//
-//!                  YUSUF REZA HASNAT                  !//
+//!              Author: YUSUF REZA HASNAT              !//
+//!             Created: 26|02|2024 21:32:01            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -12,49 +13,36 @@ using namespace std;
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 #define endl "\n"
-#define YUSUF ios_base::sync_with_stdio(false),
-#define REZA cin.tie(NULL),
-#define HASNAT cout.tie(NULL)
 
 int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n;
-    cin >> n;
-    deque<int> dq;
-    for (int i = 0; i < n; i++) {
-        int x;
-        cin >> x;
-        dq.push_back(x);
+    int n, m, k;
+    cin >> n >> m >> k;
+    if (k == 0 or k == n * m) {
+        cout << "Yes" << endl;
+        return;
     }
-    while (dq.front() == 0 and dq.size() > 0)
-        dq.pop_front();
-    while (dq.back() == 0 and dq.size() > 0)
-        dq.pop_back();
-    n = dq.size();
-    vector<int> v(n);
-    for (int i = 0; i < n; i++) {
-        v[i] = dq.front();
-        dq.pop_front();
-    }
-    int baad = 0, zero = 0;
-    for (int i = 0; i < n; i++) {
-        if (v[i] == 0)
-            zero++;
-        else {
-            if (zero > 1)
-                baad += zero;
-            zero = 0;
+    /*
+        Explanation:
+        i * m is the number of squares in the rectangle if we have i rows and m columns.
+        j * n is the number of squares in the rectangle if we have j rows and n columns.
+        2 * i * j is the number of squares that are counted twice in i * m and j * n.
+    */
+    for (int i = 0; i <= n; i++) {
+        for (int j = 0; j <= m; j++) {
+            if (i * m + j * n - 2 * i * j == k) {
+                cout << "Yes" << endl;
+                return;
+            }
         }
     }
-    if (zero > 1)
-        baad += zero;
-    cout << n - baad << endl;
+    cout << "No" << endl;
 }
 
 int32_t main() {
-    YUSUF REZA HASNAT;
+    ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL);
     int t = 1;
     // cin >> t;
     for (int i = 1; i <= t; i++) {

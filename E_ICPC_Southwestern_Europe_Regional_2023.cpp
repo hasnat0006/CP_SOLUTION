@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 26|02|2024 13:49:17            !//
+//!             Created: 26|02|2024 20:43:07            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -18,27 +18,19 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    for (int &i : v)
+    int n, m;
+    cin >> n >> m;
+    vector<int> a(n), b(m);
+    for (int &i : a)
         cin >> i;
-    sort(vf(v));
-    int q;
-    cin >> q;
-    while(q--){
-        int x;
-        cin >> x;
-        int l = 0, r = n - 1;
-        while(l <= r){
-            int mid = (l + r) / 2;
-            if(v[mid] <= x)
-                l = mid + 1;
-            else
-                r = mid - 1;
-        }
-        cout << l << endl;
-    }
+    for (int &i : b)
+        cin >> i;
+    int ALICE = accumulate(vf(a), 0ll) + n;
+    int BOB = accumulate(vf(b), 0ll) + m;
+    if (ALICE == BOB)
+        cout << "TIED" << endl;
+    else
+        ALICE > BOB ? cout << "ALICE" << endl : cout << "BOB" << endl;
 }
 
 int32_t main() {

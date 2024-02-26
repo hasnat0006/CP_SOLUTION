@@ -12,60 +12,70 @@ using namespace std;
 using namespace __gnu_pbds;
 #define endl "\n"
 
-template <typename T>
-using o_set =
-    tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
-unordered_map<int, bool> mp;
-o_set<int> rmv;
-vector<int> v1;
-int N;
+const int N = 4e6 + 5;
+int a[2][N];
+// order_set rmv;
+int n, nn;
 
-bool check(int mid, int pos) {
-    int tot = rmv.order_of_key(mid);
-    if (mp[mid])
-        tot++;
-    return (mid - tot) >= pos;
-}
-int bs(int pos) {
-    int low = 0, high = N - 1, ans = 0;
-    while (low <= high) {
-        int mid = (low + high) / 2;
-        if (check(v1[mid], pos)) {
-            high = mid - 1;
-            ans = mid;
-        }
-        else
-            low = mid + 1;
+
+vector<int> seg(4 * N);
+// index, low, high
+void build(int ti, int low, int high) {
+    if (high == low) {
+        seg[ti] = 1;
+        return;
     }
-    rmv.insert(v1[ans]);
-    mp[v1[ans]] = 1;
-    return v1[ans];
+    int mid = (low + high) / 2;
+    build(2 * ti, low, mid);
+    build(2 * ti + 1, mid + 1, high);
+    seg[ti] = seg[2 * ti] + seg[ti * 2 + 1];
+    cout << seg[ti] << " " << ti << " " << low << " " << high << endl;
 }
+
+int ans;
+// index, tree left, tree right, query left, query right
+void findValue(int ti, int tl, int tr, int idx) {
+    if (tl == tr) {
+        ans = tl;
+        seg[ti] = 0;
+        return;
+    }
+    int mid = (tl + tr) / 2;
+    if (seg[2 * ti] >= idx)
+        findValue(2 * ti, tl, mid, idx);
+    else
+        findValue(2 * ti + 1, mid + 1, tr, idx - seg[2 * ti]);
+    seg[ti] = seg[2 * ti] + seg[2 * ti + 1];
+}
+
+
 void solve() {
-    int n;
     cin >> n;
-    vector<int> a(n / 2), b(n / 2);
-    for (int i = 0; i < n / 2; i++)
-        cin >> a[i];
-    for (int j = 0; j < n / 2; j++)
-        cin >> b[j];
-    vector<pair<int, int>> v(n / 2);
-    for (int i = 0; i < n / 2; i++)
-        v[i] = {a[i], b[i]};
-    vector<int> ans(n / 2), ans1(n / 2);
-    for (int i = 1; i <= n; i++)
-        v1.emplace_back(i);
-    N = v1.size();
-    for (int i = 0; i < n / 2; i++) {
-        int first = v[i].first, sec = v[i].second;
-        ans[i] = bs(first);
-        ans1[i] = bs(sec);
-    }
-    for (int i = 0; i < n / 2; i++)
-        cout << ans[i] << " ";
+    nn = n / 2;
+    for (int i = 0; i < nn; i++)
+        cin >> a[0][i];
+    for (int i = 0; i < nn; i++)
+        cin >> a[1][i];
+    build(1, 1, n);
+    for(int i = 0; i < 4 * nn;i++)
+        cout << seg[i] << " ";
     cout << endl;
-    for (int i = 0; i < n / 2; i++)
-        cout << ans1[i] << " ";
+    vector<int> ansA, ansB;
+    for (int i = 0; i < n; i++) {
+        if (i % 2) {
+            findValue(1, 1, n, a[1][i / 2]);
+            ansB.push_back(ans);
+        }
+        else {
+            findValue(1, 1, n, a[0][i / 2]);
+            ansA.push_back(ans);
+        }
+    }
+    for (auto i : ansA)
+        cout << i << " ";
+    cout << endl;
+    for (auto i : ansB)
+        cout << i << " ";
     cout << endl;
 }
 

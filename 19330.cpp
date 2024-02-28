@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 27|02|2024 21:23:51            !//
+//!             Created: 27|02|2024 20:35:45            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -18,26 +18,14 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n;
+    int n, x;
     cin >> n;
     vector<int> a(n);
-    map<int, int> mp;
     for(int i = 0; i < n; i++) {
-        cin >> a[i];
-        mp[a[i]]++;
+        cin >> x;
+        a[i] = abs(x);
     }
-    int mn = *min_element(vf(a));
-    if(mp[mn] == 1){
-        cout << "YES" << endl;
-        return;
-    }
-    for(int i = 0; i < n; i++){
-        if(a[i] % mn != 0){
-            cout << "YES" << endl;
-            return;
-        }
-    }
-    cout << "NO" << endl;
+    cout << accumulate(vf(a), 0LL) << endl;
 }
 
 int32_t main() {

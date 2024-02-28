@@ -88,7 +88,6 @@ del gen.exe
 del solution.exe
 del brute.exe
 del diagnostics
-del /.cph
 del brute.bin
 del solution.bin
 del gen.bin

@@ -1,13 +1,13 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 27|02|2024 21:28:02            !//
+//!             Created: 28|02|2024 21:44:52            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
 #ifndef ONLINE_JUDGE
 #include "D:\Documents\debug.h"
-#else
+#else 
 #define dbg(x...)
 #define dbgc(x...)
 #endif
@@ -23,36 +23,20 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n, q;
-    cin >> n >> q;
-    vector<int> a(n);
-    for (int i = 0; i < n; i++) {
-        cin >> a[i];
-    }
-    sort(vf(a));
-    while (q--) {
-        int x;
-        cin >> x;
-        do {
-            int ans = 2 * accumulate(vf(a), 0LL) - a[0] - a.back();
-            if (ans == x) {
-                for (int i : a) {
-                    cout << i << " ";
-                }
-                x = -1;
-                cout << endl;
-                break;
-            }
-        } while (next_permutation(vf(a)));
-        if (x != -1)
-            cout << -1 << endl;
-    }
+    int n;
+    cin >> n;
+
+    auto conSum = [](int n) {
+        return n * (n + 1) / 2;
+    };
+
+    cout << conSum(n) - 1 + n  << endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

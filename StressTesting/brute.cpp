@@ -1,60 +1,65 @@
-//!-----------------------------------------------------!//
-//!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 27|02|2024 21:28:02            !//
-//!-----------------------------------------------------!//
-
-#pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
-using namespace std;
-
-#define int long long
-#define float long double
-#define vf(v) (v).begin(), (v).end()
-#define vr(v) (v).rbegin(), (v).rend()
 #define endl "\n"
-
-int mod = 1000000007;
-int inf = 1e18;
-
-void solve() {
-    int n, q;
-    cin >> n >> q;
-    vector<int> a(n);
-    for (int i = 0; i < n; i++) {
-        cin >> a[i];
-    }
-    sort(vf(a));
-    while (q--) {
-        int x;
-        cin >> x;
-        do {
-            int ans = 2 * accumulate(vf(a), 0LL) - a[0] - a.back();
-            if (ans == x) {
-                for (int i : a) {
-                    cout << i << " ";
-                }
-                x = -1;
-                cout << endl;
-                break;
-            }
-        } while (next_permutation(vf(a)));
-        if (x != -1)
-            cout << -1 << endl;
-    }
-}
-
+#define int long long
+using namespace std;
 int32_t main() {
-    ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL);
-    int t = 1;
-    // cin >> t;
-    for (int i = 1; i <= t; i++) {
-        solve();
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, k, i, j, mn, z, y;
+        cin >> n >> k;
+        vector<int> a(n), b;
+        for (int &x : a)
+            cin >> x;
+
+        if (k == 1) {
+            sort(a.begin(), a.end());
+            for (i = 1; i < n; i++)
+                a.push_back(a[i] - a[i - 1]);
+            cout << *min_element(a.begin(), a.end()) << endl;
+        }
+        else if (k == 2) {
+            sort(a.begin(), a.end());
+            mn = a[0];
+            for (i = 1; i < n; i++) {
+                z = a[i] - a[i - 1];
+                mn = min(mn, z);
+            }
+
+            for (i = 0; i < n; i++) {
+                for (j = i + 1; j < n; j++) {
+                    z = abs(a[i] - a[j]);
+                    b.push_back(z);
+                }
+            }
+
+            for (i = 0; i < b.size(); i++) {
+                z = lower_bound(a.begin(), a.end(), b[i]) - a.begin();
+                if (z == n) {
+                    y = abs(b[i] - a[z - 1]);
+                    mn = min(mn, y);
+                }
+                else if (z == 0) {
+                    y = abs(b[i] - a[z]);
+                    mn = min(mn, y);
+                }
+                else {
+                    y = abs(b[i] - a[z]);
+                    mn = min(mn, y);
+                    y = abs(b[i] - a[z - 1]);
+                    mn = min(mn, y);
+                }
+            }
+            cout << mn << endl;
+        }
+        else {
+            cout << 0 << endl;
+        }
     }
+
     return 0;
 }

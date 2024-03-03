@@ -17,51 +17,43 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
+char query(int a, int b, int c, int d) {
+    cout << "? " << a << " " << b << " " << c << " " << d << endl;
+    char ch;
+    cin >> ch;
+    return ch;
+}
+
 void solve() {
     int n;
+    char c;
     cin >> n;
     int mx_pos = 0;
-    for (int i = 1; i <= n - 1; i++) {
-        cout << "? " << mx_pos << " " << mx_pos << " " << i << " " << i << endl;
-        cout << fflush;
-        char ch;
-        cin >> ch;
-        if (ch == '<')
+    for (int i = 1; i < n; i++) {
+        if (query(mx_pos, mx_pos, i, i) == '<')
             mx_pos = i;
     }
-    int j = 0;
-    vector<int> isPossible;
+    int second_mx = -1;
     for (int i = 0; i < n; i++) {
-        cout << "? " << mx_pos << " " << i << " " << mx_pos << " " << j << endl;
-        cout << fflush;
-        char ch;
-        cin >> ch;
-        if (ch == '>')
-            isPossible.clear(), isPossible.push_back(i);
-        else if (ch == '=')
-            isPossible.push_back(i);
-    }
-    if (isPossible.size() == 1) {
-        cout << "! " << mx_pos << " " << j << endl;
-        cout << fflush;
-    }
-    else {
-        int mn_pos = isPossible[0];
-        for (int i = 1; i < isPossible.size(); i++) {
-            cout << "? " << mn_pos << " " << mn_pos << " " << isPossible[i] << " " << isPossible[i] << endl;
-            cout << fflush;
-            char ch;
-            cin >> ch;
-            if (ch == '>')
-                mn_pos = isPossible[i];
+        if (i == mx_pos)
+            continue;
+        if (second_mx == -1)
+            second_mx = i;
+        else {
+            char ch = query(second_mx, mx_pos, i, mx_pos);
+            if (ch == '<')
+                second_mx = i;
+            else if (ch == '=') {
+                if (query(second_mx, second_mx, i, i) == '>')
+                    second_mx = i;
+            }
         }
-        cout << "! " << mx_pos << " " << mn_pos << endl;
-        cout << fflush;
     }
+    cout << "! " << mx_pos << " " << second_mx << endl;
 }
 
 int32_t main() {
-    ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL);
+    // ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL);
     int t = 1;
     cin >> t;
     for (int i = 1; i <= t; i++) {

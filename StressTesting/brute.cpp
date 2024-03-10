@@ -1,54 +1,40 @@
+//!-----------------------------------------------------!//
+//!              Author: YUSUF REZA HASNAT              !//
+//!             Created: 05|03|2024 11:13:03            !//
+//!-----------------------------------------------------!//
+
+#pragma GCC optimize("O3")
 #include <bits/stdc++.h>
+
 using namespace std;
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
+
+#define int long long
+#define float long double
+#define vf(v) (v).begin(), (v).end()
+#define vr(v) (v).rbegin(), (v).rend()
+#define endl "\n"
+
+int mod = 1000000007;
+int inf = 1e18;
+
+bool isPossible(int a, int b) { return (a ^ b) > (a & b); }
+
+void solve() {
+    int x, y, c;
+    cin >> x >> y >> c;
+    int up = c;
+    int down = ((int) 1e9) - c;
+    int gcd = __gcd(up, down);
+    up /= gcd, down /= gcd;
+    cout << up << "/" << down << endl;
+}
+
+int32_t main() {
+    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
     // cin >> t;
-    while (t--) {
-        long long a, aa, b, bb, r, i, d, f = 0;
-        cin >> a >> b >> r;
-        aa = a, bb = b;
-        vector<bool> x(64), y(64), z(64);
-        for (i = 0; i < 64; i++) {
-            if (aa % 2)
-                x[i] = true;
-            aa /= 2;
-            if (bb % 2)
-                y[i] = true;
-            bb /= 2;
-            if (r % 2)
-                z[i] = true;
-            r /= 2;
-        }
-        for (i = 63; i >= 0; i--) {
-            if (z[i] && f == 0)
-                f = 1;
-            if (x[i] != y[i] && f >= 1) {
-                d = ((long long)(pow(2, i) + 1e-9)) * 2;
-                if (x[i] == 0) {
-                    if (a < b && (z[i] == 1 || f == 2) && abs(a - b) >= d) {
-                        a += (long long)(pow(2, i) + 1e-9);
-                        b -= (long long)(pow(2, i) + 1e-9);
-                    }
-                    else if (z[i] == 1)
-                        f = 2;
-                }
-                else {
-                    if (a > b && (z[i] == 1 || f == 2) && abs(a - b) >= d) {
-                        a -= (long long)(pow(2, i) + 1e-9);
-                        b += (long long)(pow(2, i) + 1e-9);
-                    }
-                    else if (z[i] == 1)
-                        f = 2;
-                }
-            }
-            else if (z[i] == 1)
-                f = 2;
-        }
-        cout << abs(a - b) << "\n";
+    for (int i = 1; i <= t; i++) {
+        solve();
     }
-
     return 0;
 }

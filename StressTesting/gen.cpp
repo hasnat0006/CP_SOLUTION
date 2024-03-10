@@ -105,8 +105,12 @@ const int max_tests = 10;
 
 // complete this function according to the requirements
 void generate_test() {
-    cout << rand(0, 100) << " " << rand(0, 100) << " " << rand(0, 100) << '\n';
-    
+    int x = rand(0, (int)1e5);
+    if(x == 0){
+        cout << x << " " << rand(1, (int) 1e5) << " " << rand(1, (int) 1e5) << '\n';
+    }else{
+        cout << x << " " << rand(0, (int)1e5) << " " << rand(1, (int) 1e5) << '\n';
+    }
 }
 
 signed main() {

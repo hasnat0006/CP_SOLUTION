@@ -18,9 +18,9 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int x, y;
-    cin >> x >> y;
-    (x > y * 10) ? cout << "YES" << endl : cout << "NO" << endl;
+   int n;
+   cin >> n;
+   cout << 5 * 2 * n << endl; 
 }
 
 int32_t main() {

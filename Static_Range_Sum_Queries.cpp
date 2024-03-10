@@ -27,6 +27,8 @@ void printNode(Node &a) {
 
 Node pull(Node &a, Node &b) {
     map<int, int> mp;
+    // printNode(a);
+    // printNode(b);
     mp[a.mx] += a.cntmx;
     mp[a.smx] += a.cntsmx;
     mp[b.mx] += b.cntmx;
@@ -41,6 +43,8 @@ Node pull(Node &a, Node &b) {
     else
         ans.smx = max(a.smx, b.smx);
     ans.cntsmx = mp[ans.smx];
+    // printNode(ans);
+    // cout << "--------------------------\n";
     return ans;
 }
 
@@ -96,13 +100,17 @@ void solve() {
     for (int i = 1; i <= n; i++)
         cin >> seg.v[i];
     seg.build(1, 1, n);
+    for (int i = 1; i <= 15; i++) {
+        cout << i << " --> ";
+        printNode(seg.seg[i]);
+    }
     while (q--) {
         int type, l, r;
         cin >> type >> l >> r;
-        if (type == 1)
-            seg.update(1, 1, n, l, r);
-        else
-            cout << seg.find(1, 1, n, l, r).cntsmx << endl;
+        // if (type == 1)
+        // seg.update(1, 1, n, l, r);
+        // else
+        // cout << seg.find(1, 1, n, l, r) << endl;
     }
 }
 

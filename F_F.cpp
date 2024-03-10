@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 03|03|2024 21:09:32            !//
+//!             Created: 07|03|2024 21:29:15            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -17,23 +17,48 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
+int prime[10000007];
+void sieve(int n) {
+    for (int i = 2; i <= n; i++)
+        prime[i] = 1;
+    for (int i = 4; i <= n; i += 2)
+        prime[i] = 0;
+    for (int i = 3; i * i <= n; i++) {
+        if (prime[i]) {
+            for (int j = i * i; j <= n; j += i * 2)
+                prime[j] = 0;
+        }
+    }
+}
+
+vector<int> v;
+
 void solve() {
     int n;
     cin >> n;
-    vector<int> v(n + 1);
-    for (int i = 1; i <= n; i++)
-        cin >> v[i];
     int ans = 0;
-    for (int i = 1; i <= n; i += 2)
-        if (v[i] % 2)
+    for (auto i : v) {
+        if (i > n)
+            break;
+        if (i % 2) {
+            if (i * 2 > n)
+                ans++;
+        }
+        else
             ans++;
+    }
     cout << ans << endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    // cin >> t;
+    cin >> t;
+    sieve(10000007);
+    for (int i = 2; i <= 10000002; i++) {
+        if (prime[i])
+            v.push_back(i);
+    }
     for (int i = 1; i <= t; i++) {
         solve();
     }

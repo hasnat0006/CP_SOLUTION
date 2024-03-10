@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 04|03|2024 11:10:27            !//
+//!             Created: 04|03|2024 20:38:02            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -17,92 +17,81 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
-struct Node {
-    int mx = 0, smx = 0, cntmx = 0, cntsmx = 0;
-};
-
-void printNode(Node &a) {
-    cout << a.mx << " " << a.cntmx << " | " << a.smx << " " << a.cntsmx << endl;
-}
-
-Node pull(Node &a, Node &b) {
-    map<int, int> mp;
-    mp[a.mx] += a.cntmx;
-    mp[a.smx] += a.cntsmx;
-    mp[b.mx] += b.cntmx;
-    mp[b.smx] += b.cntsmx;
-    Node ans;
-    ans.mx = max(a.mx, b.mx);
-    ans.cntmx = mp[ans.mx];
-    if (a.mx != ans.mx)
-        ans.smx = max({a.mx, b.smx});
-    else if (b.mx != ans.mx)
-        ans.smx = max(a.smx, b.mx);
-    else
-        ans.smx = max(a.smx, b.smx);
-    ans.cntsmx = mp[ans.smx];
-    return ans;
-}
-
 class SEGMENT_TREE {
    public:
     vector<int> v;
-    vector<Node> seg;
+    vector<int> seg;
     SEGMENT_TREE(int n) {
         v.resize(n + 5);
         seg.resize(4 * n + 5);
     }
+    //! intially: ti = 1, low = 1, high = n(number of elements in the array);
     void build(int ti, int low, int high) {
         if (low == high) {
-            seg[ti].mx = v[low];
-            seg[ti].cntmx = 1;
+            seg[ti] = v[low];
             return;
         }
         int mid = (low + high) / 2;
         build(2 * ti, low, mid);
         build(2 * ti + 1, mid + 1, high);
-        seg[ti] = pull(seg[2 * ti], seg[2 * ti + 1]);
+        seg[ti] = (seg[2 * ti] + seg[2 * ti + 1]);
     }
-    Node find(int ti, int tl, int tr, int ql, int qr) {
+    //! intially: ti = 1, low = 1, high = n(number of elements in the array),
+    //! (ql & qr) = user input in 1 based indexing;
+    int find(int ti, int tl, int tr, int ql, int qr) {
         if (tl > qr || tr < ql) {
-            return Node();
+            return 0;
         }
         if (tl >= ql and tr <= qr)
             return seg[ti];
         int mid = (tl + tr) / 2;
-        Node l = find(2 * ti, tl, mid, ql, qr);
-        Node r = find(2 * ti + 1, mid + 1, tr, ql, qr);
-        return pull(l, r);
+        int l = find(2 * ti, tl, mid, ql, qr);
+        int r = find(2 * ti + 1, mid + 1, tr, ql, qr);
+        return (l + r);
     }
+    //! intially: ti = 1, tl = 1, tr = n(number of elements in the array), id =
+    //! user input in 1 based indexing, val = updated value;
     void update(int ti, int tl, int tr, int id, int val) {
         if (id > tr or id < tl)
             return;
         if (id == tr and id == tl) {
-            seg[ti].mx = val;
-            seg[ti].cntmx = 1;
+            seg[ti] += val;
             return;
         }
         int mid = (tl + tr) / 2;
         update(2 * ti, tl, mid, id, val);
         update(2 * ti + 1, mid + 1, tr, id, val);
-        seg[ti] = pull(seg[2 * ti], seg[2 * ti + 1]);
+        seg[ti] = (seg[2 * ti] + seg[2 * ti + 1]);
     }
+    // use 1 based indexing for input and queries and update;
 };
 
 void solve() {
     int n, q;
     cin >> n >> q;
-    SEGMENT_TREE seg(n);
-    for (int i = 1; i <= n; i++)
-        cin >> seg.v[i];
-    seg.build(1, 1, n);
+    SEGMENT_TREE s(n);
+    vector<int> a(n + 1);
+    for (int i = 1; i <= n; i++) {
+        cin >> a[i];
+        s.v[i] = a[i] - a[i - 1];
+    }
+    s.build(1, 1, n);
     while (q--) {
-        int type, l, r;
-        cin >> type >> l >> r;
-        if (type == 1)
-            seg.update(1, 1, n, l, r);
-        else
-            cout << seg.find(1, 1, n, l, r).cntsmx << endl;
+        int type;
+        cin >> type;
+        if (type == 1) {
+            int l, r, val;
+            cin >> l >> r >> val;
+            s.update(1, 1, n, l, val);
+            if (r < n) {
+                s.update(1, 1, n, r + 1, -val);
+            }
+        }
+        else {
+            int id;
+            cin >> id;
+            cout << s.find(1, 1, n, 1, id) << endl;
+        }
     }
 }
 

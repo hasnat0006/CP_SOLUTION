@@ -1,75 +1,86 @@
 //!-----------------------------------------------------!//
-//!                  YUSUF REZA HASNAT                  !//
+//!              Author: YUSUF REZA HASNAT              !//
+//!             Created: 05|03|2024 00:26:50            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "C:\Users\Yusuf Reza Hasnat\OneDrive\Desktop\CP\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
 
 using namespace std;
 
 #define int long long
 #define float long double
-#define pb push_back
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
-#define dosomic(x) fixed << setprecision(x)
 #define endl "\n"
-#define case(x) cout << "Case " << x << ": "
-#define YUSUF ios_base::sync_with_stdio(false),
-#define REZA cin.tie(NULL),
-#define HASNAT cout.tie(NULL)
 
 int mod = 1000000007;
-float pi = acos(-1);
 int inf = 1e18;
 
-vector<int> adj[100005];
-vector<int> visited(100005, 0), add(100005), rem(100005);
-unordered_map<int, int> GCD;
-
-void dfs(int start, int x) {
-    visited[start] = 1;
-    GCD[start] = __gcd(add[start], x);
-    for (auto child : adj[start])
-        if (!visited[child])
-            dfs(child, GCD[start]);
-    visited[start] = 2;
-}
+class SEGMENT_TREE {
+   public:
+    vector<int> v;
+    vector<int> seg;
+    SEGMENT_TREE(int n) {
+        v.resize(n + 5);
+        seg.resize(4 * n + 5);
+    }
+    void build(int ti, int low, int high, int cnt = 0) {
+        if (low == high) {
+            seg[ti] = v[low];
+            return;
+        }
+        int mid = (low + high) / 2;
+        build(2 * ti, low, mid, cnt + 1);
+        build(2 * ti + 1, mid + 1, high, cnt + 1);
+        cnt % 2 ? seg[ti] = (seg[2 * ti] | seg[2 * ti + 1]) : seg[ti] = (seg[2 * ti] ^ seg[2 * ti + 1]);
+    }
+    int find(int ti, int tl, int tr, int ql, int qr, int cnt = 0) {
+        if (tl > qr || tr < ql) 
+            return 0;
+        if (tl >= ql and tr <= qr)
+            return seg[ti];
+        int mid = (tl + tr) / 2;
+        int l = find(2 * ti, tl, mid, ql, qr, cnt + 1);
+        int r = find(2 * ti + 1, mid + 1, tr, ql, qr, cnt + 1);
+        return cnt % 2 ? (l | r) : (l ^ r);
+    }
+    void update(int ti, int tl, int tr, int id, int val, int cnt = 0) {
+        if (id > tr or id < tl)
+            return;
+        if (id == tr and id == tl) {
+            seg[ti] = val;
+            return;
+        }
+        int mid = (tl + tr) / 2;
+        update(2 * ti, tl, mid, id, val, cnt + 1);
+        update(2 * ti + 1, mid + 1, tr, id, val, cnt + 1);
+        seg[ti] = cnt % 2 ? (seg[2 * ti] | seg[2 * ti + 1]) : (seg[2 * ti] ^ seg[2 * ti + 1]);
+    }
+};
 
 void solve() {
-    int n, x, y;
-    cin >> n;
-    for (int i = 0; i < n - 1; i++) {
-        cin >> x >> y;
-        adj[x].pb(y);
-    }
+    int n, q;
+    cin >> n >> q;
+    int preN = n;
+    n = (1 << n);
+    SEGMENT_TREE st(n);
     for (int i = 1; i <= n; i++)
-        cin >> add[i];
-    for (int i = 1; i <= n; i++)
-        cin >> rem[i];
-    dfs(1, add[1]);
-    dbg(GCD);
-    for (int i = 1; i <= n; i++) {
-        if (!adj[i].size()) {
-            GCD[i] = __gcd(GCD[i], rem[i]);
-            cout << rem[i] - GCD[i] << " ";
-        }
+        cin >> st.v[i];
+    preN % 2 ? st.build(1, 1, n, 1) : st.build(1, 1, n, 0);
+    while (q--) {
+        int id, val;
+        cin >> id >> val;
+        preN % 2 ? st.update(1, 1, n, id, val, 1) : st.update(1, 1, n, id, val, 0);
+        cout << st.seg[1] << endl;
     }
-    cout << endl;
 }
 
 int32_t main() {
-    YUSUF REZA HASNAT;
+    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for (int i = 1; i <= t; i++) {
-        // case(i)
         solve();
     }
     return 0;

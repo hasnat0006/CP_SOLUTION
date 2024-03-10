@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 07|03|2024 21:10:09            !//
+//!             Created: 06|03|2024 20:48:50            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -20,19 +20,21 @@ int inf = 1e18;
 void solve() {
     string s;
     cin >> s;
-    int n = s.size();
-    int start = 0, cnt = 0;
-    for (int i = 1; i < n; i++) {
-        if (s[i] == s[0] or s[i] == s[n - 1]) {
-            start = 0;
-            continue;
-        }
-        else {
-            start++;
-        }
-        cnt = max(cnt, start);
+    map<char, vector<int>> mp;
+    for (int i = 0; i < s.size(); i++) {
+        mp[s[i]].push_back(i);
     }
-    cout << (cnt == 0 ? -1 : cnt) << endl;
+    int ans = inf;
+    for (auto i : mp) {
+        if (i.second.size() == 1) {
+            ans = 0;
+            break;
+        }
+        int val = i.second.front() + i.second.size();
+        int id = lower_bound(vf(i.second), val) - i.second.begin();
+        ans = min(ans, (int)i.second.size() - id);
+    }
+    cout << ans << endl;
 }
 
 int32_t main() {

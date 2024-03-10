@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 07|03|2024 21:10:09            !//
+//!             Created: 05|03|2024 20:36:54            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -18,21 +18,13 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
+    int n;
     string s;
-    cin >> s;
-    int n = s.size();
-    int start = 0, cnt = 0;
-    for (int i = 1; i < n; i++) {
-        if (s[i] == s[0] or s[i] == s[n - 1]) {
-            start = 0;
-            continue;
-        }
-        else {
-            start++;
-        }
-        cnt = max(cnt, start);
-    }
-    cout << (cnt == 0 ? -1 : cnt) << endl;
+    cin >> n >> s;
+    string cp = s;
+    reverse(vf(s));
+    string s2 = s + cp;
+    cout << min(cp, s2) << endl;
 }
 
 int32_t main() {

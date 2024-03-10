@@ -1,14 +1,14 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 26|02|2024 21:32:01            !//
+//!             Created: 07|03|2024 21:20:33            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 
 using namespace std;
 
-#define int long long
+#define int   long long
 #define float long double
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
@@ -18,35 +18,36 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n, m, k;
-    cin >> n >> m >> k;
-    if (k == 0 or k == n * m) {
-        cout << "Yes" << endl;
+    int n, w, wr;
+    cin >> n >> w >> wr;
+    vector<int> v(n);
+    map<int, int> mp;
+    for (int i = 0; i < n; i++)
+        cin >> v[i], mp[v[i]]++;
+    if (wr >= w) {
+        cout << "YES" << endl;
         return;
     }
-    /*
-        Explanation:
-        i * m is the number of squares in the rectangle if we have i rows and m columns.
-        j * n is the number of squares in the rectangle if we have j rows and n columns.
-        2 * i * j is the number of squares that are counted twice in i * m and j * n.
-    */
-    for (int i = 0; i <= n; i++) {
-        for (int j = 0; j <= m; j++) {
-            if (i * m + j * n - 2 * i * j == k) {
-                cout << "Yes" << endl;
-                return;
-            }
-        }
+    w -= wr;
+    for (auto x : mp) {
+        if (x.second % 2 == 0)
+            w -= x.first * x.second;
+        else
+            w -= x.first * (x.second - 1);
     }
-    cout << "No" << endl;
+    if (w <= 0)
+        cout << "YES" << endl;
+    else
+        cout << "NO" << endl;
+
 }
 
 int32_t main() {
-    ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL);
+    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    // cin >> t;
-    for (int i = 1; i <= t; i++) {
-        solve();
+    cin >> t;
+    for (int i = 1; i <= t; i++){
+        solve(); 
     }
     return 0;
 }

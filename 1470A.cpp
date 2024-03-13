@@ -1,16 +1,11 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 12|03|2024 22:24:53            !//
+//!             Created: 12|03|2024 16:19:08            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
+
 using namespace std;
 
 #define int long long
@@ -23,26 +18,25 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n, gcd;
-    cin >> n;
-    vector<int> v(n);
+    int n, m;
+    cin >> n >> m;
+    vector<int> v(n), cost(m);
     for (int &i : v)
         cin >> i;
-    vector<int> prefixGcd(n + 1), suffixGcd(n + 1);
-    prefixGcd[0] = 0;
-    suffixGcd[n] = 0;
-    for (int i = 1; i <= n; i++)
-        prefixGcd[i] = __gcd(prefixGcd[i - 1], v[i - 1]);
-    for (int i = n - 1; i >= 0; i--)
-        suffixGcd[i] = __gcd(suffixGcd[i + 1], v[i]);
-    dbg(prefixGcd);
-    dbg(suffixGcd);
+    multiset<int> st;
+    for (int &i : cost)
+        cin >> i, st.insert(i);
+    sort(vr(v));
     int ans = 0;
-    for (int i = 1; i <= n; i++) {
-        gcd = __gcd(prefixGcd[i - 1], suffixGcd[i]);
-        dbg(i, gcd, prefixGcd[i - 1], suffixGcd[i]);
-        if (gcd != 1)
-            ans++;
+    for(int i = 0; i < n; i++){
+        int cst = cost[v[i] - 1];
+        if(cst > *st.begin()){
+            ans += *st.begin();
+            st.erase(st.begin());
+        }
+        else{
+            ans += cst;
+        }
     }
     cout << ans << endl;
 }

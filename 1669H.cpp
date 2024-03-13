@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 12|03|2024 22:24:53            !//
+//!             Created: 11|03|2024 10:56:39            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -23,26 +23,32 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n, gcd;
-    cin >> n;
-    vector<int> v(n);
-    for (int &i : v)
-        cin >> i;
-    vector<int> prefixGcd(n + 1), suffixGcd(n + 1);
-    prefixGcd[0] = 0;
-    suffixGcd[n] = 0;
-    for (int i = 1; i <= n; i++)
-        prefixGcd[i] = __gcd(prefixGcd[i - 1], v[i - 1]);
-    for (int i = n - 1; i >= 0; i--)
-        suffixGcd[i] = __gcd(suffixGcd[i + 1], v[i]);
-    dbg(prefixGcd);
-    dbg(suffixGcd);
-    int ans = 0;
-    for (int i = 1; i <= n; i++) {
-        gcd = __gcd(prefixGcd[i - 1], suffixGcd[i]);
-        dbg(i, gcd, prefixGcd[i - 1], suffixGcd[i]);
-        if (gcd != 1)
-            ans++;
+    int n, k;
+    cin >> n >> k;
+    vector<bitset<32>> v(n);
+    for (int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        v[i] = bitset<32>(x);
+    }
+    for (int i = 30; i >= 0; i--) {
+        int cnt = 0;
+        for (int j = 0; j < n; j++) {
+            if (v[j][i] == 0)
+                cnt++;
+        }
+        if (cnt <= k) {
+            for (int j = 0; j < n; j++) {
+                v[j][i] = 1;
+            }
+            k -= cnt;
+        }
+    }
+    // for (auto i : v)
+        // cout << i << endl;
+    int ans = v[0].to_ullong();
+    for (int i = 1; i < n; i++) {
+        ans &= v[i].to_ullong();
     }
     cout << ans << endl;
 }

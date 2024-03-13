@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 12|03|2024 22:02:49            !//
+//!             Created: 13|03|2024 01:46:17            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -20,18 +20,26 @@ int inf = 1e18;
 void solve() {
     int n;
     cin >> n;
-    vector<int> v(n);
-    for (int i = 0; i < n; i++) {
-        int x, y;
-        cin >> x;
-        v[i] = (x * 20);
+    set<int> div;
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) {
+            div.insert(i);
+        }
     }
-    for(int i = 0; i < n; i++){
-        int x;
-        cin >> x;
-        v[i] -= (x * 10);
+    for (auto i : div) {
+        int a = i;
+        int x = n / i;
+        for (int j = 2; j * j <= x; j++) {
+            if (x % j == 0) {
+                if (j != a and (x / j) != a and j != (x / j)) {
+                    cout << "YES" << endl;
+                    cout << a << " " << j << " " << x / j << endl;
+                    return;
+                }
+            }
+        }
     }
-    cout << (*max_element(vf(v)) < 0 ? 0 : *max_element(vf(v))) << endl;
+    cout << "NO" << endl;
 }
 
 int32_t main() {

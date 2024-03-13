@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 07|03|2024 21:10:09            !//
+//!             Created: 12|03|2024 22:07:09            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -20,19 +20,63 @@ int inf = 1e18;
 void solve() {
     string s;
     cin >> s;
-    int n = s.size();
-    int start = 0, cnt = 0;
-    for (int i = 1; i < n; i++) {
-        if (s[i] == s[0] or s[i] == s[n - 1]) {
-            start = 0;
+    int f = s[0] == 'C' ? 1 : 0;
+    string fn = "";
+    s[0] == 'C' ? fn += 'C' : fn += s[0];
+    for (int i = 1; i < s.size(); i++) {
+        if (s[i] == s[i - 1])
             continue;
-        }
-        else {
-            start++;
-        }
-        cnt = max(cnt, start);
+        else
+            fn.push_back(s[i]);
     }
-    cout << (cnt == 0 ? -1 : cnt) << endl;
+    // cout << fn << endl;
+    // int f = 0;
+    // for(int i = 0; i < s.size(); i++){
+    //     if(s[i] == 'S')
+    //         f = 1;
+    //     else if(f == 1){
+    //         cout << "no" << endl;
+    //         return;
+    //     }
+    // }
+    // cout << "yes" << endl;
+    int c = -1, e = -1, S = -1;
+    for (int i = 0; i < s.size(); i++) {
+        if (s[i] == 'C')
+            c = i;
+        else if (s[i] == 'E')
+            e = i;
+        else if (s[i] == 'S')
+            S = i;
+    }
+    if (fn.size() == 3) {
+        if (c < e && e < S)
+            cout << "yes" << endl;
+        else
+            cout << "no" << endl;
+    }
+    else {
+        if (c != -1 && e != -1) {
+            if (c < e)
+                cout << "yes" << endl;
+            else
+                cout << "no" << endl;
+        }
+        else if (e != -1 && S != -1) {
+            if (e < S)
+                cout << "yes" << endl;
+            else
+                cout << "no" << endl;
+        }
+        else if (c != -1 && S != -1) {
+            if (c < S)
+                cout << "yes" << endl;
+            else
+                cout << "no" << endl;
+        }
+        else
+            cout << "yes" << endl;
+    }
 }
 
 int32_t main() {

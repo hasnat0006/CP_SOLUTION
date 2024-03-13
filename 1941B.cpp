@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 12|03|2024 22:24:53            !//
+//!             Created: 11|03|2024 20:54:44            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -23,28 +23,39 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n, gcd;
+    int n;
     cin >> n;
     vector<int> v(n);
     for (int &i : v)
         cin >> i;
-    vector<int> prefixGcd(n + 1), suffixGcd(n + 1);
-    prefixGcd[0] = 0;
-    suffixGcd[n] = 0;
-    for (int i = 1; i <= n; i++)
-        prefixGcd[i] = __gcd(prefixGcd[i - 1], v[i - 1]);
-    for (int i = n - 1; i >= 0; i--)
-        suffixGcd[i] = __gcd(suffixGcd[i + 1], v[i]);
-    dbg(prefixGcd);
-    dbg(suffixGcd);
-    int ans = 0;
-    for (int i = 1; i <= n; i++) {
-        gcd = __gcd(prefixGcd[i - 1], suffixGcd[i]);
-        dbg(i, gcd, prefixGcd[i - 1], suffixGcd[i]);
-        if (gcd != 1)
-            ans++;
+    while (1) {
+        int f = 0;
+        for (int i = 1; i < n - 1; i++) {
+            if (v[i - 1] > 0 and v[i] > 1 and v[i + 1] > 0) {
+                int x = v[i - 1];
+                int y = v[i + 1];
+                int mn = min({x, y, v[i]});
+                v[i - 1] -= mn;
+                v[i] -= (mn * 2);
+                v[i + 1] -= mn;
+                if(v[i] < 0){
+                    cout << "NO" << endl;
+                    return;
+                }
+                f = 1;
+            }
+        }
+        dbg(v);
+        if (f == 0)
+            break;
     }
-    cout << ans << endl;
+    for (int i : v) {
+        if (i != 0) {
+            cout << "NO" << endl;
+            return;
+        }
+    }
+    cout << "YES" << endl;
 }
 
 int32_t main() {

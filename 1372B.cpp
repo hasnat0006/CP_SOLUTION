@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 12|03|2024 22:02:49            !//
+//!             Created: 13|03|2024 00:58:38            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -17,21 +17,32 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
+struct Node{
+    int gcd, a, b;
+};
+
 void solve() {
     int n;
     cin >> n;
-    vector<int> v(n);
-    for (int i = 0; i < n; i++) {
-        int x, y;
-        cin >> x;
-        v[i] = (x * 20);
+    set<int> div;
+    for (int i = 1; i * i <= n; i++) {
+        if (n % i == 0) {
+            div.insert(i);
+            div.insert(n / i);
+        }
     }
-    for(int i = 0; i < n; i++){
-        int x;
-        cin >> x;
-        v[i] -= (x * 10);
+    div.erase(div.find(n));
+    vector<Node> v;
+    for(auto i : div){
+        int a = i;
+        int b = n - i;
+        int gcd = __gcd(a, b);
+        v.push_back({gcd, a, b});
     }
-    cout << (*max_element(vf(v)) < 0 ? 0 : *max_element(vf(v))) << endl;
+    sort(vf(v), [](Node a, Node b){
+        return a.gcd > b.gcd;
+    });
+    cout << v[0].a << " " << v[0].b << endl;
 }
 
 int32_t main() {

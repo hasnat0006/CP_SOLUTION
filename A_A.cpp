@@ -20,7 +20,7 @@ int inf = 1e18;
 void solve() {
    int n;
    cin >> n;
-   cout << 5 * 2 * n << endl; 
+   cout << n + 1 << endl; 
 }
 
 int32_t main() {

@@ -1,16 +1,11 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 12|03|2024 22:43:03            !//
+//!             Created: 13|03|2024 02:39:53            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
+
 using namespace std;
 
 #define int long long
@@ -23,31 +18,34 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n, s;
-    cin >> n >> s;
-    vector<pair<int, int>> v(n);
+    int n;
+    cin >> n;
+    vector<int> v(n), vis(n + 1, 0);
+    deque<int> dq;
+    for (int i = 0; i < n; i++) {
+        cin >> v[i];
+    }
     for (int i = 0; i < n; i++) {
         int x;
         cin >> x;
-        v[i] = {x + i + 1, i + 1};
+        dq.push_back(x);
     }
-    sort(vf(v));
-    dbg(v);
-    int cost = 0;
-    int k = 0;
+    int ans = 0;
     for (int i = 0; i < n; i++) {
-        int temp = v[i].first + (v[i].second * (k + 1));
-        dbg(i, temp);
-        if (cost + temp <= s) {
-            cost += temp;
-            k++;
+        if (vis[v[i]])
+            continue;
+        // cout << i << " " << v[i] << " " << dq.front() << endl;
+        if (dq.front() != v[i]) {
+            ans++;
+            vis[dq.front()] = 1;
+            i--;
         }
-        else {
+        dq.pop_front();
+        if (dq.empty())
             break;
-        }
-        dbg(cost);
+        // cout << i << " " << ans << endl;
     }
-    cout << k << " " << cost << endl;
+    cout << ans << endl;
 }
 
 int32_t main() {

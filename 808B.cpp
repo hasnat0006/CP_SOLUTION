@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 12|03|2024 22:24:53            !//
+//!             Created: 13|03|2024 03:23:55            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -23,34 +23,34 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n, gcd;
-    cin >> n;
+    int n, k;
+    cin >> n >> k;
     vector<int> v(n);
-    for (int &i : v)
+    for (auto &i : v)
         cin >> i;
-    vector<int> prefixGcd(n + 1), suffixGcd(n + 1);
-    prefixGcd[0] = 0;
-    suffixGcd[n] = 0;
-    for (int i = 1; i <= n; i++)
-        prefixGcd[i] = __gcd(prefixGcd[i - 1], v[i - 1]);
-    for (int i = n - 1; i >= 0; i--)
-        suffixGcd[i] = __gcd(suffixGcd[i + 1], v[i]);
-    dbg(prefixGcd);
-    dbg(suffixGcd);
-    int ans = 0;
-    for (int i = 1; i <= n; i++) {
-        gcd = __gcd(prefixGcd[i - 1], suffixGcd[i]);
-        dbg(i, gcd, prefixGcd[i - 1], suffixGcd[i]);
-        if (gcd != 1)
-            ans++;
+    if (n == k) {
+        cout << fixed << setprecision(10) << accumulate(vf(v), 0ll) * 1.0 << endl;
+        return;
     }
-    cout << ans << endl;
+    vector<int> cnt(n, 0);
+    for (int i = 0; i < n / 2; i++) {
+        cnt[i] = cnt[n - i - 1] = min({n - k + 1, i + 1, k});
+    }
+    if (n % 2) {
+        cnt[n / 2] = cnt[n / 2 - 1] >= k - 1 ? k : cnt[n / 2 - 1];
+    }
+    dbg(cnt);
+    float sum = 0;
+    for (int i = 0; i < n; i++) {
+        sum += (v[i] * cnt[i]);
+    }
+    cout << fixed << setprecision(10) << sum / (n - k + 1) << endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

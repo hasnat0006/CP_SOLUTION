@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 14|03|2024 17:08:49            !//
+//!             Created: 14|03|2024 02:57:18            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -17,26 +17,31 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
-int dp[(int)1e6 + 5];
-
-int findAns(int n) {
-    if (n == 0)
-        return 1;
-    if (dp[n] != -1)
-        return dp[n];
-    long long cnt = 0;
-    for (int i = 1; i <= 6; i++) {
-        if (n - i >= 0)
-            cnt = (cnt + findAns(n - i)) % mod;
-    }
-    return dp[n] = cnt;
+int n, h, x;
+vector<int> v;
+bool isPossible(int k) {
+    vector<int> a = v;
+    sort(a.begin(), a.begin() + k);
+    int H = 0;
+    for (int i = k - 1; i >= 0; i -= 2)
+        H += a[i];
+    return H <= h;
 }
 
 void solve() {
-    memset(dp, -1, sizeof(dp));
-    int n;
-    cin >> n;
-    cout << findAns(n) << endl;
+    cin >> n >> h;
+    v.resize(n);
+    for (int i = 0; i < n; i++)
+        cin >> v[i];
+    int low = 1, high = n;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        if (isPossible(mid))
+            low = mid + 1;
+        else
+            high = mid - 1;
+    }
+    cout << high << endl;
 }
 
 int32_t main() {

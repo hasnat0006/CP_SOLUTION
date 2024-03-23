@@ -55,7 +55,7 @@ void solve() {
     }
     int maxSum = maxSubArraySum(v);
     if (maxSum < 0) {
-        cout << mod + (accumulate(v.begin(), v.end(), 0ll) % mod) << endl;
+        cout << (mod + (accumulate(v.begin(), v.end(), 0ll) % mod)) % mod << endl;
         return;
     }
     // cout << maxSum << endl;
@@ -63,10 +63,10 @@ void solve() {
     ans = ans % mod;
     ans = (ans + (mod_mul(maxSum, (binaryExp(2, k) - 1)))) % mod;
     if (ans < 0) {
-        cout << mod + (ans % mod) << endl;
+        cout << (mod + (ans % mod) % mod) << endl;
     }
     else
-        cout << ans << endl;
+        cout << ans % mod << endl;
 }
 
 int32_t main() {

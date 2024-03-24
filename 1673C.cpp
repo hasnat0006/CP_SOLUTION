@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 24|03|2024 15:30:55            !//
+//!             Created: 24|03|2024 00:03:53            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -22,32 +22,44 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
-vector<int> dp(100005, -1);
+vector<int> palindrome;
+int dp[500][40005];
 
-int countWay(int n) {
-    if (n == 0)
-        return 1;
-    if (n < 0)
-        return 0;
-    if (dp[n] != -1)
-        return dp[n];
-    return dp[n] = countWay(n - 1) + countWay(n - 2);
+void countWay() {
+    for (int i = 1; i < 500; i++) {
+        dp[i][0] = 1;
+        for (int j = 1; j < 40005; j++) {
+            if (palindrome[i] > j)
+                dp[i][j] = dp[i - 1][j];
+            else
+                dp[i][j] = dp[i - 1][j] + dp[i][j - palindrome[i]];
+            dp[i][j] %= mod;
+        }
+    }
+}
+
+void preCal() {
+    for (int i = 0; i <= 4 * 10000; i++) {
+        string s = to_string(i);
+        string t = s;
+        reverse(vf(t));
+        if (s == t)
+            palindrome.push_back(i);
+    }
+    countWay();
 }
 
 void solve() {
     int n;
     cin >> n;
-    int arr[n + 1];
-    arr[0] = 1, arr[1] = 1, arr[2] = 2;
-    for(int i = 3; i <= n; i++){
-        arr[i] = arr[i - 1] + arr[i - 2];
-    }
-    cout << arr[n] << endl;
+    int row = lower_bound(vf(palindrome), n) - palindrome.begin();
+    cout << dp[row][n] << endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
+    preCal();
     cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();

@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 24|03|2024 15:30:55            !//
+//!             Created: 24|03|2024 16:06:03            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -22,33 +22,26 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
-vector<int> dp(100005, -1);
-
-int countWay(int n) {
-    if (n == 0)
-        return 1;
-    if (n < 0)
-        return 0;
-    if (dp[n] != -1)
-        return dp[n];
-    return dp[n] = countWay(n - 1) + countWay(n - 2);
-}
-
 void solve() {
     int n;
     cin >> n;
-    int arr[n + 1];
-    arr[0] = 1, arr[1] = 1, arr[2] = 2;
-    for(int i = 3; i <= n; i++){
-        arr[i] = arr[i - 1] + arr[i - 2];
+    vector<int> v(n), dp(n, 0);
+    for (int i = 0; i < n; i++)
+        cin >> v[i];
+    dp[1] = abs(v[1] - v[0]);
+    for (int i = 2; i < n; i++) {
+        int first = dp[i - 1] + abs(v[i] - v[i - 1]);
+        int second = dp[i - 2] + abs(v[i] - v[i - 2]);
+        dp[i] = min(first, second);
     }
-    cout << arr[n] << endl;
+    dbg(dp);
+    cout << dp[n - 1] << endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

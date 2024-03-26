@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 12|03|2024 22:02:49            !//
+//!             Created: 26|03|2024 22:05:43            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -18,20 +18,9 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    for (int i = 0; i < n; i++) {
-        int x, y;
-        cin >> x;
-        v[i] = (x * 20);
-    }
-    for(int i = 0; i < n; i++){
-        int x;
-        cin >> x;
-        v[i] -= (x * 10);
-    }
-    cout << (*max_element(vf(v)) < 0 ? 0 : *max_element(vf(v))) << endl;
+    int a, b, c, d;
+    cin >> a >> b >> c >> d;
+    cout << max(abs(a - c), abs(b - d)) << endl;    
 }
 
 int32_t main() {

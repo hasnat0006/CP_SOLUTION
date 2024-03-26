@@ -1,16 +1,11 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 12|03|2024 22:24:53            !//
+//!             Created: 26|03|2024 22:32:16            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
+
 using namespace std;
 
 #define int long long
@@ -23,34 +18,35 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n, gcd;
-    cin >> n;
-    vector<int> v(n);
-    for (int &i : v)
-        cin >> i;
-    vector<int> prefixGcd(n + 1), suffixGcd(n + 1);
-    prefixGcd[0] = 0;
-    suffixGcd[n] = 0;
-    for (int i = 1; i <= n; i++)
-        prefixGcd[i] = __gcd(prefixGcd[i - 1], v[i - 1]);
-    for (int i = n - 1; i >= 0; i--)
-        suffixGcd[i] = __gcd(suffixGcd[i + 1], v[i]);
-    dbg(prefixGcd);
-    dbg(suffixGcd);
-    int ans = 0;
-    for (int i = 1; i <= n; i++) {
-        gcd = __gcd(prefixGcd[i - 1], suffixGcd[i]);
-        dbg(i, gcd, prefixGcd[i - 1], suffixGcd[i]);
-        if (gcd != 1)
-            ans++;
+    int n, m, k, t;
+    cin >> n >> m >> k >> t;
+    vector<pair<int, int>> v(k);
+    map<pair<int, int>, bool> mp;
+    for (int i = 0; i < k; i++) {
+        cin >> v[i].first >> v[i].second;
+        mp[{v[i].first, v[i].second}] = true;
     }
-    cout << ans << endl;
+    vector<string> ans = {"Carrots", "Kiwis", "Grapes"};
+    sort(vf(v));
+    for (int i = 0; i < t; i++) {
+        int x, y;
+        cin >> x >> y;
+        int cnt = (x - 1) * m + y;
+        int id = upper_bound(vf(v), make_pair(x, y)) - v.begin();
+        if (mp[{x, y}])
+            cout << "Waste" << endl;
+        else {
+            cnt -= (id + 1);
+            // cout << cnt << endl;
+            cout << ans[cnt % 3] << endl;
+        }
+    }
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

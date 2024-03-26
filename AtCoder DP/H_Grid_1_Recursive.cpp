@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 26|03|2024 22:16:08            !//
+//!             Created: 26|03|2024 15:05:12            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -17,28 +17,32 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
-void solve() {
-    int n;
-    cin >> n;
-    vector<int> a(n), b(n);
-    multiset<int> A, B;
-    for (int i = 0; i < n; i++) {
-        cin >> a[i];
-        A.insert(a[i]);
-    }
-    int cnt = 0;
-    for (int i = 0; i < n; i++) {
-        cin >> b[i];
-        if (A.find(b[i]) != A.end()) {
-            A.erase(A.find(b[i]));
-            cnt++;
-        }
-    }
-    if(cnt == n)
-        cout << cnt - 1 << endl;
-    else
-        cout << cnt + 1 << endl;
+int n, m;
+char grid[1005][1005];
+int dp[1005][1005];
+
+int totalWay(int x, int y) {
+    if (x == 1 and y == 1)
+        return 1;
+    if (x < 1 or y < 1 or grid[x][y] == '#')
+        return 0;
+    if (dp[x][y] != -1)
+        return dp[x][y];
+    int up = totalWay(x - 1, y);
+    int left = totalWay(x, y - 1);
+    return dp[x][y] = (up + left) % mod;
 }
+
+void solve() {
+    memset(dp, -1, sizeof(dp));
+    cin >> n >> m;
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++)
+            cin >> grid[i][j];
+    }
+    cout << totalWay(n, m) << endl;
+}
+
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;

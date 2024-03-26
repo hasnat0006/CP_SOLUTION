@@ -1,34 +1,53 @@
-//!-----------------------------------------------------!//
-//!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 26|02|2024 21:01:01            !//
-//!-----------------------------------------------------!//
+#include <math.h>
+#include <stdio.h>
 
-#pragma GCC optimize("O3")
-#include <bits/stdc++.h>
+int main() {
+    int n;
+    scanf("%d", &n);
 
-using namespace std;
+    float v_area[n];
+    float v_a[n];
+    float v_b[n];
+    float v_c[n];
 
-#define int long long
-#define float long double
-#define vf(v) (v).begin(), (v).end()
-#define vr(v) (v).rbegin(), (v).rend()
-#define endl "\n"
-
-int mod = 1000000007;
-int inf = 1e18;
-
-void solve() {
-   int n;
-   cin >> n;
-   cout << n + 1 << endl; 
-}
-
-int32_t main() {
-    ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL);
-    int t = 1;
-    cin >> t;
-    for (int i = 1; i <= t; i++) {
-        solve();
+    for (int i = 0; i < n; i++) {
+        float a, b, c;
+        scanf("%f %f %f", &a, &b, &c);
+        float s = (a + b + c) / 2;
+        float area = sqrt(s * (s - a) * (s - b) * (s - c));
+        v_area[i] = area;
+        v_a[i] = a;
+        v_b[i] = b;
+        v_c[i] = c;
     }
+
+    // Sorting based on v_area
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (v_area[j] > v_area[j + 1]) {
+                float temp = v_area[j];
+                v_area[j] = v_area[j + 1];
+                v_area[j + 1] = temp;
+
+                temp = v_a[j];
+                v_a[j] = v_a[j + 1];
+                v_a[j + 1] = temp;
+
+                temp = v_b[j];
+                v_b[j] = v_b[j + 1];
+                v_b[j + 1] = temp;
+
+                temp = v_c[j];
+                v_c[j] = v_c[j + 1];
+                v_c[j + 1] = temp;
+            }
+        }
+    }
+
+    // Printing sorted values
+    for (int i = 0; i < n; i++) {
+        printf("%.f %.f %.f\n", v_a[i], v_b[i], v_c[i]);
+    }
+
     return 0;
 }

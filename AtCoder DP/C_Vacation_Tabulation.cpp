@@ -1,16 +1,11 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 24|03|2024 16:54:19            !//
+//!             Created: 25|03|2024 15:35:53            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
+
 using namespace std;
 
 #define int long long
@@ -23,19 +18,23 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n, k;
-    cin >> n >> k;
-    vector<int> v(n), dp(n, 0);
+    int n;
+    cin >> n;
+    int arr[n][3], dp[n][3];
     for (int i = 0; i < n; i++)
-        cin >> v[i];
+        cin >> arr[i][0] >> arr[i][1] >> arr[i][2];
+    dp[0][0] = arr[0][0], dp[0][1] = arr[0][1], dp[0][2] = arr[0][2];
     for (int i = 1; i < n; i++) {
-        int mn = inf;
-        for (int j = 1; j <= k and (i - j >= 0); j++) {
-            mn = min(mn, (dp[i - j] + abs(v[i] - v[i - j])));
-            dp[i] = mn;
+        for (int j = 0; j < 3; j++) {
+            if (j == 0)
+                dp[i][j] = arr[i][j] + max(dp[i - 1][1], dp[i - 1][2]);
+            else if (j == 1)
+                dp[i][j] = arr[i][j] + max(dp[i - 1][0], dp[i - 1][2]);
+            else
+                dp[i][j] = arr[i][j] + max(dp[i - 1][0], dp[i - 1][1]);
         }
     }
-    cout << dp[n - 1] << endl;
+    cout << max({dp[n - 1][0], dp[n - 1][1], dp[n - 1][2]}) << endl;
 }
 
 int32_t main() {

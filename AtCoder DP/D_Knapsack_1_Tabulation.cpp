@@ -1,16 +1,10 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 24|03|2024 16:54:19            !//
+//!             Created: 26|03|2024 13:00:09            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
 using namespace std;
 
 #define int long long
@@ -23,19 +17,21 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n, k;
-    cin >> n >> k;
-    vector<int> v(n), dp(n, 0);
-    for (int i = 0; i < n; i++)
-        cin >> v[i];
-    for (int i = 1; i < n; i++) {
-        int mn = inf;
-        for (int j = 1; j <= k and (i - j >= 0); j++) {
-            mn = min(mn, (dp[i - j] + abs(v[i] - v[i - j])));
-            dp[i] = mn;
+    int n, w;
+    cin >> n >> w;
+    vector<pair<int, int>> v(n + 1);
+    for (int i = 1; i <= n; i++)
+        cin >> v[i].second >> v[i].first;
+    vector<vector<int>> dp(n + 5, vector<int>(w + 5, 0));
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= w; j++) {
+            if (v[i].second > j)
+                dp[i][j] = dp[i - 1][j];
+            else
+                dp[i][j] = max(v[i].first + dp[i - 1][j - v[i].second], dp[i - 1][j]);
         }
     }
-    cout << dp[n - 1] << endl;
+    cout << dp[n][w] << endl;
 }
 
 int32_t main() {

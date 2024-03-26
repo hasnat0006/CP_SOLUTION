@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 24|03|2024 15:30:55            !//
+//!             Created: 25|03|2024 22:10:22            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -22,33 +22,65 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
-vector<int> dp(100005, -1);
+int dp[105][5];
+vector<int> v;
 
-int countWay(int n) {
-    if (n == 0)
-        return 1;
-    if (n < 0)
+int findAns(int id, int last) {
+    if (id == -1)
         return 0;
-    if (dp[n] != -1)
-        return dp[n];
-    return dp[n] = countWay(n - 1) + countWay(n - 2);
+    // last means ager index e konta use korsi
+    // jodi ager last == v[id] or v[id] == 0 taile rest and day is count as rest
+    // day
+    if (dp[id][last] != -1)
+        return dp[id][last];
+    if (last == v[id] or v[id] == 0)
+        return dp[id][last] = findAns(id - 1, 0);
+    if (v[id] == 3) {
+        // jodi last day rest hoi taile 2 ta possible exercise e korbe
+        int rest = 0 + findAns(id - 1, 0);
+        if (last == 0 or last == 4) {
+            int one = 1 + findAns(id - 1, 1);
+            int two = 1 + findAns(id - 1, 2);
+            return dp[id][last] = max({one, two, rest});
+        }
+        else if (last != 2)
+            return dp[id][last] = max(1 + findAns(id - 1, 2), rest);
+        else if (last != 1)
+            return dp[id][last] = max(1 + findAns(id - 1, 1), rest);
+    }
+    if (v[id] == 2) {
+        int rest = findAns(id - 1, 0), two = 0;
+        if (last != 2)
+            two = 1 + findAns(id - 1, 2);
+        return dp[id][last] = max(rest, two);
+    }
+    else if (v[id] == 1) {
+        int rest = findAns(id - 1, 0), one = 0;
+        if (last != 1)
+            one = 1 + findAns(id - 1, 1);
+        return dp[id][last] = max(rest, one);
+    }
 }
 
 void solve() {
+    memset(dp, -1, sizeof(dp));
     int n;
     cin >> n;
-    int arr[n + 1];
-    arr[0] = 1, arr[1] = 1, arr[2] = 2;
-    for(int i = 3; i <= n; i++){
-        arr[i] = arr[i - 1] + arr[i - 2];
-    }
-    cout << arr[n] << endl;
+    v.resize(n);
+    for (int i = 0; i < n; i++)
+        cin >> v[i];
+    cout << n - findAns(n - 1, 4) << endl;
+    // for (int i = 0; i < n; i++) {
+    //     for (int j = 0; j <= 4; j++)
+    //         cout << dp[i][j] << " ";
+    //     cout << endl;
+    // }
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

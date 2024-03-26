@@ -22,20 +22,30 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
+int n, k;
+int dp[100005];
+vector<int> v;
+
+int findMin(int nn) {
+    if (nn == 0)
+        return 0;
+    if (dp[nn] != -1)
+        return dp[nn];
+    int mn = inf;
+    for (int i = 1; i <= k; i++) {
+        if (nn - i >= 0)
+            mn = min(mn, findMin(nn - i) + abs(v[nn] - v[nn - i]));
+    }
+    return dp[nn] = mn;
+}
+
 void solve() {
-    int n, k;
     cin >> n >> k;
-    vector<int> v(n), dp(n, 0);
+    v.resize(n);
+    memset(dp, -1, sizeof(dp));
     for (int i = 0; i < n; i++)
         cin >> v[i];
-    for (int i = 1; i < n; i++) {
-        int mn = inf;
-        for (int j = 1; j <= k and (i - j >= 0); j++) {
-            mn = min(mn, (dp[i - j] + abs(v[i] - v[i - j])));
-            dp[i] = mn;
-        }
-    }
-    cout << dp[n - 1] << endl;
+    cout << findMin(n - 1) << endl;
 }
 
 int32_t main() {

@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 24|03|2024 16:54:19            !//
+//!             Created: 26|03|2024 03:19:50            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -23,19 +23,18 @@ int mod = 1000000007;
 int inf = 1e18;
 
 void solve() {
-    int n, k;
-    cin >> n >> k;
-    vector<int> v(n), dp(n, 0);
+    int n, x;
+    cin >> n;
+    vector<int> v(n);
     for (int i = 0; i < n; i++)
         cin >> v[i];
-    for (int i = 1; i < n; i++) {
-        int mn = inf;
-        for (int j = 1; j <= k and (i - j >= 0); j++) {
-            mn = min(mn, (dp[i - j] + abs(v[i] - v[i - j])));
-            dp[i] = mn;
-        }
-    }
-    cout << dp[n - 1] << endl;
+    sort(vf(v));
+    int sum = accumulate(vf(v), 0ll);
+    int sumUntilLast = accumulate(v.begin(), v.begin() + n - 1, 0ll);
+    if(sum % 2 == 0 and v.back() <= sumUntilLast)
+        cout << "YES" << endl;
+    else
+        cout << "NO" << endl;
 }
 
 int32_t main() {

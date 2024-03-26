@@ -1,16 +1,10 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 24|03|2024 16:54:19            !//
+//!             Created: 26|03|2024 03:41:14            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
 using namespace std;
 
 #define int long long
@@ -22,20 +16,28 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
+int dp[105][100005];
+vector<pair<int, int>> vp;
+
+int KNAPSACK(int id, int wt) {
+    if (id == -1)
+        return 0;
+    if (dp[id][wt] != -1)
+        return dp[id][wt];
+    int nibo = 0, niboNa = KNAPSACK(id - 1, wt);
+    if (wt >= vp[id].second)
+        nibo = vp[id].first + KNAPSACK(id - 1, wt - vp[id].second);
+    return dp[id][wt] = max(nibo, niboNa);
+}
+
 void solve() {
-    int n, k;
-    cin >> n >> k;
-    vector<int> v(n), dp(n, 0);
+    memset(dp, -1, sizeof(dp));
+    int n, w;
+    cin >> n >> w;
+    vp.resize(n);
     for (int i = 0; i < n; i++)
-        cin >> v[i];
-    for (int i = 1; i < n; i++) {
-        int mn = inf;
-        for (int j = 1; j <= k and (i - j >= 0); j++) {
-            mn = min(mn, (dp[i - j] + abs(v[i] - v[i - j])));
-            dp[i] = mn;
-        }
-    }
-    cout << dp[n - 1] << endl;
+        cin >> vp[i].second >> vp[i].first;
+    cout << KNAPSACK(n - 1, w) << endl;
 }
 
 int32_t main() {

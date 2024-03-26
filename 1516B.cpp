@@ -22,28 +22,36 @@ using namespace std;
 int mod = 1000000007;
 int inf = 1e18;
 
-int XOR(int x, int y) { return x ^ y; }
-
 void solve() {
     int n;
     cin >> n;
     vector<int> v(n + 1), pre(n + 1);
-    set<int> st;
     for (int i = 1; i <= n; i++)
-        cin >> v[i], st.insert(v[i]);
-    if (st.size() == 1) {
-        cout << "YES" << endl;
-        return;
-    }
+        cin >> v[i];
+    auto XOR = [](int x, int y) {  return x ^ y; };
     partial_sum(vf(v), pre.begin(), XOR);
-    // dbg(pre);
+    dbg(pre);
     for (int i = 1; i <= n; i++) {
         int seg1 = pre[i];
         int seg2 = pre[n] ^ pre[i];
-        // dbg(seg1, seg2);
+        dbg(i, seg1, seg2);
         if (seg1 == seg2) {
             cout << "YES" << endl;
             return;
+        }
+    }
+    for (int i = 1; i <= n; i++) {
+        int seg1 = pre[i];
+        int temp = XOR(pre[n], pre[i]);
+        for (int j = i + 1; j < n; j++) {
+            // i + 1 --- j
+            int seg2 = pre[j] ^ seg1;
+            // j + 1 --- n
+            int seg3 = pre[n] ^ pre[j];
+            if (seg1 == seg2 and seg2 == seg3) {
+                cout << "YES" << endl;
+                return;
+            }
         }
     }
     cout << "NO" << endl;

@@ -52,7 +52,7 @@ int getMaxPathSum(vector<vector<int>> &matrix) {
             return false;
         return true;
     };
-    for (int i = 0; i < N; i++)
+    for (int i = 0; i < M; i++)
         dp[0][i] = matrix[0][i];
     for (int i = 1; i < N; i++) {
         for (int j = 0; j < M; j++) {
@@ -62,7 +62,7 @@ int getMaxPathSum(vector<vector<int>> &matrix) {
             dp[i][j] = max({up, upleft, upRight}) + matrix[i][j];
         }
     }
-    for (int i =  i < N; i++) {
+    for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
             cout << dp[i][j] << " ";
         }

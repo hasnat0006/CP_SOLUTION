@@ -28,14 +28,12 @@ int mod = 1000000007;
 float pi = acos(-1);
 int inf = 1e18;
 
-void solve()
-{
+void solve() {
     int n;
     cin >> n;
     vector<int> v(n);
     int mx = -1, mn = inf, mx_id = -1, mn_id = -1, pos = 0, neg = 0;
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++) {
         cin >> v[i];
         if (v[i] > mx)
             mx = v[i], mx_id = i;
@@ -49,18 +47,15 @@ void solve()
     int zero = n - (pos + neg);
     dbg(mx, mx_id, mn, mn_id);
     vector<pairi> ans;
-    if (neg == 0)
-    {
+    if (neg == 0) {
         for (int i = 1; i < n; i++)
             ans.pb({i + 1, i});
     }
-    else if (pos == 0)
-    {
+    else if (pos == 0) {
         for (int i = n - 2; i >= 0; i--)
             ans.pb({i + 1, i + 2});
     }
-    else if (pos >= 13)
-    {
+    else if (pos >= 13) {
         while (v[mx_id] < 20)
             ans.pb({mx_id + 1, mx_id + 1}), v[mx_id] += v[mx_id];
         for (int i = 0; i < n; i++)
@@ -69,8 +64,7 @@ void solve()
         for (int i = 1; i < n; i++)
             ans.pb({i + 1, i});
     }
-    else if (neg >= 13)
-    {
+    else if (neg >= 13) {
         while (v[mn_id] > -20)
             ans.pb({mn_id + 1, mn_id + 1}), v[mn_id] += v[mn_id];
         for (int i = 0; i < n; i++)
@@ -79,16 +73,14 @@ void solve()
         for (int i = n - 2; i >= 0; i--)
             ans.pb({i + 1, i + 2});
     }
-    else if (mx >= -mn)
-    {
+    else if (mx >= -mn) {
         for (int i = 0; i < n; i++)
             if (v[i] < 0)
                 v[i] += v[mx_id], ans.pb({i + 1, mx_id + 1});
         for (int i = 1; i < n; i++)
             ans.pb({i + 1, i});
     }
-    else
-    {
+    else {
         for (int i = 0; i < n; i++)
             if (v[i] > 0)
                 v[i] += v[mn_id], ans.pb({i + 1, mn_id + 1});
@@ -100,8 +92,7 @@ void solve()
         cout << i.first << " " << i.second << endl;
 }
 
-int32_t main()
-{
+int32_t main() {
     YUSUF REZA HASNAT;
     int t = 1;
     cin >> t;

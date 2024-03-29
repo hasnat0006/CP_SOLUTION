@@ -9,7 +9,7 @@ def delete_files_and_directories(directory):
             # Check if the entry is a directory
             if os.path.isdir(entry_path):
                 # Check if the directory name matches any of the specified names
-                if entry in [".cph", ".vscode", "output"]:
+                if entry in [".vscode", "output"]:
                     # Remove the directory
                     shutil.rmtree(entry_path)
                     print(f"Deleted directory: {entry_path}")

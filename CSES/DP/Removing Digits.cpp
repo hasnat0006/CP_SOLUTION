@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 31|03|2024 22:24:45            !//
+//!             Created: 01|04|2024 03:21:55            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -13,34 +13,42 @@
 #endif
 using namespace std;
 
-#define int long long
+// #define int long long
 #define float long double
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 #define endl "\n"
 
-int mod = 1000000007;
-int inf = 1e18;
+#define mod 1000000007;
+#define inf 1000000000000000000;
+
+int dp[1000005];
+
+int findAns(int k) {
+    if (k == 0)
+        return 0;
+    if (dp[k] != -1)
+        return dp[k];
+    string s = to_string(k);
+    set<int> st;
+    for (int i = 0; i < s.size(); i++)
+        st.insert(s[i] - '0');
+    if (*st.begin() == 0)
+        st.erase(st.begin());
+    int ans = INT_MAX;
+    for (auto i : st) {
+        if (i <= k) {
+            ans = min(ans, 1 + findAns(k - i));
+        }
+    }
+    return dp[k] = ans;
+}
 
 void solve() {
-    int n, w;
-    cin >> n >> w;
-    vector<int> wt(n + 1), profit(n + 1);
-    for (int i = 1; i <= n; i++)
-        cin >> wt[i];
-    for (int i = 1; i <= n; i++)
-        cin >> profit[i];
-    vector<int> pre(w + 1, 0), cur(w + 1, 0);
-    for (int id = 1; id <= n; id++) {
-        for (int wg = 1; wg <= w; wg++) {
-            int notTake = pre[wg], take = 0;
-            if (wg - wt[id] >= 0)
-                take = profit[id] + pre[wg - wt[id]];
-            cur[wg] = max(take, notTake);
-        }
-        pre = cur;
-    }
-    cout << pre[w] << endl;
+    memset(dp, -1, sizeof(dp));
+    int n;
+    cin >> n;
+    cout << findAns(n) << endl;
 }
 
 int32_t main() {

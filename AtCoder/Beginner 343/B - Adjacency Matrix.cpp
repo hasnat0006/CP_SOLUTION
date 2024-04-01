@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 01|04|2024 02:33:58            !//
+//!             Created: 02|03|2024 18:03:28            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -8,29 +8,31 @@
 
 using namespace std;
 
-// #define int   long long
-// #define float long double
+#define int long long
+#define float long double
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 #define endl "\n"
-#define mod 1000000007;
-#define inf 1000000000000000000;
+
+int mod = 1000000007;
+int inf = 1e18;
 
 void solve() {
-    int n, k;
-    cin >> n >> k;
-    vector<int> v(n);
-    for (int i = 0; i < n; i++)
-        cin >> v[i];
-    vector<int> dp(k + 1, 0);
-    dp[0] = 1;
-    for (int i = 1; i <= k; i++) {
-        for (int j = 0; j < n; j++) {
-            if (i - v[j] >= 0)
-                dp[i] = (dp[i] + dp[i - v[j]]) % mod;
+    int n;
+    cin >> n;
+    int arr[n + 1][n + 1];
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
+            cin >> arr[i][j];
         }
     }
-    cout << dp[k] << endl;
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (arr[i][j] == 1)
+                cout << j << " ";
+        }
+        cout << endl;
+    }
 }
 
 int32_t main() {

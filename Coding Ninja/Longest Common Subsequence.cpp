@@ -1,16 +1,11 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 01|04|2024 23:39:38            !//
+//!             Created: 02|04|2024 15:46:41            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
+
 using namespace std;
 
 #define int long long
@@ -22,28 +17,29 @@ using namespace std;
 #define mod 1000000007;
 #define inf 1000000000000000000;
 
-vector<int> v;
-map<int, int> mp;
-vector<int> dp(100005, -1);
+int dp[1005][1005];
+string A, B;
 
-int findAns(int id){
-    if(id <= 1)
-        return mp[id];
-    if(dp[id] != -1)
-        return dp[id];
-    int notTake = findAns(id - 1);
-    int take = (mp[id] * id) + findAns(id - 2);
-    return dp[id] = max(take, notTake);
+int ans(int i, int j) {
+    if (i < 0 or j < 0)
+        return 0;
+    if (dp[i][j] != -1)
+        return dp[i][j];
+    if (A[i] == B[j])
+        return dp[i][j] = 1 + ans(i - 1, j - 1);
+    return dp[i][j] = max(ans(i - 1, j), ans(i, j - 1));
+}
+
+int lcs(string s, string t) {
+    memset(dp, -1, sizeof(dp));
+    A = s, B = t;
+    return ans(A.size() - 1, B.size() - 1);
 }
 
 void solve() {
-    int n;
-    cin >> n;
-    v.resize(n);
-    for (int i = 0; i < n; i++)
-        cin >> v[i], mp[v[i]]++;
-    int mx = *max_element(vf(v));
-    cout << findAns(mx) << endl;
+    string a, b;
+    cin >> a >> b;
+    cout << lcs(a, b) << endl;
 }
 
 int32_t main() {

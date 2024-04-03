@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 02|04|2024 15:46:41            !//
+//!             Created: 03|04|2024 01:18:38            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -8,7 +8,7 @@
 using namespace std;
 
 #define int long long
-#define float long double
+#define float double
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 #define endl "\n"
@@ -16,24 +16,26 @@ using namespace std;
 #define mod 1000000007;
 #define inf 1000000000000000000;
 
-int lcs(string s, string t) {
-    int ans = 0, n = s.size(), m = t.size();
-    vector<vector<int>> dp(n + 5, vector<int>(m + 5, 0));
-    for (int i = 1; i <= n; i++) {
-        for (int j = 1; j <= m; j++) {
-            if (s[i - 1] == t[j - 1]) {
-                dp[i][j] = 1ll + dp[i - 1][j - 1];
-                ans = max(ans, dp[i][j]);
-            }
-        }
-    }
-    return ans;
+vector<float> v;
+int n;
+vector<vector<float>> dp(3000, vector<float>(3000, -1.0));
+
+float findAns(int id, int H) {
+    if (id < 0)
+        return (H >= (n - H)) ? 1.0 : 0.0;
+    if (dp[id][H] != -1)
+        return dp[id][H];
+    float stillHead = v[id] * findAns(id - 1, H + 1);
+    float takeTail = (1 - v[id]) * findAns(id - 1, H);
+    return dp[id][H] = (stillHead + takeTail);
 }
 
 void solve() {
-    string a, b;
-    cin >> a >> b;
-    cout << lcs(a, b) << endl;
+    cin >> n;
+    v.resize(n);
+    for (int i = 0; i < n; i++)
+        cin >> v[i];
+    cout << fixed << setprecision(10) << findAns(n - 1, 0) << endl;
 }
 
 int32_t main() {

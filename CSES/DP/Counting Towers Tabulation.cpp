@@ -1,34 +1,25 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 04|04|2024 11:55:06            !//
+//!             Created: 05|04|2024 00:49:08            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-
 using namespace std;
 
-#define int long long
-#define float long double
-#define vf(v) (v).begin(), (v).end()
-#define vr(v) (v).rbegin(), (v).rend()
-#define endl "\n"
-
-#define mod 1000000007;
-#define inf 1000000000000000000;
+#define MOD 1000000007;
 
 void solve() {
     int n;
     cin >> n;
-    if (n < 10) {
-        cout << n << endl;
-        return;
+    int dp[n][2];
+    dp[n - 1][0] = 1, dp[n - 1][1] = 1;
+    for (int i = n - 2; i >= 0; i--) {
+        dp[i][0] = (4ll * dp[i + 1][0] + dp[i + 1][1]) % MOD;
+        dp[i][1] = (dp[i + 1][0] + 2ll * dp[i + 1][1]) % MOD;
     }
-    string s1 = to_string(n);
-    string s2 = s1;
-    s2.pop_back();
-    reverse(vf(s2));
-    cout << s1 << s2 << endl;
+    cout << (dp[0][0] + dp[0][1]) % MOD;
+    cout << "\n";
 }
 
 int32_t main() {
@@ -36,7 +27,6 @@ int32_t main() {
     int t = 1;
     cin >> t;
     for (int i = 1; i <= t; i++) {
-        cout << "Case " << i << ": ";
         solve();
     }
     return 0;

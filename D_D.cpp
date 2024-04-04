@@ -52,8 +52,8 @@ void solve() {
                     operation++;
                 // if(v[0] == n / 2 or v[1] == n / 2 or v[2] == n / 2)
                 //     operation--;
-                // dbg(v);
-                // dbg(i, operation);
+                dbg(v);
+                dbg(i, operation);
                 ans = min(ans, operation);
             }
             else {
@@ -76,7 +76,7 @@ void solve() {
                         operation += 2;
                     else
                         operation++;
-                    if (first[0] != 1)
+                    if(first[0] != 1)
                         operation++;
                 }
                 else {
@@ -93,8 +93,8 @@ void solve() {
                     // if (second[1] != n / 2)
                     //     operation++;
                 }
-                // dbg(first, second);
-                // dbg(i, operation);
+                dbg(first, second);
+                dbg(i, operation);
                 ans = min(ans, operation);
             }
         }

@@ -101,27 +101,12 @@ ostream &operator<<(ostream &other, const vector<pair<int, int>> &v) {
 
 // comment the just below line if test cases required
 #define SINGLE_TEST
-const int max_tests = 1;
+const int max_tests = 10;
 
 // complete this function according to the requirements
 void generate_test() {
-    int n = rand(3, 20);
-    // cout << n << '\n';
-    vector<char> a = {'R', 'G', 'B'};
-    int R = 0, G = 0, B = 0;
-    for(int i = 0; i < n; i++) {
-        char x = a[rand(0, 2)];
-        cout << x;
-        if(x == 'R') R = i + 1;
-        if(x == 'G') G = i + 1;
-        if(x == 'B') B = i + 1;
-    }
-    if(R == 0)
-        cout << "R";
-    if(G == 0)
-        cout << "G";
-    if(B == 0)
-        cout << "B";
+    int n = rand(1, 20);
+    cout << n << '\n';
 }
 
 signed main() {

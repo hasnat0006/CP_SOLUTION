@@ -1,16 +1,11 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 05|04|2024 15:01:17            !//
+//!             Created: 06|04|2024 01:14:04            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
+
 using namespace std;
 
 #define int long long
@@ -22,32 +17,30 @@ using namespace std;
 #define mod 1000000007;
 #define inf 1000000000000000000;
 
-int n;
 vector<int> v;
-
-int dp[5005][5005];
-
-int findAns(int i, int j) {
-    // base case
-    if (i == j)
-        return v[i];
-    if (i + 1 == j)
-        return max(v[i], v[j]);
-    if(dp[i][j] != -1)
-        return dp[i][j];
-    int first = v[i] + min(findAns(i + 2, j), findAns(i + 1, j - 1));
-    int second = v[j] + min(findAns(i + 1, j - 1), findAns(i, j - 2));
-    return dp[i][j] = max(first, second);
-}
+set<int> ans;
 
 void solve() {
-    memset(dp, -1, sizeof(dp));
+    int n;
     cin >> n;
     v.resize(n);
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++)
         cin >> v[i];
+    vector<int> dp(n * 1001);
+    dp[0] = 1;
+    for (int i = 0; i < n; i++) {
+        for (int coin = (n * 1001) - 1; coin > 0; coin--) {
+            if (coin - v[i] >= 0 and dp[coin - v[i]])
+                dp[coin] = 1;
+        }
     }
-    cout << findAns(0, n - 1) << endl;
+    for (int i = 1; i < n * 1001; i++)
+        if (dp[i])
+            ans.insert(i);
+    cout << ans.size() << endl;
+    for (auto i : ans)
+        cout << i << " ";
+    cout << endl;
 }
 
 int32_t main() {

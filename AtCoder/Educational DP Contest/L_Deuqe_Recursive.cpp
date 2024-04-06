@@ -25,7 +25,7 @@ using namespace std;
 int n;
 vector<int> v;
 
-int dp[5005][5005];
+int dp[3005][3005];
 
 int findAns(int i, int j) {
     // base case
@@ -33,7 +33,7 @@ int findAns(int i, int j) {
         return v[i];
     if (i + 1 == j)
         return max(v[i], v[j]);
-    if(dp[i][j] != -1)
+    if (dp[i][j] != -1)
         return dp[i][j];
     int first = v[i] + min(findAns(i + 2, j), findAns(i + 1, j - 1));
     int second = v[j] + min(findAns(i + 1, j - 1), findAns(i, j - 2));
@@ -47,7 +47,8 @@ void solve() {
     for (int i = 0; i < n; i++) {
         cin >> v[i];
     }
-    cout << findAns(0, n - 1) << endl;
+    int sum = accumulate(vf(v), 0ll);
+    cout << 2 * findAns(0, n - 1) - sum << endl;
 }
 
 int32_t main() {

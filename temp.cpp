@@ -1,83 +1,79 @@
+//!-----------------------------------------------------!//
+//!              Author: YUSUF REZA HASNAT              !//
+//!             Created: 07|04|2024 15:29:31            !//
+//!-----------------------------------------------------!//
 
+#pragma GCC optimize("O3")
 #include <bits/stdc++.h>
+
 using namespace std;
 
-int dayNumber(int day, int month, int year) {
-    static int t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
-    year -= month < 3;
-    return (year + year / 4 - year / 100 + year / 400 + t[month - 1] + day) % 7;
-}
+#define int long long
+#define float long double
+#define vf(v) (v).begin(), (v).end()
+#define vr(v) (v).rbegin(), (v).rend()
+#define endl "\n"
 
-string getMonthName(int monthNumber) {
-    string months[] = {"January",   "February", "March",    "April",
-                       "May",       "June",     "July",     "August",
-                       "September", "October",  "November", "December"};
-    return (months[monthNumber]);
-}
+#define mod 1000000007;
+const int inf = 1000000000000000000;
 
-bool isLeapYear(int n) {
-    if (n % 100 == 0) {
-        if (n % 400 == 0)
-            return true;
-        return false;
-    }
-    if (n % 4 == 0)
-        return true;
-    return false;
-}
+typedef pair<int, int> pairi;
+int N = 1e5 + 5;
+vector<vector<pairi>> adj(N);
+vector<int> dis(N, inf), parent(N);
 
-int numberOfDays(int monthNumber, int year) {
-    if (monthNumber == 1 and isLeapYear(year))
-        return 29;
-    int monthDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    return (monthDays[monthNumber]);
-}
-
-void printCalendar(int year) {
-    printf("		 Calendar - %d\n\n", year);
-    int days;
-
-    int current = dayNumber(1, 1, year);
-
-    // i --> Iterate through all the months
-    // j --> Iterate through all the days of the
-    //	 month - i
-    for (int i = 0; i < 12; i++) {
-        days = numberOfDays(i, year);
-
-        // Print the current month name
-        printf("\n ------------%s-------------\n", getMonthName(i).c_str());
-
-        // Print the columns
-        printf(" Sun Mon Tue Wed Thu Fri Sat\n");
-
-        // Print appropriate spaces
-        int k;
-        for (k = 0; k < current; k++)
-            printf("	 ");
-
-        for (int j = 1; j <= days; j++) {
-            printf("%5d", j);
-
-            if (++k > 6) {
-                k = 0;
-                printf("\n");
+void dijkstra(int src) {
+    priority_queue<pairi, vector<pairi>, greater<pairi>> pq;
+    dis[src] = 0;
+    pq.push({0, src});
+    while (pq.size()) {
+        auto top = pq.top();
+        pq.pop();
+        for (auto i : adj[top.second]) {
+            int v = i.first;
+            int wt = i.second;
+            if (dis[v] > dis[top.second] + wt) {
+                dis[v] = dis[top.second] + wt;
+                pq.push({dis[v], v});
+                parent[v] = top.second;
             }
         }
-
-        if (k)
-            printf("\n");
-
-        current = k;
     }
-
-    return;
 }
 
-// Driver Program to check above functions
-int main() {
-    int year = 2016;
-    printCalendar(year);
+void solve() {
+    int n, e;
+    cin >> n >> e;
+    for (int i = 0; i < e; i++) {
+        int u, v, wt;
+        cin >> u >> v >> wt;
+        adj[u].push_back({v, wt});
+        adj[v].push_back({u, wt});
+    }
+    dijkstra(1);
+    if (dis[n] == inf) {
+        cout << -1 << endl;
+        return;
+    }
+    vector<int> ans;
+    int cur = n;
+    ans.push_back(cur);
+    while (cur != 1) {
+        ans.push_back(parent[cur]);
+        cur = parent[cur];
+    }
+    reverse(vf(ans));
+    for(auto i : ans)
+        cout << i << " ";
+    cout << endl;
+}
 
-    return (0);
+int32_t main() {
+    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
+    int t = 1;
+    // cin >> t;
+    for (int i = 1; i <= t; i++) {
+        solve();
+    }
+    return 0;
 }

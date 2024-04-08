@@ -1,42 +1,60 @@
-//!-----------------------------------------------------!//
-//!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 06|04|2024 10:31:39            !//
-//!-----------------------------------------------------!//
 
-#pragma GCC optimize("O3")
 #include <bits/stdc++.h>
 
 using namespace std;
 
 #define int long long
-#define float long double
-#define vf(v) (v).begin(), (v).end()
-#define vr(v) (v).rbegin(), (v).rend()
-#define endl "\n"
 
-#define mod 1000000007;
-#define inf 1000000000000000000;
+const int mod = 1e9 + 7;
+const int inf = 1e18;
+
+void print(deque<int> dq) {
+    for (auto x : dq)
+        cerr << x << " ";
+    cerr << endl;
+}
 
 void solve() {
-    int n;
-    cin >> n;
-    int ans = 0;
-    while (n) {
-        if (n == 1)
-            n = 0;
-        if (n % 2)
-            n++;
-        n /= 2;
-        ans++;
-        // cout << n << " " << ans << endl;
+    int n, k;
+    cin >> n >> k;
+    deque<int> dq;
+    for (int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        dq.push_back(x);
     }
-    cout << ans << endl;
+    int turn = 0;
+    while (k > 0 and dq.size() > 1) {
+        if (turn == 0) {
+            int x = dq.front();
+            dq.pop_front();
+            x--;
+            k--;
+            if (x > 0)
+                dq.push_front(x);
+        }
+        else {
+            int x = dq.back();
+            dq.pop_back();
+            x--;
+            k--;
+            if (x > 0)
+                dq.push_back(x);
+        }
+        turn = !turn;
+        // print(dq);
+    }
+    if (dq.size() == 1) {
+        if (k >= dq.front())
+            dq.pop_front();
+    }
+    cout << n - dq.size() << endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

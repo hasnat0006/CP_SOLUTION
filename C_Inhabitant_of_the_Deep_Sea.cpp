@@ -61,7 +61,7 @@ void solve() {
                     break;
             }
         }
-        else if (f < b) {
+        else {
             int required = f * 2;
             if (turn == 0) {
                 turn = 1;
@@ -86,43 +86,9 @@ void solve() {
                     break;
             }
         }
-        else {
-            if (turn == 0) {
-                int required = f * 2;
-                if (required <= k) {
-                    k -= required;
-                    dq.pop_back();
-                    dq.pop_front();
-                }
-                else if (required - 1 <= k) {
-                    k -= required - 1;
-                    dq.pop_back();
-                    dq.pop_front();
-                    dq.push_back(1);
-                }
-                else
-                    break;
-            }
-            else {
-                int required = b * 2;
-                if (required <= k) {
-                    k -= required;
-                    dq.pop_back();
-                    dq.pop_front();
-                }
-                else if (required - 1 <= k) {
-                    k -= required - 1;
-                    dq.pop_back();
-                    dq.pop_front();
-                    dq.push_front(1);
-                }
-                else
-                    break;
-            }
-        }
         // turn ^= 1;
-        // print(dq);
-        // cerr << "K: " << k << endl;
+        print(dq);
+        cerr << "K: " << k << endl;
     }
     if (dq.size() == 1) {
         if (k >= dq.front())

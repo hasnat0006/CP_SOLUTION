@@ -1,14 +1,14 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 09|04|2024 16:04:04            !//
+//!             Created: 09|04|2024 16:09:50            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 
 using namespace std;
 
-#define int long long
+#define int   long long
 #define float long double
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
@@ -21,10 +21,10 @@ vector<int> dist;
 vector<int> parent;
 vector<vector<pair<int, int>>> adj;
 
-void bellmonFord(int n, int m, int src) {
+void bellmonFord(int n, int src) {
     dist[src] = 0;
     for (int step = 0; step < n; step++) {
-        for (int i = 1; i <= n; i++) {
+        for (int i = 0; i < n; i++) {
             for (auto it : adj[i]) {
                 int u = i;
                 int v = it.first;
@@ -35,7 +35,6 @@ void bellmonFord(int n, int m, int src) {
                         return;
                     }
                     dist[v] = dist[u] + wt;
-                    parent[v] = u;
                 }
             }
         }
@@ -46,25 +45,30 @@ void bellmonFord(int n, int m, int src) {
 }
 
 void solve() {
-    int node, edges, u, v, wt;
-    cin >> node >> edges;
-    dist.resize(node + 1, inf);
-    parent.resize(node + 1, -1);
-    adj.resize(node + 1);
-    for (int i = 0; i < edges; i++) {
-        int u, v, wt;
-        cin >> u >> v >> wt;
-        adj[u].push_back({v, wt});
+    int n, m;
+    cin >> n >> m;
+    dist.resize(n + 1, inf);
+    adj.resize(n + 1);
+    for(int i = 0; i < m; i++){
+        int u, v, w;
+        cin >> u >> v >> w;
+        adj[u].push_back({v, w});
     }
-    bellmonFord(node, edges, 1);
+    // cout << "---" << endl;
+    for(int i = 0; i < n; i++){
+        for(auto it : adj[i]){
+            cout << i << " -> " << it.first << " " << it.second << endl;
+        }
+    }
+    bellmonFord(n, 0);
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    // cin >> t;
-    for (int i = 1; i <= t; i++) {
-        solve();
+    cin >> t;
+    for (int i = 1; i <= t; i++){
+        solve(); 
     }
     return 0;
 }

@@ -45,10 +45,11 @@ void solve() {
         }
         if (i >= m - 1 and storeCnt >= k)
             ans++;
-        // dbg(i, storeCnt, ans);
-        // dbg(store);
+        dbg(i, storeCnt, ans);
+        dbg(store);
+        dbg(allvalid);
         if (i >= m - 1) {
-            if (store[v[i - m + 1]] > 0) {
+            if (store.count(v[i - m + 1])) {
                 if (allvalid[v[i - m + 1]] > store[v[i - m + 1]])
                     allvalid[v[i - m + 1]]--;
                 else {
@@ -57,7 +58,8 @@ void solve() {
                 }
             }
         }
-        // dbg(store);
+        dbg(store);
+        dbg(allvalid);
     }
     cout << ans << endl;
 }

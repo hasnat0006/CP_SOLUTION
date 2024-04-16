@@ -1,61 +1,42 @@
-//!-----------------------------------------------------!//
-//!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 09|04|2024 22:57:59            !//
-//!-----------------------------------------------------!//
-
-#pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
 using namespace std;
-
-#define int long long
-#define float long double
-#define vf(v) (v).begin(), (v).end()
-#define vr(v) (v).rbegin(), (v).rend()
-#define endl "\n"
-
-const int mod = 1e9 + 7;
-const int inf = 1e18;
-
-void solve() {
-    int n, m, k;
-    cin >> n >> m >> k;
-    vector<int> v(n), c(m);
-    for (int i = 0; i < n; i++) {
-        cin >> v[i];
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int n, m, i, j;
+    cin >> n >> m;
+    vector<vector<char>> c(n, vector<char>(m));
+    vector<vector<int>> a(n, vector<int>(m));
+    vector<vector<int>> ps(n, vector<int>(m));
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < m; j++) {
+            cin >> c[i][j];
+        }
     }
-    map<int, int> mp, store, allvalid;
-    for (int i = 0; i < m; i++) {
-        cin >> c[i];
-        mp[c[i]]++;
-    }
-    int ans = 0, storeCnt = 0;
-    for (int i = 0; i <= n - m; i++) {
-        map<int, int> temp = mp;
-        int cnt = 0;
-        for(int j = i; j < i + m; j++){
-            if(temp[v[j]] > 0)
-                temp[v[j]]--, cnt++;
-            if(cnt >= k){
-                ans++;
-                break;
+    for (i = 0; i < n - 1; i++) {
+        for (j = 0; j < m - 1; j++) {
+            if (c[i + 1][j] == c[i][j + 1]) {
+                a[i][j] = 1;
             }
         }
     }
-    cout << ans << endl;
-}
-
-int32_t main() {
-    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
-    int t = 1;
-    cin >> t;
-    for (int i = 1; i <= t; i++) {
-        solve();
+    for (i = n - 2; i >= 0; i--) {
+        for (j = m - 2; j >= 0; j--) {
+            ps[i][j] =
+                a[i][j] + (ps[i + 1][j] + ps[i][j + 1] - ps[i + 1][j + 1]);
+        }
     }
+    for (i = 0; i < n - 1; i++) {
+        for (j = 0; j < m - 1; j++) {
+            if ((a[i][j] == 1 && ps[i + 1][j + 1] > 0) ||
+                (a[i][j] == a[i + 1][j] && a[i + 1][j] == 1 ||
+                 (a[i][j] == a[i][j + 1] && a[i][j + 1] == 1))) {
+                cout << "YES\n";
+                return 0;
+            }
+        }
+    }
+    cout << "NO\n";
     return 0;
 }

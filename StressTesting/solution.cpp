@@ -1,16 +1,11 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 09|04|2024 22:57:59            !//
+//!             Created: 16|04|2024 11:22:40            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
+
 using namespace std;
 
 #define int long long
@@ -23,49 +18,80 @@ const int mod = 1e9 + 7;
 const int inf = 1e18;
 
 void solve() {
-    int n, m, k;
-    cin >> n >> m >> k;
-    vector<int> v(n), c(m);
+    int n, m;
+    cin >> n >> m;
+    char arr[n][m];
     for (int i = 0; i < n; i++) {
-        cin >> v[i];
+        for (int j = 0; j < m; j++)
+            cin >> arr[i][j];
     }
-    map<int, int> mp, store, allvalid;
-    for (int i = 0; i < m; i++) {
-        cin >> c[i];
-        mp[c[i]]++;
-    }
-    int ans = 0, storeCnt = 0;
-    for (int i = 0; i < n; i++) {
-        if (mp[v[i]] > 0) {
-            if (store[v[i]] < mp[v[i]]) {
-                store[v[i]]++;
-                storeCnt++;
+    /*
+    Case 1: pasapasi 2 ta col e diagonaillay same ase kina..
+    abcd
+    bcff
+    eikhane b and c diagonally same
+    */
+    for (int row = 0; row < n - 1; row++) {
+        for (int j = 1; j < m - 1; j++) {
+            if (arr[row][j] == arr[row + 1][j - 1] and
+                arr[row][j + 1] == arr[row + 1][j]) {
+                cout << "YES" << endl;
+                return;
             }
-            allvalid[v[i]]++;
         }
-        if (i >= m - 1 and storeCnt >= k)
-            ans++;
-        // dbg(i, storeCnt, ans);
-        // dbg(store);
-        if (i >= m - 1) {
-            if (store[v[i - m + 1]] > 0) {
-                if (allvalid[v[i - m + 1]] > store[v[i - m + 1]])
-                    allvalid[v[i - m + 1]]--;
-                else {
-                    store[v[i - m + 1]]--, allvalid[v[i - m + 1]]--;
-                    storeCnt--;
+    }
+    /*
+    Case 2: uporeniche 2 ta row e diagonaillay same ase kina..
+    ab
+    bc
+    cf
+    df
+    eikhane b and c diagonally same
+    */
+    for (int i = 0; i < n - 2; i++) {
+        for (int j = 1; j < m; j++) {
+            if (arr[i][j] == arr[i + 1][j - 1] and
+                arr[i + 1][j] == arr[i + 2][j - 1]) {
+                cout << "YES" << endl;
+                return;
+            }
+        }
+    }
+    /*
+    Case 3: ektar right e arekta diagonally same ase kina..
+    abdd
+    bccf
+    xxfb
+    eikhane b diagonally same and tar right e f diagonally same
+    */
+    int i, j, f = 0;
+    for (i = 0; i < n - 1; i++) {
+        for (j = 1; j < m; j++) {
+            if (arr[i][j] == arr[i + 1][j - 1]) {
+                f = 1;
+                break;
+            }
+        }
+        if (f)
+            break;
+    }
+    if (f) {
+        for (int row = i + 1; row < n - 1; row++) {
+            for (int col = j + 1; col < m; col++) {
+                if (arr[row][col] == arr[row + 1][col - 1]) {
+                    cout << "YES" << endl;
+                    return;
                 }
             }
         }
-        // dbg(store);
     }
-    cout << ans << endl;
+    cout << "NO" << endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

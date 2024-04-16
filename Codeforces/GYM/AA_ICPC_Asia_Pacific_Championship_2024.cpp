@@ -5,12 +5,6 @@
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
 using namespace std;
 
 #define int long long
@@ -45,9 +39,6 @@ void solve() {
         return;
     }
     sort(vf(v), [](Node x, Node y) { return x.diff < y.diff; });
-    // for(auto i : v){
-    //     cout << i.diff << " " << i.zero << " " << i.one << endl;
-    // }
     int ans = inf;
     vector<int> pref(n + 1), suff(n + 1);
     pref[0] = v[0].zero;

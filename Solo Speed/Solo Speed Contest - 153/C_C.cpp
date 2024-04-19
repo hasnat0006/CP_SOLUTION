@@ -1,16 +1,11 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 19|04|2024 11:48:43            !//
+//!             Created: 19|04|2024 21:08:00            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
+
 using namespace std;
 
 #define int long long
@@ -23,35 +18,40 @@ const int mod = 1e9 + 7;
 const int inf = 1e18;
 
 void solve() {
-    int n, adult, kid;
-    cin >> n >> adult >> kid;
-    vector<pair<int, int>> v(n);
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+    int white = 0, red = 0;
+    vector<int> v;
     for (int i = 0; i < n; i++) {
-        cin >> v[i].first >> v[i].second;
+        s[i] == 'R' ? red++ : white++;
+        if (s[i] == 'W')
+            v.push_back(i);
     }
-    sort(vf(v), [](pair<int, int> a, pair<int, int> b) {
-        return a.second > b.second;
-    });
-    // dbg(v);
-    int ans = 0;
-    for (int i = 0; i < kid; i++) {
-        ans += v[i].second;
+    reverse(v.begin(), v.end());
+    int ans = min(white, red);
+    int lastWhite = 0;
+    for (int i = 0; i < n and i < white; i++) {
+        if (s[n - i - 1] == 'W') {
+            lastWhite++;
+        }
     }
-    vector<int> adultHap;
-    for (int i = kid; i < n; i++) {
-        adultHap.push_back(v[i].first);
+    ans = min(ans, white - lastWhite);
+    int firstRed = 0;
+    for (int i = 0; i < n and i < red; i++) {
+        if (s[i] == 'R') {
+            firstRed++;
+        }
     }
-    sort(vr(adultHap));
-    for (int i = 0; i < adult; i++) {
-        ans += adultHap[i];
-    }
+    ans = min(ans, red - firstRed);
     cout << ans << endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

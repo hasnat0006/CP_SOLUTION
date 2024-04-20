@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 17|04|2024 00:28:48            !//
+//!             Created: 20|04|2024 16:22:35            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -18,58 +18,67 @@ const int mod = 1e9 + 7;
 const int inf = 1e18;
 
 typedef pair<int, int> pairi;
-int N = 3e5 + 5;
+int N = 5e5 + 5;
 vector<vector<pairi>> adj(N);
-vector<vector<int>> dis(2, vector<int>(N, inf));
+vector<int> dis(N, inf);
+vector<int> cnt(5e6 + 5, 0);
+int mx;
 
-void dijkstra(int src, int id) {
+void dijkstra(int src) {
     priority_queue<pairi, vector<pairi>, greater<pairi>> pq;
-    dis[id][src] = 0;
+    vector<int> vis(N, 0);
+    dis[src] = 0;
+    cnt[dis[src]]++;
     pq.push({0, src});
     while (pq.size()) {
         auto top = pq.top();
+        set<int> s;
+        int mn = inf;
         pq.pop();
+        if (vis[top.second])
+            continue;
         for (auto i : adj[top.second]) {
             int v = i.first;
+            s.insert(top.second);
+            s.insert(v);
+            mn = min(mn, i.second);
             int wt = i.second;
-            if (dis[id][v] > max(dis[id][top.second], wt)) {
-                dis[id][v] = max(dis[id][top.second], wt);
-                pq.push({dis[id][v], v});
+            if (dis[v] > dis[top.second] + wt) {
+                dis[v] = dis[top.second] + wt;
+                cnt[dis[v]]++;
+                // cerr << "---" << endl;
+                // cerr << top.second << " " << v << " " << dis[v] << endl;
+                mx = max(mx, dis[v]);
+                pq.push({dis[v], v});
             }
+        }
+        if (s.size() == 1) {
+            // cerr << top.second << endl;
+            mx = mn, cnt[mn]++;
         }
     }
 }
 
 void solve() {
-    int n, m;
-    cin >> n >> m;
-    int ans = inf;
-    vector<pair<int,pairi>> edges;
+    int n, m, q;
+    cin >> n >> m >> q;
+
     for (int i = 0; i < m; i++) {
         int u, v, w;
         cin >> u >> v >> w;
-        if (min(u, v) == 1 and max(u, v) == n) {
-            ans = min(ans, w);
-            continue;
-        }
         adj[u].push_back({v, w});
         adj[v].push_back({u, w});
-        edges.push_back({w, {u, v}});
     }
-    dijkstra(1, 0);
-    dijkstra(n, 1);
-    for(auto i : edges) {
-        int w = i.first;
-        int u = i.second.first;
-        int v = i.second.second;
-        if(w >= max(dis[0][v], dis[1][u])) {
-            ans = min(ans, w + max(dis[0][v], dis[1][u]));
-        }
-        if(w >= max(dis[0][u], dis[1][v])) {
-            ans = min(ans, w + max(dis[0][u], dis[1][v]));
-        }
+    while (q--) {
+        int x;
+        cin >> x;
+        dis.assign(N, inf);
+        mx = 0;
+        cnt.assign(5e6 + 5, 0);
+        dijkstra(x);
+        // cerr << mx << endl;
+        cout << mx << " " << cnt[mx] << endl;
     }
-    cout << ans << endl;
 }
 
 int32_t main() {

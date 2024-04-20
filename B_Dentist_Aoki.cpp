@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 19|04|2024 23:36:22            !//
+//!             Created: 20|04|2024 18:07:03            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -18,27 +18,31 @@ const int mod = 1e9 + 7;
 const int inf = 1e18;
 
 void solve() {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    for (int i = 0; i < n; i++) {
-        cin >> v[i];
+    int n, q;
+    cin >> n >> q;
+    vector<int> v(n + 1);
+    for (int i = 1; i <= q; i++) {
+        int x;
+        cin >> x;
+        v[x]++;
     }
-    int ans = 0, sum = v[0], mx[n + 1] = {0};
-    for (int i = 0; i < n; i++) {
-        sum += v[i];
-        if(i)
-            ans = min(ans, sum - mx[i - 1]);
-        mx[i] = max(mx[i - 1], sum);
+    int odd = 0, even = 0;
+    for(int i = 1; i <= n; i++){
+        if(v[i] > 0){
+            if(v[i] % 2 == 0)
+                even++;
+            else
+                odd++;
+        }
     }
-    int finalAns = sum - 2 * ans;
-    cout << finalAns << endl;
+    cout << n - odd << endl;
+    // cerr << odd << " " << even << endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

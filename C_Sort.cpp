@@ -1,11 +1,16 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 19|04|2024 23:36:22            !//
+//!             Created: 20|04|2024 18:12:27            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-
+#ifndef ONLINE_JUDGE
+#include "D:\Documents\debug.h"
+#else 
+#define dbg(x...)
+#define dbgc(x...)
+#endif
 using namespace std;
 
 #define int long long
@@ -20,25 +25,35 @@ const int inf = 1e18;
 void solve() {
     int n;
     cin >> n;
-    vector<int> v(n);
-    for (int i = 0; i < n; i++) {
+    vector<int> v(n + 1);
+    map<int, int> mp;
+    for (int i = 1; i <= n; i++) {
         cin >> v[i];
+        mp[v[i]] = i;
     }
-    int ans = 0, sum = v[0], mx[n + 1] = {0};
-    for (int i = 0; i < n; i++) {
-        sum += v[i];
-        if(i)
-            ans = min(ans, sum - mx[i - 1]);
-        mx[i] = max(mx[i - 1], sum);
+    dbg(v);
+    int ans = 0;
+    vector<pair<int, int>> p;
+    for (int i = 1; i <= n; i++) {
+        if (v[i] != i) {
+            p.push_back({i, mp[i]});
+            ans++;
+            swap(v[i], v[mp[i]]);
+            mp[v[mp[i]]] = mp[i];
+        }
+
+        dbg(v);
     }
-    int finalAns = sum - 2 * ans;
-    cout << finalAns << endl;
+    cout << ans << endl;
+    for (auto i : p) {
+        cout << i.first << " " << i.second << endl;
+    }
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

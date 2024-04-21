@@ -1,46 +1,63 @@
-//!-----------------------------------------------------!//
-//!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 19|04|2024 23:36:22            !//
-//!-----------------------------------------------------!//
-
-#pragma GCC optimize("O3")
+// C++ Program to implement
+// the above approach
 #include <bits/stdc++.h>
-
 using namespace std;
 
-#define int long long
-#define float long double
-#define vf(v) (v).begin(), (v).end()
-#define vr(v) (v).rbegin(), (v).rend()
-#define endl "\n"
+// Function to print the maximum rooks
+// and their positions
+int pos[1000][1000];
+void countRooks(int n, int k) {
+    int row[n] = {0};
+    int col[n] = {0};
 
-const int mod = 1e9 + 7;
-const int inf = 1e18;
+    // Initialize row and col array
+    for (int i = 0; i < n; i++) {
+        row[i] = 0;
+        col[i] = 0;
+    }
 
-void solve() {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    for (int i = 0; i < n; i++) {
-        cin >> v[i];
+    // Marking the location of
+    // already placed rooks
+    for (int i = 0; i < k; i++) {
+        row[pos[i][0] - 1] = 1;
+        col[pos[i][1] - 1] = 1;
     }
-    int ans = 0, sum = v[0], mx[n + 1] = {0};
-    for (int i = 0; i < n; i++) {
-        sum += v[i];
-        if(i)
-            ans = min(ans, sum - mx[i - 1]);
-        mx[i] = max(mx[i - 1], sum);
+
+    int res = n - k;
+
+    // Print number of non-attacking
+    // rooks that can be placed
+    cout << res << " " << endl;
+
+    // To store the placed rook
+    // location
+    int ri = 0, ci = 0;
+    while (res-- > 0) {
+        // Print lexicographically
+        // smallest order
+        while (row[ri] == 1) {
+            ri++;
+        }
+        while (col[ci] == 1) {
+            ci++;
+        }
+        cout << (ri + 1) << " " << (ci + 1) << " " << endl;
+        ri++;
+        ci++;
     }
-    int finalAns = sum - 2 * ans;
-    cout << finalAns << endl;
 }
 
-int32_t main() {
-    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
-    int t = 1;
-    cin >> t;
-    for (int i = 1; i <= t; i++) {
-        solve();
-    }
-    return 0;
+// Driver Code
+int main() {
+    // Size of board
+    int N;
+    cin >> N;
+    // Number of rooks already placed
+    int K = 0;
+
+    // Position of rooks
+
+    // Function call
+    countRooks(N, K);
 }
+// This code is contributed by shikhasingrajput

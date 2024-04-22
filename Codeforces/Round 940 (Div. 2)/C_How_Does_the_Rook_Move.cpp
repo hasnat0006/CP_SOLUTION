@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 12|04|2024 23:57:55            !//
+//!             Created: 22|04|2024 23:16:01            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -18,31 +18,28 @@ const int mod = 1e9 + 7;
 const int inf = 1e18;
 
 void solve() {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    for (int i = 0; i < n; i++)
-        cin >> v[i];
-    vector<int> ans;
-    ans.push_back(v[0]);
-    for (int i = 1; i < n; i++) {
-        if(ans.back() > v[i]){
-            int mx = ans.back();
-            while(ans.size() and ans.back() > v[i]){
-                ans.pop_back();
-            }
-            ans.push_back(mx);
-        }
-        else
-            ans.push_back(v[i]);
+    int n, k;
+    cin >> n >> k;
+    int left = n;
+    for (int i = 0; i < k; i++) {
+        int x, y;
+        cin >> x >> y;
+        left += (x == y) ? -1 : -2;
     }
-    cout << ans.size() << endl;
+    int dp[left + 5];
+    memset(dp, 0, sizeof(dp));
+    dp[0] = dp[1] = 1;
+    for(int i = 2; i <= left; i++){
+        dp[i] = (dp[i - 1] + ((2 * (i - 1) * dp[i - 2])) % mod) % mod;
+    }
+    cout << dp[left] << endl;
+
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

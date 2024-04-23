@@ -1,14 +1,14 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 23|04|2024 17:18:58            !//
+//!             Created: 23|04|2024 21:39:51            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-#define int   long long
+#define int long long
 #define float long double
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
@@ -17,51 +17,53 @@ using namespace std;
 const int mod = 1e9 + 7;
 const int inf = 1e18;
 
-vector<int> color;
-vector<int> adj[200005];
-vector<int> visited;
-vector<int> ans;
+map<int, char> input() {
+    map<int, char> A;
+    while (1) {
+        char c;
+        cin >> c;
+        if (c == 'E')
+            break;
+        if (c == 'D') {
+            int id;
+            cin >> id;
+            A.erase(id);
+        }
+        else if (c == 'I') {
+            int id;
+            char x;
+            cin >> id >> x;
 
-bool dfs(int src, int clr){
-    visited[src] = 1;
-    bool f = true;
-    for(auto i : adj[src]){
-        if(!visited[i]){
-            f &= dfs(i, color[i]);
+            vector<pair<int, char>> v;
+            for (auto i : A) {
+                if (i.first >= id)
+                    v.push_back({i.first, i.second});
+            }
+            A[id] = x;
+            for (auto i : v) {
+                A[i.first + 1] = i.second;
+            }
         }
     }
-    cerr << src << " " << clr << " " << f << endl;
-    if(f and (clr == 1 or clr == -1)){
-        ans.push_back(src);
+    for (auto i : A) {
+        cerr << i.second << " " << i.first << endl;
     }
-    return f;
+    return A;
 }
 
 void solve() {
-    int n, k, x;
-    cin >> n >> k;
-    color.resize(n + 1, 0);
-    visited.resize(n + 1, 0);
-    for(int i = 1; i <= k; i++){
-        cin >> x;
-        color[x] = 1;
-    }
-    for(int i = 0; i < n - 1; i++){
-        int u, v;
-        cin >> u >> v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
-    }
-    dfs(color.front(), -1);
-    cout << ans.size() << endl;
+    string a = "";
+    map<int, char> A = input();
+    map<int, char> B = input();
+    cout << (A == B ? 0 : 1) << endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    //cin >> t;
-    for (int i = 1; i <= t; i++){
-        solve(); 
+    // cin >> t;
+    for (int i = 1; i <= t; i++) {
+        solve();
     }
     return 0;
 }

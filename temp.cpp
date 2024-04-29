@@ -1,11 +1,16 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 23|04|2024 21:39:51            !//
+//!             Created: 23|04|2024 21:08:59            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-
+#ifndef ONLINE_JUDGE
+#include "D:\Documents\debug.h"
+#else
+#define dbg(x...)
+#define dbgc(x...)
+#endif
 using namespace std;
 
 #define int long long
@@ -16,46 +21,49 @@ using namespace std;
 
 const int mod = 1e9 + 7;
 const int inf = 1e18;
+const int N = 2e5 + 5;
 
-map<int, char> input() {
-    map<int, char> A;
-    while (1) {
-        char c;
-        cin >> c;
-        if (c == 'E')
-            break;
-        if (c == 'D') {
-            int id;
-            cin >> id;
-            A.erase(id);
-        }
-        else if (c == 'I') {
-            int id;
-            char x;
-            cin >> id >> x;
+map<int, int> white;
+vector<int> adj[N];
+vector<int> vis(N);
+map<int, int> cntwhite;
+set<int> ans;
 
-            vector<pair<int, char>> v;
-            for (auto i : A) {
-                if (i.first >= id)
-                    v.push_back({i.first, i.second});
-            }
-            A[id] = x;
-            for (auto i : v) {
-                A[i.first + 1] = i.second;
-            }
+void dfs(int src) {
+    vis[src] = 1;
+    int cnt = 0;
+    for (auto i : adj[src]) {
+        if (!vis[i]) {
+            dfs(i);
+            if (cntwhite[i])
+                cnt++;
+            cntwhite[src] += cntwhite[i];
         }
     }
-    for (auto i : A) {
-        cerr << i.second << " " << i.first << endl;
-    }
-    return A;
+    if (!white[src] and cnt >= (int)adj[src].size() - 1)
+        ans.insert(src);
 }
 
 void solve() {
-    string a = "";
-    map<int, char> A = input();
-    map<int, char> B = input();
-    cout << (A == B ? 0 : 1) << endl;
+    int n, k;
+    cin >> n >> k;
+    for (int i = 0; i < k; i++) {
+        int x;
+        cin >> x;
+        white[x]++, cntwhite[x]++;
+    }
+    for (int i = 1; i < n; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    dfs(white.begin()->first);
+    dbg(ans);
+    cout << ans.size() << endl;
+    for (auto i : ans)
+        cout << i << " ";
+    cout << endl;
 }
 
 int32_t main() {

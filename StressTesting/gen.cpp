@@ -105,17 +105,12 @@ const int max_tests = 10;
 
 // complete this function according to the requirements
 void generate_test() {
-    cout << 1 << endl;
     int n = rand(1, 10);
-    int adult = rand(1, n - 1);
-    int kid = rand(1, n - adult);
-    cout << n << ' ' << adult << ' ' << kid << endl;
-    vector<pair<int, int>> v(n);
-    for (int i = 0; i < n; i++) {
-        v[i].first = rand(1, 30);
-        v[i].second = rand(1, v[i].first);
-    }
-    cout << v;
+    int k = rand(1, 50);
+    vector<int> a = gen_array(n, 1, 50);
+    cout << 1 << endl;
+    cout << n << ' ' << k << '\n';
+    cout << a;
 }
 
 signed main() {

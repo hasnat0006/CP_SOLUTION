@@ -42,22 +42,22 @@ void solve() {
         // dbg(k, below_avg);
         int per = (k + BAS) / below_avg;
         per = min(per, *max_element(vf(a)));
-        // dbg(per, avg);
+        dbg(per, avg);
         for (int i = 0; i < n; i++) {
             if (a[i] < avg) {
                 k -= (per - a[i]);
                 a[i] = per;
             }
         }
-        // dbg(a);
+        dbg(a);
         for (int i = 0; i < n and k > 0; i++) {
             if (a[i] < avg) {
                 a[i]++;
                 k--;
             }
         }
-        // dbg(a);
-        // dbg(k);
+        dbg(a);
+        dbg(k);
     }
     int per = k / n;
     for (int i = 0; i < n; i++) {
@@ -77,7 +77,7 @@ void solve() {
     // dbg(k);
     int ans = cnt + 1 + (mn * n) - n;
     cout << ans << endl;
-    // dbg(a);
+    dbg(a);
 }
 
 int32_t main() {

@@ -1,77 +1,93 @@
-//!-----------------------------------------------------!//
-//!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 23|04|2024 21:08:59            !//
-//!-----------------------------------------------------!//
-
-#pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
 using namespace std;
 
-#define int long long
-#define float long double
-#define vf(v) (v).begin(), (v).end()
-#define vr(v) (v).rbegin(), (v).rend()
-#define endl "\n"
+class SymbolInfo {
+    string name, type;
 
-const int mod = 1e9 + 7;
-const int inf = 1e18;
-const int N = 2e5 + 5;
+   public:
+    SymbolInfo(string name, string type) {
+        this->name = name;
+        this->type = type;
+    }
+    void setValue(string name, string type) {
+        this->name = name, this->type = type;
+    }
+    string getName() { return name; }
+    string getType() { return type; }
+    void display() { cout << "<" << name << ", " << type << ">"; }
+};
 
-map<int, int> white;
-vector<int> adj[N];
-vector<int> vis(N);
-map<int, int> cntwhite;
-set<int> ans;
+class SymbolTable {
+    vector<SymbolInfo> table[5];
 
-void dfs(int src) {
-    vis[src] = 1;
-    int cnt = 0;
-    for (auto i : adj[src]) {
-        if (!vis[i]) {
-            dfs(i);
-            if (cntwhite[i])
-                cnt++;
-            cntwhite[src] += cntwhite[i];
+   public:
+    int getHashIndex(string s) {
+        int length = s.size();
+        return (length * 202214112) % 5;
+    }
+    pair<int, int> lookup(string name) {
+        int id = getHashIndex(name);
+        for (int j = 0; j < (int)table[id].size(); j++) {
+            if (table[id][j].getName() == name) {
+                return {id, j};
+            }
+        }
+        return {-1, -1};
+    }
+    void insert(SymbolInfo s) {
+        pair<int, int> temp = lookup(s.getName());
+        if (temp.first != -1 and temp.second != -1) {
+            cout << "Symbol Already Inserted" << endl;
+            return;
+        }
+        int id = getHashIndex(s.getName());
+        int idofid = table[id].size();
+        table[id].push_back(s);
+        cout << "Inserted at position " << id << ", " << idofid << endl;
+    }
+    void print() {
+        for (int i = 0; i < 5; i++) {
+            cout << i << "--> ";
+            for (int j = 0; j < (int)table[i].size(); j++) {
+                table[i][j].display();
+                cout << " ";
+            }
+            cout << endl;
         }
     }
-    if (!white[src] and cnt >= (int)adj[src].size() - 1)
-        ans.insert(src);
-}
-
-void solve() {
-    int n, k;
-    cin >> n >> k;
-    for (int i = 0; i < k; i++) {
-        int x;
-        cin >> x;
-        white[x]++, cntwhite[x]++;
+    void DELETE(string name) {
+        pair<int, int> temp = lookup(name);
+        if (temp.first != -1 and temp.second != -1)
+            table[temp.first].erase(table[temp.first].begin() + temp.second);
+        else
+            cout << "Symbol isnot present" << endl;
     }
-    for (int i = 1; i < n; i++) {
-        int u, v;
-        cin >> u >> v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
-    }
-    dfs(white.begin()->first);
-    dbg(ans);
-    cout << ans.size() << endl;
-    for (auto i : ans)
-        cout << i << " ";
-    cout << endl;
-}
+};
 
-int32_t main() {
-    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
-    int t = 1;
-    // cin >> t;
-    for (int i = 1; i <= t; i++) {
-        solve();
+int main() {
+    SymbolTable T;
+    while (1) {
+        char ty;
+        cin >> ty;
+        if (ty == 'I') {
+            string name, type;
+            cin >> name >> type;
+            SymbolInfo S(name, type);
+            T.insert(S);
+        }
+        else if (ty == 'P') {
+            T.print();
+        }
+        else if (ty == 'L') {
+            string s;
+            cin >> s;
+            T.lookup(s);
+        }
+        else if (ty == 'D') {
+            string s;
+            cin >> s;
+            T.DELETE(s);
+        }
     }
     return 0;
 }

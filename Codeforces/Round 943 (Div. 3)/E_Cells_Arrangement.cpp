@@ -25,25 +25,10 @@ const int inf = 1e18;
 void solve() {
     int n;
     cin >> n;
-    vector<pair<int, int>> ans;
-    for (int i = 1; i <= (n + 1) / 2; i += 2) {
-        ans.push_back({1, i});
-    }
-    dbg(ans);
-    ans.push_back({n, n});
-    int k = ans.size();
-    for (int i = k + 1, j = 1, id = n - 1; i <= n; i++, j++) {
-        if (j % 2)
-            ans.push_back({id, n});
-        else {
-            ans.push_back({id, 1});
-            id -= 2;
-        }
-    }
-    dbg(ans);
-    for(auto i : ans)
-        cout << i.first << " " << i.second << endl;
-    cout << endl;
+    for(int i = 1; i <= n; i++)
+        if(i != 2)
+            cout << i << " " << i << endl;
+    cout << 1 << " " << 2 << endl;
 }
 
 int32_t main() {

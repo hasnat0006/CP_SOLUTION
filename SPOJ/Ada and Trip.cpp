@@ -33,7 +33,7 @@ void solve() {
         int x;
         cin >> x;
         vector<int> dis(n + 1, inf);
-        auto dijkstra = [&] (int src){
+        auto dijkstra = [&](int src) {
             priority_queue<pairi, vector<pairi>, greater<pairi>> pq;
             dis[src] = 0;
             pq.push({0, src});

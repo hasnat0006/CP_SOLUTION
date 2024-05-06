@@ -1,13 +1,17 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 20|04|2024 16:22:35            !//
+//!             Created: 06|05|2024 19:05:22            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-
 using namespace std;
-
+#ifndef ONLINE_JUDGE
+#include "D:\Documents\debug.h"
+#else 
+#define dbg(x...)
+#define dbgc(x...)
+#endif
 #define int long long
 #define float long double
 #define vf(v) (v).begin(), (v).end()
@@ -17,58 +21,27 @@ using namespace std;
 const int mod = 1e9 + 7;
 const int inf = 1e18;
 
-typedef pair<int, int> pairi;
-
 void solve() {
-    int n, m, q;
-    cin >> n >> m >> q;
-    vector<vector<pairi>> adj(n + 1);
-    for (int i = 0; i < m; i++) {
-        int u, v, w;
-        cin >> u >> v >> w;
-        adj[u].push_back({v, w});
-        adj[v].push_back({u, w});
+    float here, tor;
+    cin >> here >> tor;
+    int ans = 1, hereDis = here, torDis = tor;
+    while (hereDis >= torDis and here > 0) {
+        here /= 2.0;
+        hereDis += here;
+        torDis += tor;
+        ans++;
     }
-    while (q--) {
-        int x;
-        cin >> x;
-        vector<int> dis(n + 1, inf);
-        auto dijkstra = [&] (int src){
-            priority_queue<pairi, vector<pairi>, greater<pairi>> pq;
-            dis[src] = 0;
-            pq.push({0, src});
-            while (pq.size()) {
-                auto top = pq.top();
-                pq.pop();
-                if (top.first != dis[top.second])
-                    continue;
-                for (auto i : adj[top.second]) {
-                    int v = i.first;
-                    int wt = i.second;
-                    if (dis[v] > dis[top.second] + wt) {
-                        dis[v] = dis[top.second] + wt;
-                        pq.push({dis[v], v});
-                    }
-                }
-            }
-        };
-        dijkstra(x);
-        int mx = 0;
-        unordered_map<int, int> cnt;
-        for (int i = 0; i < n; i++) {
-            if (dis[i] != inf)
-                mx = max(mx, dis[i]);
-            cnt[dis[i]]++;
-        }
-        cout << mx << " " << cnt[mx] << endl;
-    }
+    dbg(hereDis, torDis, ans, here, tor);
+    dbg((hereDis - torDis) / tor);
+    cout << ans << endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for (int i = 1; i <= t; i++) {
+        cout << "Case #" << i << ": ";
         solve();
     }
     return 0;

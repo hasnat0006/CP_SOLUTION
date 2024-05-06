@@ -1,90 +1,178 @@
-//!-----------------------------------------------------!//
-//!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 30|04|2024 21:43:06            !//
-//!-----------------------------------------------------!//
-
-#pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
 using namespace std;
+#define ll long long
+#define ld long double
+#define pll pair<ll, ll>
+#define nl "\n"
+#define printa(a, L, R)         \
+    for (int i = L; i < R; i++) \
+    cout << a[i] << (i == R - 1 ? '\n' : ' ')
+#define pb push_back
+#define UB upper_bound
+#define LB lower_bound
+#define F first
+#define S second
+#define mem(a, x) memset(a, x, sizeof(a))
+void __print(ll x) { cerr << x; }
+void __print(long x) { cerr << x; }
+void __print(unsigned x) { cerr << x; }
+void __print(unsigned long x) { cerr << x; }
+void __print(unsigned long long x) { cerr << x; }
+void __print(float x) { cerr << x; }
+void __print(double x) { cerr << x; }
+void __print(char x) { cerr << '\'' << x << '\''; }
+void __print(const char *x) { cerr << '"' << x << '"'; }
+void __print(const string &x) { cerr << '"' << x << '"'; }
+void __print(bool x) { cerr << (x ? "true" : "false"); }
+template <typename T, typename V>
+void __print(const pair<T, V> &x) {
+    cerr << '{';
+    __print(x.first);
+    cerr << ',';
+    __print(x.second);
+    cerr << '}';
+}
+template <typename T>
+void __print(const T &x) {
+    ll f = 0;
+    cerr << '{';
+    for (auto &i : x)
+        cerr << (f++ ? "," : ""), __print(i);
+    cerr << "}";
+}
+void _print() { cerr << ""; }
+template <typename T, typename... V>
+void _print(T t, V... v) {
+    __print(t);
+    if (sizeof...(v))
+        cerr << ", ";
+    _print(v...);
+}
+void _print(ll t) { cerr << t; }
+void _print(char t) { cerr << t; }
+void _print(float t) { cerr << t; }
+void _print(string t) { cerr << t; }
 
-#define int long long
-#define float long double
-#define vf(v) (v).begin(), (v).end()
-#define vr(v) (v).rbegin(), (v).rend()
-#define endl "\n"
-
-const int mod = 1e9 + 7;
-const int inf = 1e18;
-
-void solve() {
-    int n, k;
-    cin >> n >> k;
-    vector<int> a(n);
-    for (auto &i : a)
-        cin >> i;
-    int sum = accumulate(vf(a), 0LL);
-    int avg = (sum + k) / n;
-    int below_avg = 0, BAS = 0;
-    for (int i = 0; i < n; i++) {
-        if (a[i] < avg) {
-            below_avg++;
-            BAS += a[i];
-        }
+template <class T, class V>
+void _print(pair<T, V> p);
+template <class T>
+void _print(vector<T> v);
+template <class T>
+void _print(set<T> v);
+template <class T, class V>
+void _print(map<T, V> v);
+template <class T>
+void _print(multiset<T> v);
+template <class T, class V>
+void _print(pair<T, V> p) {
+    cerr << "{";
+    _print(p.first);
+    cerr << ",";
+    _print(p.second);
+    cerr << "}";
+}
+template <class T>
+void _print(vector<T> v) {
+    cerr << "[ ";
+    for (T i : v) {
+        _print(i);
+        cerr << " ";
     }
-    // BAS tai amr drkr;
-    if (below_avg != 0) {
-        // dbg(k, below_avg);
-        int per = (k + BAS) / below_avg;
-        per = min(per, *max_element(vf(a)));
-        // dbg(per, avg);
-        for (int i = 0; i < n; i++) {
-            if (a[i] < avg) {
-                k -= (per - a[i]);
-                a[i] = per;
-            }
-        }
-        // dbg(a);
-        for (int i = 0; i < n and k > 0; i++) {
-            if (a[i] < avg) {
-                a[i]++;
-                k--;
-            }
-        }
-        // dbg(a);
-        // dbg(k);
+    cerr << " ]";
+}
+template <class T>
+void _print(set<T> v) {
+    cerr << "[ ";
+    for (T i : v) {
+        _print(i);
+        cerr << " ";
     }
-    int per = k / n;
-    for (int i = 0; i < n; i++) {
-        a[i] += per;
-        k -= per;
+    cerr << " ]";
+}
+template <class T>
+void _print(multiset<T> v) {
+    cerr << "[ ";
+    for (T i : v) {
+        _print(i);
+        cerr << " ";
     }
-    for (int i = 0; i < n and k > 0; i++) {
-        a[i]++;
-        k--;
+    cerr << " ]";
+}
+template <class T, class V>
+void _print(map<T, V> v) {
+    cerr << "[ ";
+    for (auto i : v) {
+        _print(i);
+        cerr << " ";
     }
-    int mn = *min_element(vf(a));
-    int cnt = 0;
-    for (int i = 0; i < n; i++) {
-        if (a[i] > mn)
-            cnt++;
-    }
-    // dbg(k);
-    int ans = cnt + 1 + (mn * n) - n;
-    cout << ans << endl;
-    // dbg(a);
+    cerr << " ]";
 }
 
-int32_t main() {
-    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
-    int t = 1;
+#define debug(x...)                 \
+    cerr << "[ " << #x << " ] = ["; \
+    _print(x);                      \
+    cerr << " ]" << endl;
+ll cs;
+#define _case cout << "Case #" << ++cs << ": "
+#define rev(v) reverse(v.begin(), v.end())
+#define vf(v) (v).begin(), (v).end()
+#define vr(v) (v).rbegin(), (v).rend()
+#define mnv(v) *min_element(v.begin(), v.end())
+#define mxv(v) *max_element(v.begin(), v.end())
+#define dosomic(x) fixed << setprecision(x)
+const ll infi = 1e18;
+const ll mod = 1e9 + 7;
+const ll N = 1e5 + 3;
+float pi = acos(-1);
+// ll dx[]={1,0,-1,0,1,-1,-1,1};
+// ll dy[]={0,1,0,-1,1,1,-1,-1};
+ld binaryExp(ld base, ld power) {
+    ld res = 1;
+    while (power) {
+        if (power == 0)
+            res = (res * base);
+        base = ((base) * (base));
+        power /= 2;
+    }
+    return res;
+}
+ld power(ld a, ll b) {
+    ld res = 1;
+    while (b > 0) {
+        if (b & 1)
+            res = res * a;
+        a = a * a;
+        b >>= 1;
+    }
+    return res;
+}
+
+void solve() {
+    _case;
+    ll u, v;
+    cin >> u >> v;
+    ll l = 1, r = 1e18, mid, ans = -1;
+    while (l < r) {
+        // debug(l, r);
+        mid = l + (r - l) / 2;
+        int kh = u * (1 - power(0.5, mid)) * 2;
+        int ko = v * mid;
+        if (ko > kh) {
+            ans = mid;
+            r = mid;
+        }
+        else {
+            l = mid + 1;
+        }
+    }
+    cout << ans << endl;
+}
+int main() {
+    ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    ll t = 1;
     cin >> t;
-    for (int i = 1; i <= t; i++) {
+    // cin.ignore();
+    while (t--) {
         solve();
     }
     return 0;

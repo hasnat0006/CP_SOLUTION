@@ -65,7 +65,7 @@ vector<pair<int, int>> gen_tree(int n = 0) {
 vector<pair<int, int>> simple_graph(int n = 0, int m = 0) {
     assert(n > 0 && m >= n);
     int max_edges = n * (n - 1) / 2;
-    assert(m <= max_edges);
+    // assert(m <= max_edges);
     vector<pii> res = gen_tree(n);
     set<pii> edge(res.begin(), res.end());
     for (int i = n; i <= m; ++i) {
@@ -100,17 +100,14 @@ ostream &operator<<(ostream &other, const vector<pair<int, int>> &v) {
 }
 
 // comment the just below line if test cases required
-#define SINGLE_TEST
+// #define SINGLE_TEST
 const int max_tests = 10;
 
 // complete this function according to the requirements
 void generate_test() {
-    int n = rand(1, 10);
-    int k = rand(1, 50);
-    vector<int> a = gen_array(n, 1, 50);
-    cout << 1 << endl;
-    cout << n << ' ' << k << '\n';
-    cout << a;
+    int n = rand(1, 100000);
+    int m = rand(1, 100);
+    cout << n << ' ' << m << '\n';
 }
 
 signed main() {

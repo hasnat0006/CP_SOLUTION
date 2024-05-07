@@ -1,17 +1,13 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 06|05|2024 19:05:22            !//
+//!             Created: 07|05|2024 13:00:07            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
+
 using namespace std;
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else 
-#define dbg(x...)
-#define dbgc(x...)
-#endif
+
 #define int long long
 #define float long double
 #define vf(v) (v).begin(), (v).end()
@@ -22,26 +18,22 @@ const int mod = 1e9 + 7;
 const int inf = 1e18;
 
 void solve() {
-    float here, tor;
-    cin >> here >> tor;
-    int ans = 1, hereDis = here, torDis = tor;
-    while (hereDis >= torDis and here > 0) {
-        here /= 2.0;
-        hereDis += here;
-        torDis += tor;
-        ans++;
+    cout << "Hello World!" << endl;
+    int a = 10;
+    __int128 b = a + 100;
+    if (b > a) {
+        cout << "Yes" << endl;
     }
-    dbg(hereDis, torDis, ans, here, tor);
-    dbg((hereDis - torDis) / tor);
-    cout << ans << endl;
+    else {
+        cout << "No" << endl;
+    }
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for (int i = 1; i <= t; i++) {
-        cout << "Case #" << i << ": ";
         solve();
     }
     return 0;

@@ -18,15 +18,8 @@ const int mod = 1e9 + 7;
 const int inf = 1e18;
 
 void solve() {
-    cout << "Hello World!" << endl;
-    int a = 10;
-    __int128 b = a + 100;
-    if (b > a) {
-        cout << "Yes" << endl;
-    }
-    else {
-        cout << "No" << endl;
-    }
+    string s = "🥲";
+    cout << s << endl;
 }
 
 int32_t main() {

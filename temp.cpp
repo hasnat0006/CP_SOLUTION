@@ -19,7 +19,7 @@ const int inf = 1e18;
 
 void solve() { int n;
     cin >> n;
-    int x = 10var;
+    int x = 10;
 }
 
 int32_t main() {
@@ -27,7 +27,7 @@ int32_t main() {
     int t = 1;
     //cin >> t;
     for (int i = 1; i <= t; i++){
-        solve(); 
+        solve();
     }
     return 0;
 }

@@ -17,18 +17,22 @@ using namespace std;
 const int mod = 1e9 + 7;
 const int inf = 1e18;
 
-
 void solve() {
-    if(fork() && fork())
-        fork();
-    printf("HELLO");
+    int n;
+    cin >> n;
+    cout << 11 << endl;
 }
 
 int32_t main() {
+    #ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
     // cin >> t;
     for (int i = 1; i <= t; i++){
+        // cout << "Case " << i << ": ";
         solve();
     }
     return 0;

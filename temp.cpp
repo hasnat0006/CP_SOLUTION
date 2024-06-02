@@ -17,10 +17,32 @@ using namespace std;
 const int mod = 1e9 + 7;
 const int inf = 1e18;
 
+int factor(int n){
+    int a;
+    if (n % 2 == 0)
+        return 2;
+    for (a = 3; a <= sqrtl(n); a += 2){
+        if (n % a == 0)
+            return a;
+    }
+    return n;
+}
+
+
 void solve() {
     int n;
     cin >> n;
-    cout << 11 << endl;
+    map<int,int> cnt;
+    while(n > 1){
+        int r = factor(n);
+        cout << r << " ";
+        cnt[r]++;
+        n /= r;
+    }
+    int mx = 0;
+    for(auto i : cnt)
+        mx = max(mx, i.second);
+    cout << mx << endl;
 }
 
 int32_t main() {

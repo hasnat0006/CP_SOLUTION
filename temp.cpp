@@ -30,19 +30,30 @@ int factor(int n){
 
 
 void solve() {
-    int n;
+    int n, x, cnt = 0;
     cin >> n;
-    map<int,int> cnt;
-    while(n > 1){
-        int r = factor(n);
+
+    auto digitSum = [](int k){
+        int sum = 0;
+        while(k > 0){
+            sum += k % 10;
+            k /= 10;
+        }
+        return sum;
+    };
+
+    int k = 9777287520;
+    while(k > 1){
+        int r = factor(k);
         cout << r << " ";
-        cnt[r]++;
-        n /= r;
+        k /= r;
     }
-    int mx = 0;
-    for(auto i : cnt)
-        mx = max(mx, i.second);
-    cout << mx << endl;
+
+    for(int i = 0; i < n; i++){
+        cin >> x;
+        cnt += digitSum(x);
+    }
+    cout << (cnt % 3 == 0 ? "Yes" : "No") << endl;
 }
 
 int32_t main() {

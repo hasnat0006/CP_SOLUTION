@@ -17,43 +17,35 @@ using namespace std;
 const int mod = 1e9 + 7;
 const int inf = 1e18;
 
-int factor(int n){
-    int a;
-    if (n % 2 == 0)
-        return 2;
-    for (a = 3; a <= sqrtl(n); a += 2){
-        if (n % a == 0)
-            return a;
+int maxVal = 1005;
+vector<int> countDivisor(maxVal, 0);
+vector<pair<int,int>> ans;
+
+bool cmp(pair<int,int> a, pair<int,int> b){
+    if(a.first < b.first)
+        return true;
+    if(a.first == b.first){
+        if(a.second > b.second)
+            return true;
+        return false;
     }
-    return n;
+    return false;
+}
+
+void countingDivisor(){
+    for (int i = 1; i < maxVal; i++)
+        for(int j= i; j<maxVal;j+= i)
+            countDivisor[j]++;
+    for(int i = 1; i <= 1000; i++)
+        ans.push_back({countDivisor[i], i});
+    sort(vf(ans),cmp);
 }
 
 
 void solve() {
-    int n, x, cnt = 0;
+    int n;
     cin >> n;
-
-    auto digitSum = [](int k){
-        int sum = 0;
-        while(k > 0){
-            sum += k % 10;
-            k /= 10;
-        }
-        return sum;
-    };
-
-    int k = 9777287520;
-    while(k > 1){
-        int r = factor(k);
-        cout << r << " ";
-        k /= r;
-    }
-
-    for(int i = 0; i < n; i++){
-        cin >> x;
-        cnt += digitSum(x);
-    }
-    cout << (cnt % 3 == 0 ? "Yes" : "No") << endl;
+    cout << ans[n - 1].second << endl;
 }
 
 int32_t main() {
@@ -63,9 +55,13 @@ int32_t main() {
     #endif
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    // cin >> t;
+    countingDivisor();
+    // for(auto i : ans){
+    //     cout << i.second << " -> " << i.first << endl;
+    // }
+    cin >> t;
     for (int i = 1; i <= t; i++){
-        // cout << "Case " << i << ": ";
+        cout << "Case " << i << ": ";
         solve();
     }
     return 0;

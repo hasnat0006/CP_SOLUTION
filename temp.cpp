@@ -1,10 +1,10 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 13|05|2024 00:18:39            !//
+//!             Created: 12|06|2024 21:56:34            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -17,51 +17,31 @@ using namespace std;
 const int mod = 1e9 + 7;
 const int inf = 1e18;
 
-int maxVal = 1005;
-vector<int> countDivisor(maxVal, 0);
-vector<pair<int,int>> ans;
-
-bool cmp(pair<int,int> a, pair<int,int> b){
-    if(a.first < b.first)
-        return true;
-    if(a.first == b.first){
-        if(a.second > b.second)
-            return true;
-        return false;
-    }
-    return false;
-}
-
-void countingDivisor(){
-    for (int i = 1; i < maxVal; i++)
-        for(int j= i; j<maxVal;j+= i)
-            countDivisor[j]++;
-    for(int i = 1; i <= 1000; i++)
-        ans.push_back({countDivisor[i], i});
-    sort(vf(ans),cmp);
-}
-
-
 void solve() {
-    int n;
-    cin >> n;
-    cout << ans[n - 1].second << endl;
+    int a, b, x, y;
+    cin >> a >> b >> x >> y;
+    int ansA, ansB;
+    if (a < x or b < y) {
+        cout << 0 << " " << 0 << endl;
+        return;
+    }
+    ansA = x, ansB = y;
+    for (int i = 1; ansA <= a and ansB <= b; i++) {
+        if (x * i <= a and y * i <= b) {
+            ansA = x * i;
+            ansB = y * i;
+        }
+        else
+            break;
+    }
+    cout << ansA << " " << ansB << endl;
 }
 
 int32_t main() {
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    countingDivisor();
-    // for(auto i : ans){
-    //     cout << i.second << " -> " << i.first << endl;
-    // }
-    cin >> t;
-    for (int i = 1; i <= t; i++){
-        cout << "Case " << i << ": ";
+    // cin >> t;
+    for (int i = 1; i <= t; i++) {
         solve();
     }
     return 0;

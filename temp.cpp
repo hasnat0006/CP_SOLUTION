@@ -1,11 +1,10 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 12|06|2024 21:56:34            !//
+//!             Created: 12|06|2024 22:24:53            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-
 using namespace std;
 
 #define int long long
@@ -14,34 +13,41 @@ using namespace std;
 #define vr(v) (v).rbegin(), (v).rend()
 #define endl "\n"
 
-const int mod = 1e9 + 7;
-const int inf = 1e18;
+int mod = 1000000007;
+int inf = 1e18;
 
-void solve() {
-    int a, b, x, y;
-    cin >> a >> b >> x >> y;
-    int ansA, ansB;
-    if (a < x or b < y) {
-        cout << 0 << " " << 0 << endl;
-        return;
-    }
-    ansA = x, ansB = y;
-    for (int i = 1; ansA <= a and ansB <= b; i++) {
-        if (x * i <= a and y * i <= b) {
-            ansA = x * i;
-            ansB = y * i;
+bool prime[1000000005];
+void sieve(int n = 1000000000) {
+    for (int i = 2; i <= n; i++)
+        prime[i] = 1;
+    for (int i = 4; i <= n; i += 2)
+        prime[i] = 0;
+    for (int i = 3; i * i <= n; i++) {
+        if (prime[i]) {
+            for (int j = i * i; j <= n; j += i * 2)
+                prime[j] = 0;
         }
-        else
-            break;
     }
-    cout << ansA << " " << ansB << endl;
+    vector<int> primes;
+    for (int i = 2; i <= n; i++) {
+        if (prime[i]) {
+            primes.push_back(i);
+        }
+    }
+    for(auto x: primes)
+        cout << x << " ";
+    cout << endl;
+    cout << primes.size() << endl;
 }
+
+void solve() { sieve(); }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
     // cin >> t;
     for (int i = 1; i <= t; i++) {
+        cout << "Case " << i << ": " << endl;
         solve();
     }
     return 0;

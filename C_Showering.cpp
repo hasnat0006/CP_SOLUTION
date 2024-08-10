@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 29|07|2024 22:48:57            !//
+//!             Created: 06|08|2024 20:48:52            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -17,28 +17,33 @@ using namespace std;
 const int mod = 1e9 + 7;
 const int inf = 1e18;
 
-/*
-
-*/
-
 void solve() {
-    for (int cnt1 = 0; cnt1 < 26; cnt1++) {
-        for (int cnt2 = 0; cnt2 < 26; cnt2++) {
-            for (int cnt3 = 0; cnt3 < 26; cnt3++){
-                for (int cnt4 = 0; cnt4 < 26; cnt4++){
-                    cout << (char)('a' + cnt1) << (char)('a' + cnt2)
-                         << (char)('a' + cnt3) << (char)('a' + cnt4) << "2368"<< endl;
-                }
-            }
+    int n, s, m;
+    cin >> n >> s >> m;
+    vector<pair<int,int>> a(n + 1);
+    a[0] = {0, 0};
+    for (int i = 1; i <= n; i++) {
+        cin >> a[i].first >> a[i].second;
+    }
+    a.push_back({m, 0});
+    sort(vf(a));
+    for (int i = 0; i < a.size() - 1; i++){
+        int pre = a[i].second;
+        int nxt = a[i + 1].first;
+        // cout << pre << " " << nxt << endl;
+        // cout << nxt + 1 - pre << endl;
+        if(nxt - pre >= s){
+            cout << "YES" << endl;
+            return;
         }
     }
+    cout << "NO" << endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    // cin >> t;
-    freopen("output.txt", "w", stdout);
+    cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

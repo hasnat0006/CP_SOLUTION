@@ -1,16 +1,11 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 19|08|2024 11:42:14            !//
+//!             Created: 19|08|2024 21:22:46            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
+
 using namespace std;
 
 #define int long long
@@ -28,28 +23,33 @@ void solve() {
     vector<int> a(n);
     for (auto &i : a)
         cin >> i;
-    int ans = 0, ind = n - 1;
-    while (ind > 0 && a[ind - 1] > a[ind])
-        ind--;
-    for (int i = ind; i > 0; i--) {
-        if (a[i - 1] <= a[i]) {
-            ans += a[i] - a[i - 1] + 1;
-            a[i] = a[i - 1] - 1;
-        }
-        else {
-            a[i - 1] = max(a[i], a[i - 1] - ans);
-            if (a[i - 1] == a[i])
-                ans++;
-        }
+    sort(vf(a));
+    int sum = accumulate(vf(a), 0LL);
+    int perServer = sum / n;
+    int ans = 0;
+    for (int i = 0; i < n; i++) {
+        if (a[i] < perServer)
+            ans += perServer - a[i];
     }
-    ans += a[0];
-    cout << ans << "\n";
+    int cnt = 0;
+    for (int i = n - 1; i >= 0; i--) {
+        if (a[i] > perServer)
+            cnt++;
+        else
+            break;
+    }
+    if (cnt >= (sum % n))
+        cout << ans << endl;
+    else{
+        ans = ans + (sum % n) - cnt;
+        cout << ans << endl;
+    }
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

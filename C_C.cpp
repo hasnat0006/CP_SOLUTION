@@ -1,13 +1,13 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 19|08|2024 11:42:14            !//
+//!             Created: 19|08|2024 21:08:43            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
 #ifndef ONLINE_JUDGE
 #include "D:\Documents\debug.h"
-#else
+#else 
 #define dbg(x...)
 #define dbgc(x...)
 #endif
@@ -22,34 +22,51 @@ using namespace std;
 const int mod = 1e9 + 7;
 const int inf = 1e18;
 
+bool prime[1000005];
+void sieve() {
+    for (int i = 2; i <= 1000005; i++)
+        prime[i] = 1;
+    for (int i = 4; i <= 1000005; i += 2)
+        prime[i] = 0;
+    for (int i = 3; i * i <= 1000005; i++) {
+        if (prime[i]) {
+            for (int j = i * i; j <= 1000005; j += i * 2)
+                prime[j] = 0;
+        }
+    }
+}
+
 void solve() {
     int n;
     cin >> n;
-    vector<int> a(n);
-    for (auto &i : a)
-        cin >> i;
-    int ans = 0, ind = n - 1;
-    while (ind > 0 && a[ind - 1] > a[ind])
-        ind--;
-    for (int i = ind; i > 0; i--) {
-        if (a[i - 1] <= a[i]) {
-            ans += a[i] - a[i - 1] + 1;
-            a[i] = a[i - 1] - 1;
+    int N = n;
+    int ans = 0, num = 1;
+    for (int i = 0; i <= 20; i++) {
+        if (prime[N]) {
+            ans++;
+            N = 0;
+            break;
         }
-        else {
-            a[i - 1] = max(a[i], a[i - 1] - ans);
-            if (a[i - 1] == a[i])
-                ans++;
+        int num = 1 << i;
+        int dam = num;
+        if (dam <= N) {
+            ans++;
+            N -= dam;
         }
+        else
+            break;
     }
-    ans += a[0];
-    cout << ans << "\n";
+    if(N == 0)
+        cout << ans << endl;
+    else
+        cout << -1 << endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
     cin >> t;
+    sieve();
     for (int i = 1; i <= t; i++) {
         solve();
     }

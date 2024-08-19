@@ -1,13 +1,13 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 19|08|2024 11:42:14            !//
+//!             Created: 19|08|2024 21:50:00            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
 #ifndef ONLINE_JUDGE
 #include "D:\Documents\debug.h"
-#else
+#else 
 #define dbg(x...)
 #define dbgc(x...)
 #endif
@@ -28,28 +28,27 @@ void solve() {
     vector<int> a(n);
     for (auto &i : a)
         cin >> i;
-    int ans = 0, ind = n - 1;
-    while (ind > 0 && a[ind - 1] > a[ind])
-        ind--;
-    for (int i = ind; i > 0; i--) {
-        if (a[i - 1] <= a[i]) {
-            ans += a[i] - a[i - 1] + 1;
-            a[i] = a[i - 1] - 1;
+    int cnt = 0;
+    while (1) {
+        vector<int> temp;
+        for (int i = 1; i < a.size() - 1; i++) {
+            int x = min({a[i - 1], a[i] - 1, a[i + 1]});
+            if (x > 0)
+                temp.push_back(x);
         }
-        else {
-            a[i - 1] = max(a[i], a[i - 1] - ans);
-            if (a[i - 1] == a[i])
-                ans++;
-        }
+        cnt++;
+        if (temp.empty())
+            break;
+        a = temp;
+        dbg(a);
     }
-    ans += a[0];
-    cout << ans << "\n";
+    cout << cnt << endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

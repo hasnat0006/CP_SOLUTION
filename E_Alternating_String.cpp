@@ -33,35 +33,18 @@ void solve() {
         vector<vector<int>> vOdd(n, vector<int>(26, 0)),
             vEven(n, vector<int>(26, 0));
         for (int i = 0; i < n; i++) {
-            if (i % 2) {
-                // dbg(i, s[i]);
-                vOdd[i][s[i] - 'a']++;
-            }
-            else {
-                // dbg(i, s[i]);
-                vEven[i][s[i] - 'a']++;
-            }
+            i % 2 ? vOdd[i][s[i] - 'a']++ : vEven[i][s[i] - 'a']++;
         }
         vector<vector<int>> dpOddSuff(n, vector<int>(26, 0)),
             dpEvenSuff(n, vector<int>(26, 0));
-        // dbg(vOdd);
-        // dbg(vEven);
         dpOddSuff[n - 1] = vOdd[n - 1];
         dpEvenSuff[n - 1] = vEven[n - 1];
         for (int i = n - 2; i >= 0; i--) {
-            // dbg(dpOddSuff[i + 1]);
-            // dbg(vOdd[i]);
-            // dbg(dpEvenSuff[i + 1]);
-            // dbg(vEven[i]);
             for (int j = 0; j < 26; j++) {
                 dpOddSuff[i][j] += dpOddSuff[i + 1][j] + vOdd[i][j];
-                // dbg(dpOddSuff[i][j], dpOddSuff[i + 1][j], vOdd[i][j]);
                 dpEvenSuff[i][j] = dpEvenSuff[i + 1][j] + vEven[i][j];
-                // dbg(dpEvenSuff[i][j], dpEvenSuff[i + 1][j], vEven[i][j]);
             }
         }
-        // dbg(dpEvenSuff);
-        // dbg(dpOddSuff);
         vector<vector<int>> dpOddPre(n, vector<int>(26, 0)),
             dpEvenPre(n, vector<int>(26, 0));
 
@@ -85,9 +68,6 @@ void solve() {
             int mx1 = *max_element(vf(EVEN));
             int mx2 = *max_element(vf(ODD));
             ans = min(ans, (n - mx1 - mx2));
-            dbg(EVEN);
-            dbg(ODD);
-            dbg(ans);
         }
         vector<int> EVEN(26, 0), ODD(26, 0);
         if (n >= 2) {
@@ -97,9 +77,6 @@ void solve() {
         int mx1 = *max_element(vf(EVEN));
         int mx2 = *max_element(vf(ODD));
         ans = min(ans, (n - mx1 - mx2));
-        dbg(EVEN);
-        dbg(ODD);
-        dbg(ans);
         EVEN.clear();
         ODD.clear();
         if (n >= 2) {
@@ -109,9 +86,6 @@ void solve() {
         mx1 = *max_element(vf(EVEN));
         mx2 = *max_element(vf(ODD));
         ans = min(ans, (n - mx1 - mx2));
-        dbg(EVEN);
-        dbg(ODD);
-        dbg(ans);
         cout << ans << endl;
     }
     else {
@@ -137,7 +111,6 @@ int32_t main() {
     cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
-        dbg("-----------------");
     }
     return 0;
 }

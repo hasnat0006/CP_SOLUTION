@@ -18,14 +18,23 @@ const int mod = 1e9 + 7;
 const int inf = 1e18;
 
 
+vector<string> input; 
+
+int findAns(int i, int wt, int n){
+    
+}
+
 
 void solve() {
     int n, m;
     cin >> n >> m;
+    input.clear();
+    input.resize(n);
     string s;
     for(int i = 0; i < n; i++){
         string temp;
         cin >> temp;
+        input[i] = temp;
         s += temp;
     }
     cout << s << endl;
@@ -52,10 +61,7 @@ void solve() {
             il = 0;
         }
     }
-    int AMI = cnt * 5;
-    int GPT = totalCnt - AMI;
-    // cout<< totalCnt << " " << AMI << " " << GPT << endl;
-    cout << max(0ll, AMI - GPT) << endl;
+    // nibo nibo na concept;
 }
 
 int32_t main() {

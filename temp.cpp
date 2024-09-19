@@ -1,7 +1,9 @@
+
+clc;
 %time parameter
 fs=1000;
 t=linspace(0,1,1000);   %time vector
-
+    
 %message signal parameter
 fm=10; % message signal freq
 Am=1; % message signal amp
@@ -12,9 +14,9 @@ message_signal= Am*sin(2*pi*fm.*t);
 fc=100; %carrier signal freq
 Ac=2; %carrier signal amp
 carrier_signal=Ac*sin(2*pi*fc.*t);
-
+kf=25;
 %modulated signal
-modulated_signal=(1+message_signal).*carrier_signal;
+modulated_signal=Ac*sin(2 * pi * fc .* t + kf * message_signal);
 
 
 %plotting
@@ -40,9 +42,10 @@ grid on;
 
 
 %demodulation
+demodulated_signal=[diff(modulated_signal) 0]*fs;
 
 %1.rectification
-rectified_signal=abs(modulated_signal);
+rectified_signal=abs(demodulated_signal);
 figure;
 subplot(2,1,1);
 plot(t,modulated_signal);
@@ -67,7 +70,7 @@ normalized_cutoff_freq=cutoff_freq/nyquist_freq;
 [b,a]=butter(order,normalized_cutoff_freq,'low');
 
 %apply the low pass filter to the rectified signal
-filtered_signal=filter(b,a,rectified_signal);
+filtered_signal=filtfilt(b,a,rectified_signal);
 
 figure;
 subplot(2,1,1);
@@ -84,6 +87,19 @@ ylabel('Amplitude');
 grid on;
 
 
+figure;
+subplot(2,1,1);
+plot(t,demodulated_signal);
+title('Demodulated signal');
+xlabel('Time(s)');
+ylabel('Amplitude');
+grid on;
+subplot(2,1,2);
+plot(t,filtered_signal);
+title('Filtered signal');
+xlabel('Time(s)');
+ylabel('Amplitude');
+grid on;
 
 
 

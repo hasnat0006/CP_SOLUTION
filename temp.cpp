@@ -1,50 +1,92 @@
-//!-----------------------------------------------------!//
-//!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 18|09|2024 02:41:13            !//
-//!-----------------------------------------------------!//
+%time parameter
+fs=1000;
+t=linspace(0,1,1000);   %time vector
 
-#pragma GCC optimize("O3")
-#include <bits/stdc++.h>
+%message signal parameter
+fm=10; % message signal freq
+Am=1; % message signal amp
+message_signal= Am*sin(2*pi*fm.*t);
 
-using namespace std;
 
-#define int long long
-#define float long double
-#define vf(v) (v).begin(), (v).end()
-#define vr(v) (v).rbegin(), (v).rend()
-#define endl "\n"
+%carrier signal parameter
+fc=100; %carrier signal freq
+Ac=2; %carrier signal amp
+carrier_signal=Ac*sin(2*pi*fc.*t);
 
-const int mod = 1e9 + 7;
-const int inf = 1e18;
+%modulated signal
+modulated_signal=(1+message_signal).*carrier_signal;
 
-void solve() {
-    int n, k;
-    cin >> n >> k;
 
-    auto rangeSum = [&](int l, int r) {
-        return (r * (r + 1) / 2) - (l * (l - 1) / 2);
-    };
+%plotting
+figure;
+subplot(3,1,1);
+plot(t,message_signal);
+title('Message signal');
+xlabel('Time(s)');
+ylabel('Amplitude');
+grid on;
+subplot(3,1,2);
+plot(t,carrier_signal);
+title('Carrier signal');
+xlabel('Time(s)');
+ylabel('Amplitude');
+grid on;
+subplot(3,1,3);
+plot(t,modulated_signal);
+title('Modulated signal');
+xlabel('Time(s)');
+ylabel('Amplitude');
+grid on;
 
-    int low = k, high = k + n - 1, ans = inf;
-    while (low <= high) {
-        int mid = (low + high) / 2;
-        int sum1 = rangeSum(k, mid);
-        int sum2 = rangeSum(mid + 1, k + n - 1);
-        ans = min(ans, abs(sum1 - sum2));
-        if (sum1 > sum2)
-            high = mid - 1;
-        else
-            low = mid + 1;
-    }
-    cout << ans << endl;
-}
 
-int32_t main() {
-    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
-    int t = 1;
-    cin >> t;
-    for (int i = 1; i <= t; i++) {
-        solve();
-    }
-    return 0;
-}
+%demodulation
+
+%1.rectification
+rectified_signal=abs(modulated_signal);
+figure;
+subplot(2,1,1);
+plot(t,modulated_signal);
+title('Modulated signal');
+xlabel('Time(s)');
+ylabel('Amplitude');
+grid on;
+subplot(2,1,2);
+plot(t,rectified_signal);
+title('Rectified signal');
+xlabel('Time(s)');
+ylabel('Amplitude');
+grid on;
+
+%2.low pass filter
+%low pass filter parameter
+cutoff_freq=20;
+%design
+order=4;  %filter order
+nyquist_freq=fs/2;
+normalized_cutoff_freq=cutoff_freq/nyquist_freq;
+[b,a]=butter(order,normalized_cutoff_freq,'low');
+
+%apply the low pass filter to the rectified signal
+filtered_signal=filter(b,a,rectified_signal);
+
+figure;
+subplot(2,1,1);
+plot(t,rectified_signal);
+title('Rectified signal');
+xlabel('Time(s)');
+ylabel('Amplitude');
+grid on;
+subplot(2,1,2);
+plot(t,filtered_signal);
+title('Filtered signal');
+xlabel('Time(s)');
+ylabel('Amplitude');
+grid on;
+
+
+
+
+
+
+
+

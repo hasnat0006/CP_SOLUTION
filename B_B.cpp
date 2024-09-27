@@ -17,38 +17,33 @@ using namespace std;
 const int mod = 1e9 + 7;
 const int inf = 1e18;
 
-// smallest prime factor of a number.
-int factors(int n) {
-    if (n % 2 == 0)
-        return 2;
-    for (int a = 3; a <= sqrt(n); a++) {
-        if (n % a == 0)
-            return a;
-    }
-    return n;
-}
-// complete factorization. call the remaining part in main function
 
 void solve() {
     int n;
     cin >> n;
-    vector<int> a(n);
-    for (int i = 0; i < n; i++) {
-        int x;
-        cin >> x;
-        // here n is the number to be factorized
-        while (x > 1) {
-            int r = factors(x);
-            if (r == 2)
-                a[i]++;
-            x /= r;
-        }
+    string s = "";
+    for(int i = 0; i < n; i++){
+        s.push_back('z');
     }
-    cout << *min_element(vf(a)) << endl;
+    cout << "? " << s << endl;
+    int x;
+    cin >> x;
+    string ans = "";
+    for(int i = 0; i < n; i++){
+        s[i] = 'a';
+        cout << "? " << s << endl;
+        int y;
+        cin >> y;
+        int temp = (25 - (x - y)) / 2;
+        s[i] = 'a' + temp;
+        x = x - 25 + temp;
+    }
+    cout << "! " << s << endl;
+
 }
 
 int32_t main() {
-    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
+    // ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
     // cin >> t;
     for (int i = 1; i <= t; i++) {

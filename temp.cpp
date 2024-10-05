@@ -1,16 +1,10 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 04|10|2024 22:27:12            !//
+//!             Created: 05|10|2024 23:22:01            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
 using namespace std;
 
 #define int long long
@@ -22,47 +16,71 @@ using namespace std;
 const int mod = 1e9 + 7;
 const int inf = 1e18;
 
-set<string> st;
-
-void isConsicutive(string s) {
-    dbg(s);
-    for (int len = 1; len <= 12 / 2; len++) {
-        int f = 1;
-        int k = 0;
-        for (int KK = k + len; KK < 12; KK++) {
-            if (s[k] != s[KK]) {
-                f = 0;
-                break;
-            }
-            k++;
-            k %= len;
-        }
-        if(f){
-            st.insert(s);
-        }
-    }
-}
-
 void solve() {
-    int n = 12;
-    int num = 1 << n;
-    // isConsicutive("10111011");
-    for (int i = 0; i < num; i++) {
-        // cout << bitset<12>(i) << endl;
-        string s = bitset<12>(i).to_string();
-        isConsicutive(s);
+    int n;
+    cin >> n;
+    vector<pair<float, float>> v(n);
+    for (int i = 0; i < n; i++) {
+        cin >> v[i].first >> v[i].second;
     }
-    cout << st.size() << endl;
-    for(auto x: st){
-        cout << x << endl;
+    // int ans = 0;
+    for (int i = 0; i < n - 1; i++) {
+        if (v[i + 1].second <= v[i].first) {
+            cout << -1ll << endl;
+            return;
+        }
     }
+    float low = 0, high = n, ans = 0;
+    for (int i = 0; i < n; i++) {
+        float time1 = 0;
+        if (v[i].first == 0)
+            time1 = n;
+        else
+            time1 = ((float)i + 1) / v[i].first;
+        float time2 = ((float)i + 1) / v[i].second;
+        low = min({low, time1, time2});
+        high = max({low, time1, time2});
+    }
+    low -= 0.5, high += 0.5;
+    while (high - low > 1e-6) {
+        float mid = (low + high) / 2;
+        int f = 0;
+        for (int i = 0; i < n; i++) {
+            float time = ((float)i + 1) / mid;
+            if (time >= v[i].first and time <= v[i].second) {
+                continue;
+            }
+            else if (time < v[i].first) {
+                // time komaite hobe
+                f = 1;
+            }
+            else {
+                // time baraite hobe
+                f = 2;
+            }
+        }
+        if (f == 1) {
+            high = mid;
+        }
+        else if (f == 2) {
+            low = mid;
+        }
+        else {
+            high = mid;
+            ans = mid;
+        }
+    }
+    cout << fixed << setprecision(6) << high << endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for (int i = 1; i <= t; i++) {
+        cout << "Case #" << i << ": ";
         solve();
     }
     return 0;

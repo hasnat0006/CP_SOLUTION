@@ -1,63 +1,88 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 10|05|2024 21:22:27            !//
+//!             Created: 06|10|2024 10:16:33            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
 using namespace std;
-
-#define int long long
 #define float long double
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 #define endl "\n"
 
-const int mod = 1e9 + 7;
-const int inf = 1e18;
+int mod = 1000000007;
+int inf = 1e18;
 
 void solve() {
-    int n, k, q;
-    cin >> n >> k >> q;
-    vector<int> point(k + 1, 0);
-    for (int i = 1; i <= k; i++) {
-        cin >> point[i];
+    int n, m;
+    string a, b, s;
+    set<string> ans;
+    cin >> a >> b;
+    n = a.size(), m = b.size();
+    if (n <= m)
+        s = a;
+    else {
+        s = b;
+        swap(a, b);
+        swap(n, m);
     }
-    map<int, int> time;
-    for (int i = 1; i <= k; i++) {
-        int x;
-        cin >> x;
-        time[point[i]] = x;
-    }
-    vector<int> ans;
-    while (q--) {
-        int x;
-        cin >> x;
-        int id = lower_bound(vf(point), x) - point.begin();
-        if (point[id] == x) {
-            ans.push_back(time[x]);
+    for (int i = 0; i < m; i++)
+        s.push_back('?');
+    ans.insert(s);
+    int cnt = 0;
+    for (int len = n; len >= 0; len--) {
+        for (auto st : ans) {
+            string temp = st;
+            for (int cholbe = 0; cholbe < m; cholbe++) {
+                for (int i = n - 1 + cholbe; i >= n - len; i--)
+                    swap(temp[i], temp[i + 1]);
+                int id = 0;
+                for (int j = 0; j < temp.size(); j++)
+                    if (temp[j] == a[id])
+                        id++;
+                if (id == n)
+                    ans.insert(temp);
+            }
         }
-        else {
-            float leftVal = point[id - 1];
-            float rightVal = point[id];
-            float leftTime = time[leftVal];
-            float rightTime = time[rightVal];
-            float veg = ((rightTime - leftTime) / (rightVal - leftVal));
-            int res = leftTime + ((x - leftVal) * ((rightTime - leftTime) /
-                                                   (rightVal - leftVal)));
-            // dbg(leftVal, rightVal, leftTime, rightTime, veg, res);
-            ans.push_back(res);
+    }
+    for (int len = n; len >= 0; len--) {
+        for (auto st : ans) {
+            string temp = st;
+            for (int cholbe = 0; cholbe < m; cholbe++) {
+                for (int i = n - 1 + cholbe; i >= n - len; i--)
+                    swap(temp[i], temp[i + 1]);
+                int id = 0;
+                for (int j = 0; j < temp.size(); j++)
+                    if (temp[j] == a[id])
+                        id++;
+                if (id == n)
+                    ans.insert(temp);
+            }
         }
     }
-    for (auto i : ans)
-        cout << i << " ";
-    cout << endl;
+    set<string> paisi;
+    for (auto st : ans) {
+        int id = 0;
+        for (int j = 0; j < st.size(); j++)
+            if (st[j] == a[id])
+                id++;
+        if (id == n)
+            paisi.insert(st);
+    }
+    set<string> finalAns;
+    for (auto st : paisi) {
+        int id = 0;
+        for (int i = 0; i < st.size(); i++) {
+            if (st[i] == '?') {
+                st[i] = b[id++];
+            }
+        }
+        finalAns.insert(st);
+    }
+    for (auto i : finalAns) {
+        cout << i << endl;
+    }
 }
 
 int32_t main() {
@@ -66,6 +91,7 @@ int32_t main() {
     cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
+        cout << endl;
     }
     return 0;
 }

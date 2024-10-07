@@ -101,11 +101,11 @@ ostream &operator<<(ostream &other, const vector<pair<int, int>> &v) {
 
 // comment the just below line if test cases required
 // #define SINGLE_TEST
-const int max_tests = 100;
+const int max_tests = 10;
 
 // complete this function according to the requirements
 void generate_test() {
-    cout << "?????" << '\n';
+    cout << gen_string(5, false, 0, 4) << " " << gen_string(5, false, 0, 4) << '\n';
 }
 
 signed main() {

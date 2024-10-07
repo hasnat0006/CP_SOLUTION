@@ -1,10 +1,11 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 05|10|2024 23:22:01            !//
+//!             Created: 06|10|2024 00:44:53            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
+
 using namespace std;
 
 #define int long long
@@ -16,67 +17,47 @@ using namespace std;
 const int mod = 1e9 + 7;
 const int inf = 1e18;
 
+int prime[10010105];
+vector<int> allPrimes;
+map<int, int> mp;
+void sieve(int n) {
+    for (int i = 2; i <= n; i++)
+        prime[i] = 1;
+    for (int i = 4; i <= n; i += 2)
+        prime[i] = 0;
+    for (int i = 3; i * i <= n; i++) {
+        if (prime[i]) {
+            for (int j = i * i; j <= n; j += i * 2)
+                prime[j] = 0;
+        }
+    }
+    for (int i = 2; i <= n; i++) {
+        if (prime[i]) {
+            allPrimes.push_back(i);
+            mp[i] = 1;
+        }
+    }
+}
+
+
 void solve() {
     int n;
     cin >> n;
-    vector<pair<float, float>> v(n);
-    for (int i = 0; i < n; i++) {
-        cin >> v[i].first >> v[i].second;
-    }
-    // int ans = 0;
-    for (int i = 0; i < n - 1; i++) {
-        if (v[i + 1].second <= v[i].first) {
-            cout << -1ll << endl;
-            return;
+    int ans = 0;
+    int id = upper_bound(vf(allPrimes), n) - allPrimes.begin();
+    for (int i = id - 1; i > 0; i--) {
+        if(mp[allPrimes[i] - allPrimes[i - 1]] == 1 or allPrimes[i] - allPrimes[i - 1] == 1) {
+            ans++;
         }
     }
-    float low = 0, high = n, ans = 0;
-    for (int i = 0; i < n; i++) {
-        float time1 = 0;
-        if (v[i].first == 0)
-            time1 = n;
-        else
-            time1 = ((float)i + 1) / v[i].first;
-        float time2 = ((float)i + 1) / v[i].second;
-        low = min({low, time1, time2});
-        high = max({low, time1, time2});
-    }
-    low -= 0.5, high += 0.5;
-    while (high - low > 1e-6) {
-        float mid = (low + high) / 2;
-        int f = 0;
-        for (int i = 0; i < n; i++) {
-            float time = ((float)i + 1) / mid;
-            if (time >= v[i].first and time <= v[i].second) {
-                continue;
-            }
-            else if (time < v[i].first) {
-                // time komaite hobe
-                f = 1;
-            }
-            else {
-                // time baraite hobe
-                f = 2;
-            }
-        }
-        if (f == 1) {
-            high = mid;
-        }
-        else if (f == 2) {
-            low = mid;
-        }
-        else {
-            high = mid;
-            ans = mid;
-        }
-    }
-    cout << fixed << setprecision(6) << high << endl;
+    cout << ans << endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
-    freopen("input.txt", "r", stdin);
+    freopen("prime_subtractorization_input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
+    sieve(10010100);
     int t = 1;
     cin >> t;
     for (int i = 1; i <= t; i++) {

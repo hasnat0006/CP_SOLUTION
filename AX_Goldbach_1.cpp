@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 10|10|2024 12:49:43            !//
+//!             Created: 11|10|2024 21:12:45            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -17,36 +17,36 @@ using namespace std;
 const int mod = 1e9 + 7;
 const int inf = 1e18;
 
-int factors(int n) {
-    if (n % 2 == 0)
-        return 2;
-    for (int a = 3; a <= sqrt(n); a++) {
-        if (n % a == 0)
-            return a;
-    }
-    return n;
-}
-
 void solve() {
     int n;
     cin >> n;
-    int ans = 0;
-    while (n > 1) {
-        int r = factors(n);
-        ans++;
-        while (n % r == 0)
-            n /= r;
+    auto isPrime = [&](int x) -> bool {
+        for (int i = 2; i * i <= x; i++) {
+            if (x % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    };
+    if (isPrime(n)) {
+        cout << 1 << endl;
+        return;
     }
-    if (ans > 1)
-        cout << "Yes" << endl;
-    else
-        cout << "No" << endl;
+    if (n % 2 == 0)
+        cout << 2 << endl;
+    else {
+        n -= 2;
+        if (isPrime(n))
+            cout << 2 << endl;
+        else
+            cout << 3 << endl;
+    }
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    cin >> t;
+    // cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

@@ -1,135 +1,56 @@
-//!-----------------------------------------------------!//
-//!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 07|10|2024 22:57:51            !//
-//!-----------------------------------------------------!//
-
-#pragma GCC optimize("O3")
-#include <bits/stdc++.h>
+#include <cmath>
+#include <iostream>
+#include <sstream>
+#include <stack>
+#include <string>
 
 using namespace std;
 
-#define int long long
-#define float long double
-#define vf(v) (v).begin(), (v).end()
-#define vr(v) (v).rbegin(), (v).rend()
-#define endl "\n"
-
-const int mod = 1e9 + 7;
-const int inf = 1e18;
-
-bool delim(char c) { return c == ' '; }
-
-bool is_op(char c) { return c == '+' || c == '-' || c == '*' || c == '/'; }
-
-bool is_unary(char c) { return c == '+' || c == '-'; }
-
-int priority(char op) {
-    if (op < 0)  // unary operator
-        return 3;
-    if (op == '+' || op == '-')
-        return 1;
-    if (op == '*' || op == '/')
-        return 2;
-    return -1;
-}
-
-void process_op(stack<int>& st, char op) {
-    if (op < 0) {
-        int l = st.top();
-        st.pop();
-        switch (-op) {
-            case '+':
-                st.push(l);
-                break;
-            case '-':
-                st.push(-l);
-                break;
-        }
-    }
-    else {
-        int r = st.top();
-        st.pop();
-        int l = st.top();
-        st.pop();
-        switch (op) {
-            case '+':
-                st.push(l + r);
-                break;
-            case '-':
-                st.push(l - r);
-                break;
-            case '*':
-                st.push(l * r);
-                break;
-            case '/':
-                st.push(l / r);
-                break;
-        }
+float apply_operator(char op, double a, double b) {
+    switch (op) {
+        case '+':
+            return a + b;
+        case '-':
+            return a - b;
+        case '*':
+            return a * b;
+        case '/':
+            return a / b;
+        case '^':
+            return pow(a, b);
     }
 }
 
-int evaluate(string s) {
-    stack<int> st;
-    stack<char> op;
-    bool may_be_unary = true;
-    for (int i = 0; i < (int)s.size(); i++) {
-        if (delim(s[i]))
-            continue;
+float evaluate_postfix(const string& postfix) {
+    stack<float> st;
+    stringstream ss(postfix);
+    string token;
 
-        if (s[i] == '(') {
-            op.push('(');
-            may_be_unary = true;
+    while (ss >> token) {
+        if (isdigit(token[0]) || (token.size() > 1 && isdigit(token[1]))) {
+            st.push(stod(token));
         }
-        else if (s[i] == ')') {
-            while (op.top() != '(') {
-                process_op(st, op.top());
-                op.pop();
-            }
-            op.pop();
-            may_be_unary = false;
-        }
-        else if (is_op(s[i])) {
-            char cur_op = s[i];
-            if (may_be_unary && is_unary(cur_op))
-                cur_op = -cur_op;
-            while (!op.empty() &&
-                    ((cur_op >= 0 && priority(op.top()) >= priority(cur_op)) ||
-                    (cur_op < 0 && priority(op.top()) > priority(cur_op)))) {
-                process_op(st, op.top());
-                op.pop();
-            }
-            op.push(cur_op);
-            may_be_unary = true;
-        }
-        else {
-            int number = 0;
-            while (i < (int)s.size() && isalnum(s[i]))
-                number = number * 10 + s[i++] - '0';
-            --i;
-            st.push(number);
-            may_be_unary = false;
+        else if (token == "+" || token == "-" || token == "*" || token == "/" ||
+                 token == "^") {
+            // if (st.size() < 2)
+            //     cout << "Invalid expression" << endl;
+            float b = st.top();
+            st.pop();
+            float a = st.top();
+            st.pop();
+            float result = apply_operator(token[0], a, b);
+            st.push(result);
         }
     }
 
-    while (!op.empty()) {
-        process_op(st, op.top());
-        op.pop();
-    }
+    // if (st.size() != 1)
+    //     cout << "Invalid expression" << endl;
     return st.top();
 }
 
-void solve() {
-    int a, b;
-    cin >> a >> b;
-    cout << a * b << endl;
-}
-
-int32_t main() {
-    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
-    int t = 1;
-    // cin >> t;
-    for (int i = 1; i <= t; i++) {
-        solve();
-    }
+int main() {
+    string postfix = "3 4 + 2 * 7 /"; 
+    float result = evaluate_postfix(postfix);
+    cout << "Result: " << result << endl; 
     return 0;
 }

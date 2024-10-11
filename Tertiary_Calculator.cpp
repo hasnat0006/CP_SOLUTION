@@ -73,12 +73,15 @@ int evaluate(string& s) {
     stack<char> op;
     bool may_be_unary = true;
     for (int i = 0; i < (int)s.size(); i++) {
-        if (delim(s[i]))
+        cerr << "i: " << i << endl;
+        if (delim(s[i])) {
+            cerr << "i4: " << i << endl;
             continue;
-
+        }
         if (s[i] == '(') {
             op.push('(');
             may_be_unary = true;
+            cerr << "i1: " << i << endl;
         }
         else if (s[i] == ')') {
             while (op.top() != '(') {
@@ -86,9 +89,11 @@ int evaluate(string& s) {
                 op.pop();
             }
             op.pop();
+            cerr << "i2: " << i << endl;
             may_be_unary = false;
         }
         else if (is_op(s[i])) {
+            cerr << "i3: " << i << endl;
             char cur_op = s[i];
             if (may_be_unary && is_unary(cur_op))
                 cur_op = -cur_op;
@@ -102,45 +107,100 @@ int evaluate(string& s) {
             may_be_unary = true;
         }
         else {
+            cout << "Number: " << s[i] << endl;
+            cout << s << endl;
+            cerr << "i: " << i << endl;
             int number = 0;
-            while (i < (int)s.size() && isalnum(s[i]))
-                number = number * 10 + s[i++] - '0';
+            string temp = "";
+            while (i < (int)s.size() && s[i] != ' ') {
+                // number = number * 10 + s[i++] - '0';
+                temp += s[i++];
+            }
             --i;
+            cerr << "i: " << i << endl;
+            cerr << "Number: " << temp << endl;
             st.push(number);
             may_be_unary = false;
         }
     }
-    while (!op.empty()) {
-        process_op(st, op.top());
-        op.pop();
-    }
-    return st.top();
+    // while (!op.empty()) {
+    //     process_op(st, op.top());
+    //     op.pop();
+    // }
+    // return st.top();
+    return 0;
 }
 
 void solve() {
     string s;
-    cin >> s;
-    int ans = 0;
-    s = "1*" + s + "*1";
-    // cout << s << endl;
-    vector<int> mul;
-    for (int i = 0; i < s.size(); i++) {
-        if (s[i] == '*') {
-            mul.push_back(i);
+    while (getline(cin, s)) {
+        s.push_back(' ');
+        vector<string> v;
+        int n = s.size();
+        for (int i = 0; i < n; i++) {
+            string temp = "";
+            while (i < n and s[i] != ' ') {
+                temp += s[i];
+                i++;
+            }
+            v.push_back(temp);
+        }
+        // for (auto x : v) {
+        //     cout << x << endl;
+        // }
+        float a = stof(v[0]);
+        float b = stof(v[2]);
+        float c = stof(v[4]);
+        // cout << a << " " << b << " " << c << endl;
+        if(v[1] == "+" and v[3] == "+"){
+            cout << a + b + c << endl;
+        }
+        else if(v[1] == "+" and v[3] == "-"){
+            cout << a + b - c << endl;
+        }
+        else if(v[1] == "+" and v[3] == "*"){
+            cout << a + b * c << endl;
+        }
+        else if(v[1] == "+" and v[3] == "/"){
+            cout << a + b / c << endl;
+        }
+        else if(v[1] == "-" and v[3] == "+"){
+            cout << a - b + c << endl;
+        }
+        else if(v[1] == "-" and v[3] == "-"){
+            cout << a - b - c << endl;
+        }
+        else if(v[1] == "-" and v[3] == "*"){
+            cout << a - b * c << endl;
+        }
+        else if(v[1] == "-" and v[3] == "/"){
+            cout << a - b / c << endl;
+        }
+        else if(v[1] == "*" and v[3] == "+"){
+            cout << a * b + c << endl;
+        }
+        else if(v[1] == "*" and v[3] == "-"){
+            cout << a * b - c << endl;
+        }
+        else if(v[1] == "*" and v[3] == "*"){
+            cout << a * b * c << endl;
+        }
+        else if(v[1] == "*" and v[3] == "/"){
+            cout << a * b / c << endl;
+        }
+        else if(v[1] == "/" and v[3] == "+"){
+            cout << a / b + c << endl;
+        }
+        else if(v[1] == "/" and v[3] == "-"){
+            cout << a / b - c << endl;
+        }
+        else if(v[1] == "/" and v[3] == "*"){
+            cout << a / b * c << endl;
+        }
+        else if(v[1] == "/" and v[3] == "/"){
+            cout << a / b / c << endl;
         }
     }
-    int n = mul.size();
-    for (int i = 0; i < n; i++) {
-        for (int j = i + 1; j < n; j++) {
-            string temp = s;
-            temp.insert(mul[i] + 1, "(");
-            temp.insert(mul[j] + 1, ")");
-            // cout << temp << endl;
-            float result = evaluate(temp);
-            ans = max(ans, (int)result);
-        }
-    }
-    cout << ans << endl;
 }
 
 int32_t main() {

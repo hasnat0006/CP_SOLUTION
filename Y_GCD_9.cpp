@@ -1,11 +1,16 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 10|10|2024 12:49:43            !//
+//!             Created: 10|10|2024 12:16:21            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-
+#ifndef ONLINE_JUDGE
+#include "D:\Documents\debug.h"
+#else 
+#define dbg(x...)
+#define dbgc(x...)
+#endif
 using namespace std;
 
 #define int long long
@@ -17,30 +22,25 @@ using namespace std;
 const int mod = 1e9 + 7;
 const int inf = 1e18;
 
-int factors(int n) {
-    if (n % 2 == 0)
-        return 2;
-    for (int a = 3; a <= sqrt(n); a++) {
-        if (n % a == 0)
-            return a;
-    }
-    return n;
-}
-
 void solve() {
     int n;
     cin >> n;
     int ans = 0;
-    while (n > 1) {
-        int r = factors(n);
-        ans++;
-        while (n % r == 0)
-            n /= r;
+    vector<int> a(n);
+    set<int> s;
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+        s.insert(a[i]);
     }
-    if (ans > 1)
-        cout << "Yes" << endl;
-    else
-        cout << "No" << endl;
+    if(s.size() == 1){
+        cout << 0LL << endl;
+        return;
+    }
+    for(int i = 0; i < n / 2; i++){
+        int diff = abs(a[i] - a[n - i - 1]);
+        ans = __gcd(ans, diff);
+    }   
+    cout << ans << endl;
 }
 
 int32_t main() {

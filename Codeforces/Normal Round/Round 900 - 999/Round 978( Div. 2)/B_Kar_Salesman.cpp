@@ -28,32 +28,14 @@ void printing(priority_queue<int> pq) {
 void solve() {
     int n, x;
     cin >> n >> x;
-    priority_queue<int> pq;
-    for (int i = 0; i < n; i++) {
-        int temp;
+    int sum = 0, temp, mx = -1;
+    for(int i = 0; i < n; i++){
         cin >> temp;
-        pq.push(temp);
-    }
-    int ans = 0;
-    while (!pq.empty()) {
-        ans += pq.top();
-        int sum = x * pq.top();
-        // printing(pq);
-        while (!pq.empty() and sum > 0) {
-            if (sum - pq.top() >= 0) {
-                sum -= pq.top();
-                pq.pop();
-            }
-            else {
-                int t = pq.top();
-                pq.pop();
-                pq.push(t - sum);
-                sum = 0;
-            }
-        }
-        // printing(pq);
-    }
-    cout << ans << endl;
+        mx = max(mx, temp);
+        sum += temp;
+    } 
+    int ans = sum / x + (sum % x == 0 ? 0 : 1);
+    cout << max(ans, mx) << endl;
 }
 
 int32_t main() {

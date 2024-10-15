@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 14|10|2024 23:47:34            !//
+//!             Created: 15|10|2024 13:26:09            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -17,28 +17,35 @@ using namespace std;
 const int mod = 1e9 + 7;
 const int inf = 1e18;
 
-int factors(int n) {
-    if (n % 2 == 0)
-        return 2;
-    for (int a = 3; a <= sqrt(n); a++) {
-        if (n % a == 0)
-            return a;
+const int N = 5e6 + 5;
+vector<unsigned long long> phi(N);
+void phi_1_to_n() {
+    for (int i = 0; i < N; i++)
+        phi[i] = i;
+    for (int i = 2; i < N; i++) {
+        if (phi[i] == i) {
+            for (int j = i; j < N; j += i)
+                phi[j] -= phi[j] / i;
+        }
     }
-    return n;
+    for(int i = 1; i < N; i++){
+        phi[i] = phi[i - 1] + (phi[i] * phi[i]);
+    }
 }
 
 void solve() {
     int a, b;
     cin >> a >> b;
-    int gcd = __gcd(a, b);
-    cout << (gcd == 1 ? "No" : "Yes") << endl;
+    cout << phi[b] - phi[a - 1] << endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
+    phi_1_to_n();
     cin >> t;
     for (int i = 1; i <= t; i++) {
+        cout << "Case " << i << ": ";
         solve();
     }
     return 0;

@@ -1,16 +1,10 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 17|10|2024 00:19:17            !//
+//!             Created: 19|10|2024 20:16:22            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else 
-#define dbg(x...)
-#define dbgc(x...)
-#endif
 
 using namespace std;
 
@@ -24,9 +18,14 @@ const int mod = 1e9 + 7;
 const int inf = 1e18;
 
 void solve() {
-    int n, m;
-    cin >> n >> m;
-    cout << n / 2 * m << endl;
+    int n;
+    cin >> n;
+    n--;
+    string s = "";
+    while (n--)
+        s.push_back('0');
+    s.push_back('1');
+    cout << s << endl;
 }
 
 int32_t main() {
@@ -34,7 +33,6 @@ int32_t main() {
     int t = 1;
     cin >> t;
     for (int i = 1; i <= t; i++) {
-        cout << "Case " << i << ": ";
         solve();
     }
     return 0;

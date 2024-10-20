@@ -1,11 +1,15 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 12|10|2024 22:57:17            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-
+#ifndef ONLINE_JUDGE
+#include "D:\Documents\debug.h"
+#else
+#define dbg(x...)
+#define dbgc(x...)
+#endif
 using namespace std;
 
 #define int long long
@@ -17,34 +21,50 @@ using namespace std;
 const int mod = 1e9 + 7;
 const int inf = 1e18;
 
-char a[16] = {'0', '1', '2', '3', '4', '5', '6', '7',
-              '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
-string tenToM(int n, int m) {
-    int temp = n;
-    string result = "";
-    while (temp != 0) {
-        result = a[temp % m] + result;
-        temp /= m;
-    }
-    return result;
-}
-
-string num = "0123456789ABCDE";
-int mToTen(string n, int m) {
-    int multi = 1;
-    int result = 0;
-    for (int i = n.size() - 1; i >= 0; i--) {
-        result += num.find(n[i]) * multi;
-        multi *= m;
-    }
-    return result;
-}
-
 void solve() {
-    int base, num;
+    int base;
+    string num;
     cin >> base >> num;
-    string s = to_string(num);
-    cout << mToTen(s, base) << endl;
+    __int128_t ans = 0;
+    string b = to_string(base - 1);
+    int n = b.size();
+    int power = 1;
+    while (num.size()) {
+        int m = num.size();
+        string temp = "";
+        for (int i = max(m - n, 0LL); i < m; i++) {
+            temp.push_back(num[i]);
+        }
+        while (temp.front() == '0' && temp.size() > 1) {
+            temp.erase(temp.begin());
+        }
+        dbg(temp);
+        int tempNum = stoll(temp);
+        if (tempNum < base) {
+            dbg(tempNum, power);
+            int tempCal = tempNum * power;
+            ans += tempCal;
+            power *= base;
+            int del = temp.size();
+            while (del--)
+                num.pop_back();
+        }
+        else {
+            temp.erase(temp.begin());
+            while (temp.front() == '0' && temp.size() > 1) {
+                temp.erase(temp.begin());
+            }
+            tempNum = stoll(temp);
+            dbg(tempNum, power);
+            int tempCal = tempNum * power;
+            ans += tempCal;
+            power *= base;
+            int del = temp.size();
+            while (del--)
+                num.pop_back();
+        }
+    }
+    cout << (int)ans << endl;
 }
 
 int32_t main() {

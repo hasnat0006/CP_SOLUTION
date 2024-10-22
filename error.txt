@@ -1,3 +1,0 @@
-[ pair, type, ans ] = [ 2, 2, 4 ]
-[ pair, type, ans ] = [ 2, 2, 4 ]
-[ pair, type, ans ] = [ 3, 2, 12 ]

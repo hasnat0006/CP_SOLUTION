@@ -1,14 +1,14 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 23|10|2024 23:42:23            !//
+//!             Created: 23|10|2024 20:47:30            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-#define ll   long long
+#define ll long long
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 
@@ -16,13 +16,20 @@ const int mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    ll n, p, q, x, y;
-    cin >> n >> p >> q >> x >> y;
-
-    auto sum = [](ll a, ll d, ll n){
-        return ((2ll * a + (n - 1) * d) * n )/ 2;
-    };
-    cout << min(sum(p, -x, n), sum(q, -y, n)) << '\n';
+    string s;
+    ll n;
+    cin >> n >> s;
+    ll zero = 0, one = 0;
+    for (ll i = 0; s[i]; i++)
+        s[i] == '0' ? zero++ : one++;
+    if (one == 0) {
+        // only zero ache
+        cout << n << '\n';
+    }
+    else {
+        // only one ache
+        cout << one % 2 << '\n';
+    }
 }
 
 int32_t main() {
@@ -30,7 +37,7 @@ int32_t main() {
     int t = 1;
     cin >> t;
     for (int i = 1; i <= t; i++) {
-        solve(); 
+        solve();
     }
     return 0;
 }

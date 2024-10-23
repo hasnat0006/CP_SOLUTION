@@ -4,12 +4,6 @@
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
 using namespace std;
 
 #define int long long
@@ -38,10 +32,8 @@ void solve() {
         while (temp.front() == '0' && temp.size() > 1) {
             temp.erase(temp.begin());
         }
-        dbg(temp);
         int tempNum = stoll(temp);
         if (tempNum < base) {
-            dbg(tempNum, power);
             int tempCal = tempNum * power;
             ans += tempCal;
             power *= base;
@@ -55,7 +47,6 @@ void solve() {
                 temp.erase(temp.begin());
             }
             tempNum = stoll(temp);
-            dbg(tempNum, power);
             int tempCal = tempNum * power;
             ans += tempCal;
             power *= base;

@@ -105,17 +105,16 @@ const int max_tests = 10;
 
 // complete this function according to the requirements
 void generate_test() {
-    int n = rand(1, 10);
-    int x = rand(1, 5);
-    cout << n << " " << x << endl;
-    cout << gen_array(n, 1, 10);
+    int n = rand(3, 10);
+    cout << n << '\n';
+    cout << gen_array(n, -1, 1) << '\n';
 }
 
 signed main() {
     srand(accuracy);
     int t = 1;
 #ifndef SINGLE_TEST
-    t = rand(1, max_tests), cout << t << '\n';
+    // t = rand(1, max_tests), cout << t << '\n';
 #endif
     while (t--) {
         generate_test();

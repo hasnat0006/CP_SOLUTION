@@ -107,14 +107,14 @@ const int max_tests = 10;
 void generate_test() {
     int n = rand(3, 10);
     cout << n << '\n';
-    cout << gen_array(n, -1, 1) << '\n';
+    cout << gen_array(n, -1, 1);
 }
 
 signed main() {
     srand(accuracy);
     int t = 1;
 #ifndef SINGLE_TEST
-    // t = rand(1, max_tests), cout << t << '\n';
+    t = rand(1, max_tests), cout << t << '\n';
 #endif
     while (t--) {
         generate_test();

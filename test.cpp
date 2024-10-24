@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 23|10|2024 23:42:23            !//
+//!             Created: 24|10|2024 20:38:59            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -16,13 +16,13 @@ const int mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    ll n, p, q, x, y;
-    cin >> n >> p >> q >> x >> y;
-
-    auto sum = [](ll a, ll d, ll n){
-        return ((2ll * a + (n - 1) * d) * n )/ 2;
-    };
-    cout << min(sum(p, -x, n), sum(q, -y, n)) << '\n';
+    ll n;
+    cin >> n;
+    if(n % 2 == 1){
+        cout << "Kosuke" << '\n';
+    }    
+    else
+        cout << "Sakurako" << '\n';
 }
 
 int32_t main() {

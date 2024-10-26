@@ -5,12 +5,6 @@
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
 using namespace std;
 
 #define ll long long
@@ -54,23 +48,16 @@ void solve() {
                 s.clear();
             }
             s.insert(pre[i]);
-            dbg(i, pre[i], cnt);
-            dbg(s);
         }
-        dbg(a, pre, cnt);
         return cnt;
     };
-dbg(zero);
     for (ll i = 0; i < zero.size() - 1; i++) {
         vector<ll> temp;
-        dbg(zero[i], zero[i + 1]);
         for (ll val = zero[i] + 1; val < zero[i + 1]; val++) {
             temp.push_back(v[val]);
         }
-        dbg(temp);
         ans += findAns(temp);
         start = zero[i] + 1;
-        dbg(start);
     }
     cout << ans << '\n';
 }

@@ -1,16 +1,11 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 24|10|2024 20:38:59            !//
+//!             Created: 26|10|2024 13:10:33            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include<bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else 
-#define dbg(x...)
-#define dbgc(x...)
-#endif
+
 using namespace std;
 
 #define ll   long long
@@ -21,16 +16,18 @@ const int mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    ll n;
-    cin >> n;
-    dbg(n);
-    if(n % 2 == 1){
-        cout << "Kosuke" << '\n';
+    ll n, k;
+    cin >> n >> k;
+    n %= mod;
+    ll a = 1 % k, b = 1 % k, cnt = 0;
+    while(a){
+        cnt++;
+        ll c = (a + b) % k;
+        a = b;
+        b = c;
     }    
-    else
-        cout << "Sakurako" << '\n';
+    cout << (++cnt * n) % mod << '\n';
 }
-
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);

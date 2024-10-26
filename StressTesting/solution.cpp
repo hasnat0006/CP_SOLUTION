@@ -42,8 +42,7 @@ void solve() {
                 s.clear();
                 last = i;
             }
-            else if (pre[i] == 0 and
-                     pre[i] - (last == -1 ? 0 : pre[last]) == 0) {
+            else if (pre[i] == 0 and pre[i] - (last == -1 ? 0 : pre[last]) == 0) {
                 cnt++;
                 last = i;
                 s.clear();

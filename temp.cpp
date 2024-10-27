@@ -1,16 +1,11 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 22|10|2024 01:15:33            !//
+//!             Created: 27|10|2024 21:09:48            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
+
 using namespace std;
 
 #define ll long long
@@ -21,54 +16,64 @@ const int mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    int n, k;
-    cin >> n >> k;
-    int total = n * k;
-    vector<int> a(total);
-    map<int, vector<int>> mp;
-    for (int i = 0; i < total; i++) {
-        cin >> a[i];
-        mp[a[i]].push_back(i);
-    }
-    vector<int> calculated;
-    map<pair<int, int>, int> value;
-    map<int, int> index;
-    for (int i = 0; i < total; i++) {
-        int x;
-        cin >> x;
-        index[x] = i;
-        for (auto &it : mp[x]) {
-            int id = upper_bound(vf(calculated), it) - calculated.begin() - 1;
-            if (id < 0) {
-                value[{i, it}] = 1;
-            }
-            else {
-                value[{i, it}] =
-                    value[{index[calculated[id]], a[calculated[id]]}] + 1;
-                dbg(i, it, value[{i, it}]);
-                dbg(index[calculated[id]], a[calculated[id]]);
-            }
-            
+    int n;
+    cin >> n;
+    vector<int> v(n);
+    iota(vf(v), 1);
+
+    auto find_max = [&](vector<int> v) {
+        int mx = 0;
+        if(v.back() % 2 == 1 or v.front() != 2)
+            return 0;
+        for (int i = 0; i < n; i++) {
+            if (i % 2)
+                mx |= v[i];
+            else
+                mx &= v[i];
         }
-        for(auto &it : mp[x]) {
-            calculated.push_back(it);
+        return mx;
+    };
+
+    map<int, set<vector<int>>> mp;
+
+    do {
+        ll x = find_max(v);
+        mp[x].insert(v);
+    } while (next_permutation(vf(v)));
+
+    cout << mp.rbegin()->first << '\n';
+    for (auto x : mp[mp.rbegin()->first]) {
+        for (auto y : x) {
+            cout << y << ' ';
         }
-        sort(vf(calculated));
-        dbg(calculated);
-        dbg(value);
+        cout << '\n';
+        // break;
     }
-    dbg(value);
-    int mx = 0;
-    for (auto &it : value) {
-        mx = max(mx, it.second);
-    }
-    cout << mx << '\n';
 }
+
+/*
+5 - 5
+2 1 3 4 5
+6 - 7
+1 2 3 4 6 5
+7 - 7
+1 2 3 4 6 5 7
+8 - 15
+1 2 3 4 6 5 7 8
+9 - 9
+1 2 3 4 6 5 7 8 9
+10 - 15
+1 2 3 4 5 6 8 9 10 7
+
+
+*/
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
+    // freopen("in.txt", "r", stdin);
+    // freopen("out.txt", "w", stdout);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();
     }

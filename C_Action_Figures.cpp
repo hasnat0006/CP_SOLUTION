@@ -38,9 +38,10 @@ void solve() {
     for (ll i = n - 1; i > 0 and goo; i--) {
         if (v[i] != v[i - 1] and baki > 1) {
             goo--;
-            baki = i + 1 - 2;
+            baki = min(baki - 2, i + 1 - 2);
             ans.push_back(i + 1);
         }
+        dbg(i + 1, goo, baki);
     }
     dbg(ans);
     cout << (n * (n + 1)) / 2 - accumulate(vf(ans), 0LL)<< '\n';

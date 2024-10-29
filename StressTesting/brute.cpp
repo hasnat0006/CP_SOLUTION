@@ -1,38 +1,47 @@
+//!-----------------------------------------------------!//
+//!              Author: YUSUF REZA HASNAT              !//
+//!             Created: 28|10|2024 22:30:05            !//
+//!-----------------------------------------------------!//
+
+#pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#define ll long long int
 using namespace std;
 
+#define ll long long
+#define vf(v) (v).begin(), (v).end()
+#define vr(v) (v).rbegin(), (v).rend()
+
+const int mod = 1e9 + 7;
+const ll inf = 1e18;
+
 void solve() {
-    int n;
-    cin >> n;
-    int a[n + 1];
-    int pre[n + 1] = {0};
-    for (int i = 1; i <= n; i++) {
-        cin >> a[i];
-        pre[i] = pre[i - 1] + a[i];
+    ll n;
+    string s;
+    cin >> n >> s;
+    vector<ll> v(n, 0);
+    v[0] = (s[0] == '1');
+    for (ll i = 1; i < n; i++) {
+        v[i] = v[i - 1] + (s[i] == '1');
     }
-    map<int, int> m;
-    m[0] = 1;
-    int ans = 0;
-    for (int i = 1; i <= n; i++) {
-        if (m[pre[i]]) {
-            ans++;
-            m.clear();
+    ll high = v[n - 1];
+    int goo = n / 2;
+    vector<ll> ans;
+    ll baki = n;
+    for (ll i = n - 1; i > 0 and goo; i--) {
+        if (v[i] != v[i - 1] and baki > 1) {
+            goo--;
+            baki = min(baki - 2, i + 1 - 2);
+            ans.push_back(i + 1);
         }
-        m[pre[i]]++;
     }
-    cout << ans << "\n";
-    return;
+    cout << (n * (n + 1)) / 2 - accumulate(vf(ans), 0LL) << '\n';
 }
 
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+int32_t main() {
+    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
     cin >> t;
-    int tc = 1;
-    while (t--) {
-        // cout << "Case " << tc++ << ": ";
+    for (int i = 1; i <= t; i++) {
         solve();
     }
     return 0;

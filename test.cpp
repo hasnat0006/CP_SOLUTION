@@ -21,14 +21,7 @@ const int mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    ll n;
-    cin >> n;
-    dbgc(n);
-    if(n % 2 == 0){
-        cout << "Kosuke" << '\n';
-    }    
-    else
-        cout << "Sakurako" << '\n';
+    ll n = 01;
 }
 
 

@@ -91,7 +91,6 @@ void solve() {
                 }
                 start = i;
             }
-            dbg("remove",st);
             dbg(start);
             s[id] = v;
             for (int i = start; i <= id; i++) {
@@ -102,7 +101,7 @@ void solve() {
                 }
                 dbg(c);
                 if (c == 4) {
-                    st.insert(i);
+                    st.insert(start);
                     break;
                 }
             }

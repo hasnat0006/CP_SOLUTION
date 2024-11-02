@@ -1,10 +1,11 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 28|10|2024 22:30:05            !//
+//!             Created: 02|11|2024 20:44:03            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
+
 using namespace std;
 
 #define ll long long
@@ -14,27 +15,63 @@ using namespace std;
 const int mod = 1e9 + 7;
 const ll inf = 1e18;
 
-void solve() {
-    ll n;
-    string s;
-    cin >> n >> s;
-    vector<ll> v(n, 0);
-    v[0] = (s[0] == '1');
-    for (ll i = 1; i < n; i++) {
-        v[i] = v[i - 1] + (s[i] == '1');
-    }
-    ll high = v[n - 1];
-    int goo = n / 2;
-    vector<ll> ans;
-    ll baki = n;
-    for (ll i = n - 1; i > 0 and goo; i--) {
-        if (v[i] != v[i - 1] and baki > 1) {
-            goo--;
-            baki = min(baki - 2, i + 1 - 2);
-            ans.push_back(i + 1);
+vector<int> createLPS(string &pattern) {
+    vector<int> lps(pattern.length());
+    int index = 0;
+    for (int i = 1; i < pattern.length();) {
+        if (pattern[index] == pattern[i]) {
+            lps[i] = index + 1;
+            index++, i++;
+        }
+        else {
+            if (index != 0)
+                index = lps[index - 1];
+            else
+                lps[i] = index, i++;
         }
     }
-    cout << (n * (n + 1)) / 2 - accumulate(vf(ans), 0LL) << '\n';
+    return lps;
+}
+int kmp(string &text, string &pattern) {
+    int cnt_of_match = 0;
+    vector<int> lps = createLPS(pattern);
+    int i = 0, j = 0;
+    // i -> text, j -> pattern
+    while (i < text.length()) {
+        if (text[i] == pattern[j])
+            i++, j++;
+        else {
+            if (j != 0)
+                j = lps[j - 1];
+            else
+                i++;
+        }
+        if (j == pattern.length()) {
+            cnt_of_match++;
+            // the index where match found -> (i - pattern.length());
+            j = lps[j - 1];
+        }
+    }
+    return cnt_of_match;
+}
+
+void solve() {
+    string s;
+    cin >> s;
+    int q;
+    cin >> q;
+    string temp = "1100";
+    while (q--) {
+        int i, v;
+        cin >> i >> v;
+        if (s.size() < 4) {
+            cout << "NO" << '\n';
+            continue;
+        }
+        s[i - 1] = v + '0';
+        int cnt = kmp(s, temp);
+        cout << (cnt > 0 ? "YES" : "NO") << '\n';
+    }
 }
 
 int32_t main() {

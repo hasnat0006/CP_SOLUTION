@@ -105,19 +105,9 @@ const int max_tests = 1;
 
 // complete this function according to the requirements
 void generate_test() {
-    vector<int> v = gen_array(10, 0, 1);
-    for(int i = 0; i < 10; i++) {
-        cout << v[i];
-    }
-    cout << '\n';
-    int N = v.size();
-    int q = rand(1, 3);
-    cout << q << '\n';
-    while (q--) {
-        int i = rand(1, N);
-        char v = rand(0, 1) + '0';
-        cout << i << ' ' << v << '\n';
-    }
+    int n = rand(1, 10);
+    cout << n << endl;
+    cout << gen_array(n, 0, n / 2);
 }
 
 signed main() {

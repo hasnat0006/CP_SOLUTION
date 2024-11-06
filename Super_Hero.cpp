@@ -4,16 +4,16 @@
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 #ifndef ONLINE_JUDGE
 #include "D:\Documents\debug.h"
-#else
+#else 
 #define dbg(x...)
 #define dbgc(x...)
 #endif
 using namespace std;
 
-#define ll long long
+#define ll   long long
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 
@@ -36,21 +36,16 @@ void smallestPrimeFactorUsingSeive() {
 void solve() {
     ll n, k;
     cin >> n >> k;
-    int step = 0;
-    for(int i = 1; i <= k; i++){
-        int ans = 0;
-        int tempN = n * i;
-        while(tempN > 1){
-            int x = spf[tempN];
-            ans++;
-            cerr << x << "--" << tempN << '\n';
-            if(x == tempN)
-                break;
-            tempN /= x;
-        }
-        cerr << i << ' ' << ans << '\n';
-        step = max(step, ans);
-    }
+    ll step = log2l(k);
+    dbgc(step);
+    while(n > 1){
+        int x = spf[n];
+        step++;
+        dbg(x, n);
+        if(x == n)
+            break;
+        n /= x;
+    }    
     cout << step << '\n';
 }
 
@@ -60,7 +55,7 @@ int32_t main() {
     smallestPrimeFactorUsingSeive();
     cin >> t;
     for (int i = 1; i <= t; i++) {
-        solve();
+        solve(); 
     }
     return 0;
 }

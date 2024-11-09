@@ -105,9 +105,30 @@ const int max_tests = 1;
 
 // complete this function according to the requirements
 void generate_test() {
-    int n = rand(1, 10);
-    cout << n << endl;
-    cout << gen_array(n, 0, n / 2);
+    int n = rand(1, 5), q = rand(1, 5);
+    cout << n << ' ' << q << '\n';
+    for (int i = 0; i < n; i++) {
+        int x = rand(1, 7);
+        cout << x << ' ';
+        while (x--) {
+            cout << rand(1, 10) << ' ';
+        }
+        cout << '\n';
+    }
+    while (q--) {
+        int type = rand(1, 2);
+        cout << type << ' ';
+        if (type == 1) {
+            int x = rand(1, n), y = rand(1, n);
+            while(x == y) {
+                y = rand(1, n);
+            }
+            cout << x << ' ' << y << '\n';
+        }
+        else {
+            cout << rand(1, n) << '\n';
+        }
+    }
 }
 
 signed main() {

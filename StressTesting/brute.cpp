@@ -1,63 +1,68 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 06|11|2024 20:40:55            !//
+//!             Created: 08|11|2024 00:34:53            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
 using namespace std;
 
-#define ll long long
+#define int long long
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 
-const int mod = 1e9 + 7;
-const ll inf = 1e18;
+void solve() {
+    int n, q;
+    cin >> n >> q;
+    set<int> st[n];
+    for (int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        while (x--) {
+            int y;
+            cin >> y;
+            st[i].insert(y);
+        }
+    }
 
-const int N = 1e6 + 5;
-int spf[N];
-void smallestPrimeFactorUsingSeive() {
-    for (int i = 2; i < N; i++) {
-        if (spf[i] == 0) {
-            for (int j = i; j < N; j += i) {
-                if (spf[j] == 0)
-                    spf[j] = i;
+    vector<int> mex(n);
+
+    auto findMex = [&](int id, int cur) {
+        while (st[id].count(cur)) {
+            cur++;
+        }
+        return cur;
+    };
+
+    while (q--) {
+        int type;
+        cin >> type;
+        if (type == 1) {
+            int x, y;
+            cin >> x >> y;
+            x--, y--;
+            while(!st[y].empty()) {
+                int cur = *st[y].begin();
+                st[y].erase(st[y].begin());
+                st[x].insert(cur);
             }
         }
-    }
-}
-
-void solve() {
-    ll n, k;
-    cin >> n >> k;
-    int step = 0;
-    for(int i = 1; i <= k; i++){
-        int ans = 0;
-        int tempN = n * i;
-        while(tempN > 1){
-            int x = spf[tempN];
-            ans++;
-            cerr << x << "--" << tempN << '\n';
-            if(x == tempN)
-                break;
-            tempN /= x;
+        else if (type == 2) {
+            int x;
+            cin >> x;
+            x--;
+            mex[x] = findMex(x, 1);
+            if (mex[x] == st[x].size() + 1)
+                cout << "complete" << '\n';
+            else
+                cout << mex[x] << '\n';
         }
-        cerr << i << ' ' << ans << '\n';
-        step = max(step, ans);
     }
-    cout << step << '\n';
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    smallestPrimeFactorUsingSeive();
     cin >> t;
     for (int i = 1; i <= t; i++) {
         solve();

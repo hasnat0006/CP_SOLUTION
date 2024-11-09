@@ -13,12 +13,9 @@
 #endif
 using namespace std;
 
-#define ll long long
+#define int long long
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
-
-const int mod = 1e9 + 7;
-const ll inf = 1e18;
 
 void solve() {
     int n, q;
@@ -58,7 +55,7 @@ void solve() {
             int x, y;
             cin >> x >> y;
             x--, y--;
-            if ((int)st[x].size() < (int)st[y].size()) {
+            if ((int)st[y].size() >= (int)st[x].size()) {
                 st[x].swap(st[y]);
                 swap(mex[x], mex[y]);
             }
@@ -66,7 +63,6 @@ void solve() {
                 st[x].insert(it);
             st[y].clear();
             mex[x] = findMex(x, max(mex[x], mex[y]));
-            mex[y] = 0;
         }
         else if (type == 2) {
             int x;

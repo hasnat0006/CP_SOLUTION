@@ -1,63 +1,67 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 05|11|2024 15:34:12            !//
+//!             Created: 08|11|2024 00:34:53            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
 using namespace std;
 
-#define ll long long
+#define int long long
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 
-const int mod = 1e9 + 7;
-const ll inf = 1e18;
-
 void solve() {
-    int n;
-    cin >> n;
-    map<ll, ll> mp;
+    int n, q;
+    cin >> n >> q;
+    set<int> st[n];
     for (int i = 0; i < n; i++) {
         int x;
         cin >> x;
-        mp[x]++;
+        while (x--) {
+            int y;
+            cin >> y;
+            st[i].insert(y);
+        }
     }
-    ll num = 0;
-    vector<ll> v;
-    while (mp.count(num) > 0) {
-        for (int i = 0; i < mp[num]; i++)
-            v.push_back(num);
-        num++;
+
+    vector<int> mex(n);
+
+    auto findMex = [&](int id, int cur) {
+        while (st[id].count(cur))
+            cur++;
+        return cur;
+    };
+
+    for (int i = 0; i < n; i++)
+        mex[i] = findMex(i, 1);
+
+    while (q--) {
+        int type;
+        cin >> type;
+        if (type == 1) {
+            int x, y;
+            cin >> x >> y;
+            x--, y--;
+            if ((int)st[y].size() >= (int)st[x].size()) {
+                st[x].swap(st[y]);
+                swap(mex[x], mex[y]);
+            }
+            for (auto &it : st[y])
+                st[x].insert(it);
+            st[y].clear();
+            mex[x] = findMex(x, max(mex[x], mex[y]));
+        }
+        else if (type == 2) {
+            int x;
+            cin >> x;
+            x--;
+            if (mex[x] == st[x].size() + 1)
+                cout << "complete" << '\n';
+            else
+                cout << mex[x] << '\n';
+        }
     }
-    if (v.size() == 0) {
-        cout << 0 << '\n';
-        return;
-    }
-    mp.clear();
-    map<ll, ll> id;
-    for (int i = 0; i < v.size(); i++) {
-        id[v[i]] = i;
-        mp[v[i]]++;
-    }
-    vector<ll> cost((int)v.size());
-    cost[0] = v[0];
-    ll pre = v[0], temp = 1;
-    for (int i = 1; i < v.size(); i++) {
-        cost[i] = temp;
-        if (v[i] != pre)
-            temp++, pre = v[i];
-    }
-    vector<ll> prefix_cost((int)v.size());
-    partial_sum(vf(cost), prefix_cost.begin());
-    ll ans = inf;
-    for (auto i : mp) {
-        int index_of_i = id[i.first - 1];
-        ll temp_cost = prefix_cost[max(index_of_i, 0)];
-        temp_cost = temp_cost + ((v.back() + 1) * (i.second - 1)) + i.first;
-        ans = min(ans, temp_cost);
-    }
-    cout << ans << '\n';
 }
 
 int32_t main() {

@@ -16,39 +16,19 @@ const ll inf = 1e18;
 
 map<vector<int>, int> mp;
 void solve() {
-    vector<int> temp;
-    for (int i = 0; i < 3; i++) {
-        int x;
-        cin >> x;
-        temp.push_back(x);
+    for(int i = 0; i < 1000000; i++){
+        int sq = i * i;
+        if(sq % 2 == 0){
+            if(sq % 4)
+                cout << sq << " ";
+        }
     }
-    sort(vr(temp));
-    if (mp[temp] != 0)
-        cout << "perfectus\n";
-    else
-        cout << "invalidum\n";
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
-    vector<int> v(3);
-    v[0] = 6, v[1] = 1, v[2] = 1;
-    mp[v] = 1;
-    v[0] = 6, v[1] = 3, v[2] = 0;
-    mp[v] = 1;
-    v[0] = 4, v[1] = 3, v[2] = 1;
-    mp[v] = 1;
-    v[0] = 4, v[1] = 4, v[2] = 0;
-    mp[v] = 1;
-    v[0] = 4, v[1] = 2, v[2] = 1;
-    mp[v] = 1;
-    v[0] = 3, v[1] = 3, v[2] = 3;
-    mp[v] = 1;
-    v[0] = 2, v[1] = 2, v[2] = 2;
-    mp[v] = 1;
-
-    cin >> t;
+    // cin >> t;
     for (int i = 1; i <= t; i++) {
         cout << "Case " << i << ": ";
         solve();

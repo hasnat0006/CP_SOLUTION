@@ -1,30 +1,39 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 06|11|2024 21:59:25            !//
+//!             Created: 08|11|2024 00:34:53            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-
+#ifndef ONLINE_JUDGE
+#include "D:\Documents\debug.h"
+#else
+#define dbg(x...)
+#define dbgc(x...)
+#endif
 using namespace std;
 
 #define ll long long
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 
-const int mod = 1e9 + 7;
-const ll inf = 1e18;
-
-
 void solve() {
-    ll n, d;
-    cin >> n >> d;
-    set<ll> tile;
+    ll n;
+    cin >> n;
+    vector<ll> v(n);
     for (ll i = 0; i < n; i++) {
-        int x;
-        cin >> x;
-        tile.insert(x);
+        cin >> v[i];
+        v[i]--;
     }
+    for (int i = 0; i < n; i++) {
+        if (v[i] != i) {
+            if (abs(v[i] - i) > 1) {
+                cout << "NO" << '\n';
+                return;
+            }
+        }
+    }
+    cout << "YES" << '\n';
 }
 
 int32_t main() {

@@ -1,38 +1,56 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 08|11|2024 00:34:53            !//
+//!             Created: 18|11|2024 23:30:55            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
+
 using namespace std;
 
 #define ll long long
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 
+const ll mod = 1e9 + 7;
+const ll inf = 1e18;
+
 void solve() {
     ll n;
     cin >> n;
-    if (n % 2 and n < 27) {
-        cout << -1 << '\n';
-        return;
+    vector<ll> adj[n + 5];
+    for (int i = 1; i < n; i++) {
+        ll u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
     }
-    if (n % 2) {
-        n -= 27;
-        cout << "15 1 2 2 3 3 4 4 5 5 1 6 6 7 7 8 8 9 9 10 10 11 11 12 12 15 1 ";
-    }
-    ll cnt = 112;
-    for (int i = 0; i < n / 2; i++, cnt++)
-        cout << cnt << " " << cnt << " ";
-    cout << '\n';
+
+    ll way = 0;
+    map<pair<ll, ll>, bool> vis;
+    function<ll(ll, ll)> dfs =
+        [&](ll x, ll color) -> ll {  // color = 1(black), 0(white)
+        if (vis.count({x, color}))
+            return 0;
+        vis[{x, color}] = 1;
+        ll tempWay = 0;
+        for (auto child : adj[x]) {
+            tempWay += 1 + dfs(child, 0);
+            if (color == 0)
+                tempWay += 1 + dfs(child, 1);
+        }
+        return tempWay;
+    };
+
+    cout << dfs(1, 0) << endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
-    int t = 1;
-    cin >> t;
-    for (int i = 1; i <= t; i++) {
+    ll t = 1;
+    // cin >> t;
+    for (ll i = 1; i <= t; i++) {
+        // cout << "Case " << i << ": ";
         solve();
     }
     return 0;

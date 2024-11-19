@@ -1,71 +1,59 @@
-//!-----------------------------------------------------!//
-//!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 08|11|2024 00:34:53            !//
-//!-----------------------------------------------------!//
-
-#pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-using namespace std;
 
-#define int long long
-#define vf(v) (v).begin(), (v).end()
-#define vr(v) (v).rbegin(), (v).rend()
+using i64 = long long;
+using u64 = unsigned long long;
+using u32 = unsigned;
+using u128 = unsigned __int128;
 
 void solve() {
-    int n, q;
-    cin >> n >> q;
-    set<int> st[n];
+    int n, m, v;
+    std::cin >> n >> m >> v;
+
+    std::vector<int> a(n);
     for (int i = 0; i < n; i++) {
-        int x;
-        cin >> x;
-        while (x--) {
-            int y;
-            cin >> y;
-            st[i].insert(y);
-        }
+        std::cin >> a[i];
     }
 
-    vector<int> mex(n);
+    std::vector<i64> pre(n + 1);
+    for (int i = 0; i < n; i++) {
+        pre[i + 1] = pre[i] + a[i];
+    }
 
-    auto findMex = [&](int id, int cur) {
-        while (st[id].count(cur)) {
-            cur++;
-        }
-        return cur;
-    };
+    i64 ans = -1;
 
-    while (q--) {
-        int type;
-        cin >> type;
-        if (type == 1) {
-            int x, y;
-            cin >> x >> y;
-            x--, y--;
-            while(!st[y].empty()) {
-                int cur = *st[y].begin();
-                st[y].erase(st[y].begin());
-                st[x].insert(cur);
-            }
+    std::vector<int> f(m + 1), g(m + 1);
+    for (int i = 1, j = 0; i <= m; i++) {
+        while (j <= n && pre[j] - pre[f[i - 1]] < v) {
+            j++;
         }
-        else if (type == 2) {
-            int x;
-            cin >> x;
-            x--;
-            mex[x] = findMex(x, 1);
-            if (mex[x] == st[x].size() + 1)
-                cout << "complete" << '\n';
-            else
-                cout << mex[x] << '\n';
+        f[i] = j;
+    }
+    g[0] = n;
+    for (int i = 1, j = n; i <= m; i++) {
+        while (j >= 0 && pre[g[i - 1]] - pre[j] < v) {
+            j--;
+        }
+        g[i] = j;
+    }
+
+    for (int i = 0; i <= m; i++) {
+        if (f[i] <= g[m - i]) {
+            ans = std::max(ans, pre[g[m - i]] - pre[f[i]]);
         }
     }
+    std::cout << ans << "\n";
 }
 
-int32_t main() {
-    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
-    int t = 1;
-    cin >> t;
-    for (int i = 1; i <= t; i++) {
+int main() {
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+
+    int t;
+    std::cin >> t;
+
+    while (t--) {
         solve();
     }
+
     return 0;
 }

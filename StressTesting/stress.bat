@@ -37,8 +37,8 @@ for /l %%x in (1, 1, %numLoop%) do (
     call :echoBoldDeepGreen [ TestCase %%x: passed! ]
     @REM echo TestCase %%x passed!
     gen > input.in
-    solution < input.in > output.out 
-    brute < input.in > output2.out
+    solution < input.in > output.out 2>nul
+    brute < input.in > output2.out 2>nul
     rem add \f after "fc" to ignore trailing whitespaces and to convert
     rem multiple whitespaces into one space
     fc output.out output2.out > diagnostics
@@ -47,6 +47,7 @@ for /l %%x in (1, 1, %numLoop%) do (
         goto :break
     )
 )
+
 
 :break
 

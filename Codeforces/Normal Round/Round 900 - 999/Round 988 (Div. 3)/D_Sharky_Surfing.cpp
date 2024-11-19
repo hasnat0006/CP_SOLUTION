@@ -28,7 +28,6 @@ void solve() {
         cin >> x >> y;
         pq.push({y, x});
     }
-    
 
     ll move = 0, pos = 1, power = 0;
     for (auto [l, r] : hill) {

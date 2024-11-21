@@ -5,7 +5,6 @@
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-
 using namespace std;
 
 #define ll long long
@@ -20,39 +19,32 @@ void solve() {
     ll n;
     cin >> n;
     vector<ll> v(n);
-    for (ll i = 0; i < n; i++)
-        cin >> v[i];
-    set<ll> st(vf(v));
-    ll mex = 0;
-    for (auto i : st) {
-        if (i == mex)
-            mex++;
-        else
-            break;
-    }
-    vector<ll> a;
     map<ll, ll> mp;
-    for (auto i : v) {
-        if (i < mex) {
-            a.push_back(i);
-            mp[i]++;
+    for (ll i = 0; i < n; i++) {
+        cin >> v[i];
+        if(v[i] < n)
+            mp[v[i]]++;
+    }
+    ll mex = 0;
+    while(mp.count(mex))
+        mex++;
+    if(mex == 0){
+        cout << 0 << "\n";
+        return;
+    }
+
+    vector<vector<ll>> dp(mex, vector<ll>(mex + 1, 0));
+
+    for (ll i = 0; i <= mex; i++)
+        dp[0][i] = (mp[0] - 1) * i;
+    for (ll i = 1; i < mex; i++) {
+        for (ll j = 0; j <= mex; j++) {
+            dp[i][j] = dp[i - 1][j];
+            ll temp = (mp[i] - 1) * j + i + dp[i - 1][i];
+            dp[i][j] = min(dp[i][j], temp);
         }
     }
-    sort(vf(a));
-    ll ans = 0;
-    while(mex != 0){
-        vector<pair<float, ll>> temp;
-        for(auto [i, cnt] : mp){
-            ld tempCost = i + (cnt - 1) * mex;
-            temp.push_back({tempCost / cnt, i});
-        }
-        sort(vf(temp));
-        ll rem = temp.front().second;
-        ans += (rem + (mp[rem] - 1) * mex);
-        mp.erase(mp.find(rem));
-        mex = rem;
-    }
-    cout << ans << '\n';
+    cout << dp[mex - 1][mex] << endl;
 }
 
 int32_t main() {

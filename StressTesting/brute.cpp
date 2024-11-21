@@ -1,58 +1,49 @@
 #include <bits/stdc++.h>
-
-using i64 = long long;
-using u64 = unsigned long long;
-using u32 = unsigned;
-using u128 = unsigned __int128;
-
-void solve() {
-    int n, m, v;
-    std::cin >> n >> m >> v;
-
-    std::vector<int> a(n);
-    for (int i = 0; i < n; i++) {
-        std::cin >> a[i];
-    }
-
-    std::vector<i64> pre(n + 1);
-    for (int i = 0; i < n; i++) {
-        pre[i + 1] = pre[i] + a[i];
-    }
-
-    i64 ans = -1;
-
-    std::vector<int> f(m + 1), g(m + 1);
-    for (int i = 1, j = 0; i <= m; i++) {
-        while (j <= n && pre[j] - pre[f[i - 1]] < v) {
-            j++;
-        }
-        f[i] = j;
-    }
-    g[0] = n;
-    for (int i = 1, j = n; i <= m; i++) {
-        while (j >= 0 && pre[g[i - 1]] - pre[j] < v) {
-            j--;
-        }
-        g[i] = j;
-    }
-
-    for (int i = 0; i <= m; i++) {
-        if (f[i] <= g[m - i]) {
-            ans = std::max(ans, pre[g[m - i]] - pre[f[i]]);
-        }
-    }
-    std::cout << ans << "\n";
-}
-
+using namespace std;
 int main() {
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
     int t;
-    std::cin >> t;
-
+    cin >> t;
     while (t--) {
-        solve();
+        int n, i, j, mex = 0, tmp;
+        cin >> n;
+        vector<long long> a(n), dp(n, 1e18);
+        map<int, int> mp;
+        for (long long &x : a) {
+            cin >> x;
+            mp[x]++;
+        }
+
+        sort(a.begin(), a.end());
+        for (i = 0; i < n; i++) {
+            if (a[i] <= mex)
+                mex = a[i] + 1;
+            else
+                break;
+        }
+
+        for (i = n - 1; i >= 0; i--) {
+            if (i < n - 1 && a[i] == a[i + 1]) {
+                dp[i] = dp[i + 1];
+                continue;
+            }
+            if (a[i] > mex) {
+                dp[i] = mex;
+                continue;
+            }
+            if (mp[a[i]] == 1)
+                dp[i] = a[i];
+            else
+                dp[i] = (mex * (mp[a[i]] - 1)) + a[i];
+            for (j = i + 1; j < n; j++) {
+                dp[i] = min(dp[i], dp[j] + (a[j] * (mp[a[i]] - 1)) + a[i]);
+            }
+        }
+
+        cout << dp[0] << "\n";
     }
 
     return 0;

@@ -1,75 +1,64 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 08|11|2024 00:34:53            !//
+//!             Created: 21|11|2024 12:11:10            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
+
 using namespace std;
 
-#define int long long
+#define ll long long
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 
+const ll mod = 1e9 + 7;
+const ll inf = 1e18;
+
 void solve() {
-    int n, q;
-    cin >> n >> q;
-    set<int> st[n];
+    ll n, m;
+    cin >> n >> m;
+    ll grid[n][m];
     for (int i = 0; i < n; i++) {
-        int x;
-        cin >> x;
-        while (x--) {
-            int y;
-            cin >> y;
-            st[i].insert(y);
+        for (int j = 0; j < m; j++) {
+            cin >> grid[i][j];
         }
     }
 
-    vector<int> mex(n);
+    if((n + m) % 2 == 0){
+        cout << "NO" << '\n';
+        return;
+    }
 
-    auto findMex = [&](int id, int cur) {
-        while (st[id].count(cur)) {
-            cur++;
-        }
-        return cur;
-    };
+    vector<vector<ll>> dpMN(n + 1, vector<ll>(m + 1)), dpMX(n + 1, vector<ll>(m + 1));
 
-    for (int i = 0; i < n; i++)
-        mex[i] = findMex(i, 1);
+    dpMN[0][0] = dpMX[0][0] = grid[0][0];
+    for (ll i = 1; i < n; i++)
+        dpMN[i][0] = dpMX[i][0] = grid[i][0] + dpMN[i - 1][0];
+    for(ll i = 1; i < m; i++)
+        dpMN[0][i] = dpMX[0][i] = grid[0][i] + dpMN[0][i - 1];
 
-    while (q--) {
-        int type;
-        cin >> type;
-        if (type == 1) {
-            int x, y;
-            cin >> x >> y;
-            x--, y--;
-            if ((int)st[y].size() >= (int)st[x].size()) {
-                st[x].swap(st[y]);
-                swap(mex[x], mex[y]);
-            }
-            for (auto &it : st[y])
-                st[x].insert(it);
-            st[y].clear();
-            mex[x] = findMex(x, max(mex[x], mex[y]));
+    for(ll i = 1; i < n; i++) {
+        for(ll j = 1; j < m; j++) {
+            dpMN[i][j] = grid[i][j] + min(dpMN[i - 1][j], dpMN[i][j - 1]);
+            dpMX[i][j] = grid[i][j] + max(dpMX[i - 1][j], dpMX[i][j - 1]);
         }
-        else if (type == 2) {
-            int x;
-            cin >> x;
-            x--;
-            if (st[x].size() + 1 == mex[x])
-                cout << "complete" << '\n';
-            else
-                cout << mex[x] << '\n';
-        }
-    }  
+    }
+    ll low = dpMN[n - 1][m - 1];
+    ll high = dpMX[n - 1][m - 1];
+
+    if(low <= 0 and high >= 0)
+        cout << "YES" << '\n';
+    else
+        cout << "NO" << '\n';
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
-    int t = 1;
+    ll t = 1;
     cin >> t;
-    for (int i = 1; i <= t; i++) {
+    for (ll i = 1; i <= t; i++) {
+        // cout << "Case " << i << ": ";
         solve();
     }
     return 0;

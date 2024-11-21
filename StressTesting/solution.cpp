@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 19|11|2024 17:19:45            !//
+//!             Created: 19|11|2024 23:43:45            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -14,6 +14,7 @@
 using namespace std;
 
 #define ll long long
+#define ld long double
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 
@@ -21,58 +22,44 @@ const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    ll n, k, need;
-    cin >> n >> k >> need;
+    ll n;
+    cin >> n;
     vector<ll> v(n);
-    for (auto &i : v)
-        cin >> i;
-    vector<ll> prefix_sum(n), pre(n), suf(n);
-    partial_sum(vf(v), prefix_sum.begin());
-    ll taste = 0;
-    for (ll i = 0; i < n; i++) {
-        taste += v[i];
-        if (taste >= need) {
-            pre[i] = 1 + (i ? pre[i - 1] : 0);
-            taste = 0;
-        }
+    for (ll i = 0; i < n; i++)
+        cin >> v[i];
+    set<ll> st(vf(v));
+    ll mex = 0;
+    for (auto i : st) {
+        if (i == mex)
+            mex++;
         else
-            pre[i] = (i ? pre[i - 1] : 0);
+            break;
     }
-    if (pre.back() < k) {
-        cout << -1 << '\n';
-        return;
-    }
-    taste = 0;
-    for (ll i = n - 1; i >= 0; i--) {
-        taste += v[i];
-        if (taste >= need) {
-            suf[i] = 1 + (i != n - 1 ? suf[i + 1] : 0);
-            taste = 0;
+    vector<ll> a;
+    map<ll, ll> mp;
+    for (auto i : v) {
+        if (i < mex) {
+            a.push_back(i);
+            mp[i]++;
         }
-        else
-            suf[i] = (i != n - 1 ? suf[i + 1] : 0);
     }
+    sort(vf(a));
     ll ans = 0;
-    ll id = lower_bound(vf(pre), k) - pre.begin();
-    ans = prefix_sum.back() - prefix_sum[id];
-    ll idPre = 0, idSuf = n - 1;
-    while (idSuf >= 0 and suf[idSuf] != k) {
-        idSuf--;
-    }
-    ans = max(ans, (idSuf - 1 >= 0 ? prefix_sum[idSuf - 1] : 0));
-    for (ll i = 1; i < k; i++) {
-        ll left = i, right = k - i;
-        while (idPre < n) {
-            if (pre[idPre++] == left)
-                break;
+    while (mex != 0) {
+        dbg(mp);
+        vector<pair<float, ll>> temp;
+        for (auto [i, cnt] : mp) {
+            ld tempCost = i + (cnt - 1) * mex;
+            temp.push_back({tempCost / cnt, i});
         }
-        while (idSuf < n and suf[idSuf] >= right)
-            idSuf++;
-        idSuf--;
-        if (idSuf >= idPre) {
-            ll temp = (idSuf - 1 >= 0 ? prefix_sum[idSuf - 1] : 0) - (idPre - 1 >= 0 ? prefix_sum[idPre - 1] : 0);
-            ans = max(ans, temp);
-        }
+        sort(vf(temp));
+        dbg(temp);
+        ll rem = temp.front().second;
+        ans += (rem + (mp[rem] - 1) * mex);
+        ll x = rem;
+        while (x < mex)
+            mp.erase(mp.find(x++));
+        mex = rem;
     }
     cout << ans << '\n';
 }

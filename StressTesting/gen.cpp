@@ -105,11 +105,9 @@ const int max_tests = 1;
 
 // complete this function according to the requirements
 void generate_test() {
-    int n = rand(1, 5);
-    int m = rand(1, n);
-    int taste = rand(1, 10);
-    cout << n << " " << m << " " << taste << endl;
-    cout << gen_array(n, 1, taste);
+    int n = rand(1, 500);
+    cout << n << endl;
+    cout << gen_array(n, 0, 10);
 }
 
 signed main() {

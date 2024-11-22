@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 19|11|2024 23:43:45            !//
+//!             Created: 22|11|2024 08:50:54            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -14,7 +14,6 @@
 using namespace std;
 
 #define ll long long
-#define ld long double
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 
@@ -22,46 +21,115 @@ const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    ll n;
-    cin >> n;
-    vector<ll> v(n);
+    ll n, m;
+    cin >> n >> m;
+    vector<ll> a(n), b(m);
     for (ll i = 0; i < n; i++)
-        cin >> v[i];
-    set<ll> st(vf(v));
-    ll mex = 0;
-    for (auto i : st) {
-        if (i == mex)
-            mex++;
+        cin >> a[i];
+    for (ll i = 0; i < m; i++)
+        cin >> b[i];
+
+    while (a.size() and a.back() <= b.back()) {
+        a.pop_back();
+    }
+
+    b.pop_back();
+
+    if(a.empty()) {
+        cout << 0 << '\n';
+        return;
+    }
+
+    if (b.empty()) {
+        if (!a.empty()) {
+            cout << -1 << '\n';
+        }
         else
-            break;
+            cout << 0 << '\n';
+        return;
     }
-    vector<ll> a;
-    map<ll, ll> mp;
-    for (auto i : v) {
-        if (i < mex) {
-            a.push_back(i);
-            mp[i]++;
+
+    n = a.size();
+    m = b.size();
+
+    vector<ll> suffix(n);
+    partial_sum(vr(a), suffix.rbegin());
+    dbg(suffix);
+
+    vector<vector<ll>> dp(m, vector<ll>(n, inf));
+
+    for (ll i = 0, cost = m; i < m; i++, cost--) {
+        ll total = 0;
+        if (a[n - 1] <= b[i])
+            dp[i][n - 1] = cost;
+        for (ll j = n - 2; j >= 0; j--) {
+            if (suffix[j] - total <= b[i]) {
+                dp[i][j] = dp[i][j + 1];
+            }
+            else if (a[j] <= b[i]) {
+                dp[i][j] = dp[i][j + 1] + cost;
+                total = suffix[j + 1];
+            }
+            else
+                break;
         }
     }
-    sort(vf(a));
-    ll ans = 0;
-    while (mex != 0) {
-        dbg(mp);
-        vector<pair<float, ll>> temp;
-        for (auto [i, cnt] : mp) {
-            ld tempCost = i + (cnt - 1) * mex;
-            temp.push_back({tempCost / cnt, i});
-        }
-        sort(vf(temp));
-        dbg(temp);
-        ll rem = temp.front().second;
-        ans += (rem + (mp[rem] - 1) * mex);
-        ll x = rem;
-        while (x < mex)
-            mp.erase(mp.find(x++));
-        mex = rem;
+    dbg(dp);
+
+    if (dp[0][0] == inf) {
+        cout << -1 << "\n";
+        return;
     }
-    cout << ans << '\n';
+
+    vector<ll> cost(m);
+    for (ll i = 0, c = m; i < m; i++, c--)
+        cost[i] = c;
+
+    dbg(cost);
+    ll ans = dp[0][0];
+
+    ll R = 0;
+    for (int i = 0; i < m; i++) {
+        if (dp[i][0] <= ans) {
+            ans = dp[i][0];
+            R = i;
+        }
+    }
+    // cout << endl;
+    dbg(R);
+    ll fixed = ans;
+    ll C = 0;
+    ll fR = R, fC = 0;
+    ll final = 0;
+    for (ll col = 1; col < n; col++) {
+        dbg("-------------------");
+        ll tempAns = ans, tR = R, tC = C;
+        dbg(fR, col, fixed);
+        //! ager fixed value
+        ll check = dp[fR][fC];
+        //! current value minus
+        check = check - dp[fR][col];
+        if (check == 0)
+            check += cost[fR];
+        dbg("AGE: ", check);
+        ll tempFinal = final;
+        for (ll row = fR; row < m; row++) {
+            dbg(dp[row][col]);
+            ll temp = check + dp[row][col];
+            dbg(col, row, temp);
+            if (temp + final < ans) {
+                tempAns = temp;
+                tR = row, tC = col;
+                tempFinal = ans;
+                ans = temp;
+                fR = row, fC = tC;
+            }
+        }
+        final = tempFinal;
+        dbg("After iteration: ", ans);
+    }
+
+    cout << (ans >= inf ? -1 : ans) << '\n';
 }
 
 int32_t main() {

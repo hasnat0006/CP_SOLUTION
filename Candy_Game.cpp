@@ -1,14 +1,14 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 20|11|2024 18:08:50            !//
+//!             Created: 22|11|2024 16:25:31            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 
 using namespace std;
 
-#define ll long long
+#define ll   long long
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 
@@ -16,18 +16,9 @@ const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    ll n;
-    cin >> n;
-    vector<ll> adj[n + 1];
-    vector<ll> value(n + 1);
-    for (ll i = 1; i <= n; i++)
-        cin >> value[i];
-    for (ll i = 1; i < n; i++) {
-        ll u, v;
-        cin >> u >> v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
-    }
+    long double a, b;
+    cin >> a >> b;
+    cout << fixed << setprecision(6) << a * b << '\n';
 }
 
 int32_t main() {
@@ -36,7 +27,7 @@ int32_t main() {
     cin >> t;
     for (ll i = 1; i <= t; i++) {
         // cout << "Case " << i << ": ";
-        solve();
+        solve(); 
     }
     return 0;
 }

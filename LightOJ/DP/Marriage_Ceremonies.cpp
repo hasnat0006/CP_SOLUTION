@@ -16,22 +16,22 @@ const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
 ll n;
-ll grid[22][22];
-ll dp[22][(1 << 21) + 1];
+ll grid[17][17];
+ll dp[17][(1 << 17) + 1];
 
 ll NumberOfWay(ll man, ll bitmask) {
-    if((1 << n) - 1 == bitmask)
-        return 1;
-    if(man < 0)
+    if ((1 << n) - 1 == bitmask)
         return 0;
-    if(dp[man][bitmask] != -1)
+    if (man < 0)
+        return 0;
+    if (dp[man][bitmask] != -1)
         return dp[man][bitmask];
 
     ll way = 0;
     for (ll woman = 0; woman < n; woman++) {
-        if((bitmask & (1 << woman)) or grid[man][woman] == 0)
-            continue; // already take this woman
-        way = (way + NumberOfWay(man - 1, (bitmask | (1 << woman)))) % mod;
+        if ((bitmask & (1 << woman)))
+            continue;  // already take this woman
+        way = max(way, grid[man][woman] + NumberOfWay(man - 1, (bitmask | (1 << woman))));
     }
     return dp[man][bitmask] = way;
 }
@@ -51,9 +51,9 @@ void solve() {
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     ll t = 1;
-    // cin >> t;
+    cin >> t;
     for (ll i = 1; i <= t; i++) {
-        // cout << "Case " << i << ": ";
+        cout << "Case " << i << ": ";
         solve();
     }
     return 0;

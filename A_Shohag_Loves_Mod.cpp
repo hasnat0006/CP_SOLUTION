@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 22|11|2024 16:25:31            !//
+//!             Created: 23|11|2024 20:35:45            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -16,9 +16,12 @@ const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    long double a, b;
-    cin >> a >> b;
-    cout << fixed << setprecision(6) << a * b << '\n';
+    ll n;
+    cin >> n;
+    for(int i = 1, c = 1; i <= n; i++, c += 2) {
+        cout << c << " ";
+    }
+    cout << endl;
 }
 
 int32_t main() {

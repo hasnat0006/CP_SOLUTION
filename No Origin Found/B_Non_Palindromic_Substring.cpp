@@ -5,31 +5,23 @@
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug.h"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
 using namespace std;
 
 #define ll long long
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 
-ll power(ll n, ll k, const ll mod) {
-    ll ans = 1 % mod;
-    n %= mod;
-    if (n < 0)
-        n += mod;
-    while (k) {
-        if (k & 1)
-            ans = (ll)ans * n % mod;
-        n = (ll)n * n % mod;
-        k >>= 1;
+ll binaryExp(ll base, ll power, ll MOD) {
+    ll res = 1;
+    while (power) {
+        if (power & 1)
+            res = (res * base) % MOD;
+        base = ((base % MOD) * (base % MOD)) % MOD;
+        power /= 2;
     }
-    return ans;
+    return res;
 }
+
 
 const ll N = 2e5 + 5;
 const ll MOD1 = 127657753, MOD2 = 987654319;
@@ -42,8 +34,8 @@ void prec() {
         pw[i].first = 1LL * pw[i - 1].first * p1 % MOD1;
         pw[i].second = 1LL * pw[i - 1].second * p2 % MOD2;
     }
-    ip1 = power(p1, MOD1 - 2, MOD1);
-    ip2 = power(p2, MOD2 - 2, MOD2);
+    ip1 =    (p1, MOD1 - 2, MOD1);
+    ip2 = binaryExp(p2, MOD2 - 2, MOD2);
     ipw[0] = {1, 1};
     for (ll i = 1; i < N; i++) {
         ipw[i].first = 1LL * ipw[i - 1].first * ip1 % MOD1;
@@ -67,12 +59,10 @@ struct Hashing {
         }
     }
     pair<ll, ll> get_hash(ll l, ll r) {  // 1 - indexed
-        // assert(1 <= l && l <= r && r <= n);
+        assert(1 <= l && l <= r && r <= n);
         pair<ll, ll> ans;
-        ans.first = (hs[r].first - hs[l - 1].first + MOD1) * 1LL *
-                    ipw[l - 1].first % MOD1;
-        ans.second = (hs[r].second - hs[l - 1].second + MOD2) * 1LL *
-                     ipw[l - 1].second % MOD2;
+        ans.first = (hs[r].first - hs[l - 1].first + MOD1) * 1LL * ipw[l - 1].first % MOD1;
+        ans.second = (hs[r].second - hs[l - 1].second + MOD2) * 1LL * ipw[l - 1].second % MOD2;
         return ans;
     }
     pair<ll, ll> get_hash() { return get_hash(1, n); }
@@ -142,7 +132,7 @@ void solve() {
         return cnt == (r - l + 1);
     };
 
-    auto sum = [](int x) { return x * (x + 1) / 2; };
+    auto sum = [](ll x) { return 1LL * x * (x + 1) / 2; };
 
     while (q--) {
         ll l, r;

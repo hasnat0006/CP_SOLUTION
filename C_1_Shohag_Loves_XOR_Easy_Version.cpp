@@ -1,14 +1,19 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 22|11|2024 16:42:06            !//
+//!             Created: 23|11|2024 21:11:30            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
-#include<bits/stdc++.h>
-
+#include <bits/stdc++.h>
+#ifndef ONLINE_JUDGE
+#include "D:\Documents\debug.h"
+#else
+#define dbg(x...)
+#define dbgc(x...)
+#endif
 using namespace std;
 
-#define ll   long long
+#define ll long long
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 
@@ -16,21 +21,20 @@ const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    ll n;
-    cin >> n;
-    vector<ll> v(n);
-    for(int i = 0; i < n; i++) {
-        cin >> v[i];
+    ll x, m;
+    cin >> x >> m;
+    ll base = log2(x);
+    ll from = 1LL << base;
+    ll to = 1LL << (base + 1);
+    ll ans = 0;
+    for(ll i = from; i <= to and i <= m; i++) {
+        ll XOR = x ^ i;
+        if(!XOR)
+            continue;
+        if(x % XOR == 0 or i % XOR == 0)
+            ans++;
     }
-    ll lobPos = 0, lobNeg, cnt = 0;
-    for(int i = 0; i < n; i++) {
-        if(v[i] > 0)
-            lobPos += v[i];
-        else
-            lobNeg += abs(v[i]), cnt++;
-    }
-    
-
+    cout << ans << "\n";
 }
 
 int32_t main() {
@@ -39,7 +43,7 @@ int32_t main() {
     cin >> t;
     for (ll i = 1; i <= t; i++) {
         // cout << "Case " << i << ": ";
-        solve(); 
+        solve();
     }
     return 0;
 }

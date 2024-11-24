@@ -7,7 +7,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define ll int
+#define ll long long
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 
@@ -22,7 +22,7 @@ void solve() {
     cin >> s;
     ll n = s.size();
 
-    vii pal(n, vi(n, 0)), dp(n, vi(n, 0));
+    vii pal(n, vi(n, 0)), prefix(n, vi(n, 0)), dp(n, vi(n, 0));
 
     auto printing = [&](vii a) {
         for (int i = 0; i < n; i++) {
@@ -31,37 +31,28 @@ void solve() {
             }
             cout << '\n';
         }
-        cout << "--------------------\n";
         return;
     };
 
     for (int i = 0; i < n; i++)
-        pal[i][i] = dp[i][i] = 1;
+        pal[i][i] = prefix[i][i] = dp[i][i] = 1;
 
     for (int i = n - 2; i >= 0; i--) {
-        vi current(n, 0);
-        current[i] = 1;
         for (int j = i + 1; j < n; j++) {
             // s[i...j] is a palindrome or not
             if (s[i] == s[j]) {
-                if (i + 1 <= j - 1 and pal[i + 1][j - 1] == 1)
+                if (i + 1 <= j - 1 and s[i + 1] == s[j - 1])
                     pal[i][j] = 1;
                 if (i + 1 == j)
                     pal[i][j] = 1;
             }
-            //! prefix[i][j] = prefix[i][j - 1] + pal[i][j];
-            //! dp[i][j] = dp[i + 1][j] + prefix[i][j];
-            current[j] = current[j - 1] + pal[i][j];
-            dp[i][j] = dp[i + 1][j] + current[j];
+            prefix[i][j] = prefix[i][j - 1] + pal[i][j];
+            dp[i][j] = dp[i + 1][j] + prefix[i][j];
         }
     }
-    // printing(pal);
-    // printing(prefix);
-    // printing(dp);
-
     ll q;
     cin >> q;
-    while (q--) {
+    while(q--) {
         ll l, r;
         cin >> l >> r;
         cout << dp[l - 1][r - 1] << '\n';

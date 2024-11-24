@@ -1,72 +1,131 @@
+/*******************************************
+ @b |I|s|t|i|a|q|u|e| |A|h|m|e|d| |A|r|i|k|
+********************************************/
+#pragma GCC optimize("O3")
 #include <bits/stdc++.h>
 
-using i64 = long long;
-std::vector<int> manacher(std::string s) {
-    std::string t = "#";
-    for (auto c : s) {
-        t += c;
-        t += '#';
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace std;
+using namespace __gnu_pbds;
+void __print(int x) { cerr << x; }
+#define int long long
+#define pi acos(-1)
+#define endl '\n'
+#define set_bits __builtin_popcountll
+#define all(x) (x).begin(), (x).end()
+#define rall(x) (x).rbegin(), (x).rend()
+#define IOS                  \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+#define FileIO                        \
+    freopen("input.txt", "r", stdin); \
+    freopen("output.txt", "w", stdout)
+///@b decltype and const
+const int MOD = 1e9 + 7, dx[] = {1, 0, -1, 0, 1, -1, -1, 1},
+          dy[] = {0, 1, 0, -1, 1, 1, -1, -1};
+///@b debug
+struct _ {
+    ios_base::Init i;
+    _() {
+        cin.sync_with_stdio(0);
+        cin.tie(0);
+        cout << fixed << setprecision(10);
     }
-    int n = t.size();
-    std::vector<int> r(n);
-    for (int i = 0, j = 0; i < n; i++) {
-        if (2 * j - i >= 0 && j + r[j] > i) {
-            r[i] = std::min(r[2 * j - i], j + r[j] - i);
-        }
-        while (i - r[i] >= 0 && i + r[i] < n && t[i - r[i]] == t[i + r[i]]) {
-            r[i] += 1;
-        }
-        if (i + r[i] > j + r[j]) {
-            j = i;
-        }
-    }
-    return r;
+} ___;
+void __print(long x) { cerr << x; }
+void __print(long long x) { cerr << x; }
+void __print(unsigned x) { cerr << x; }
+void __print(unsigned long x) { cerr << x; }
+void __print(unsigned long long x) { cerr << x; }
+void __print(float x) { cerr << x; }
+void __print(double x) { cerr << x; }
+void __print(long double x) { cerr << x; }
+void __print(char x) { cerr << '\'' << x << '\''; }
+void __print(const char *x) { cerr << '\"' << x << '\"'; }
+void __print(const string &x) { cerr << '\"' << x << '\"'; }
+void __print(bool x) { cerr << (x ? "true" : "false"); }
+
+template <typename T, typename V>
+void __print(const pair<T, V> &x) {
+    cerr << '{';
+    __print(x.first);
+    cerr << ',';
+    __print(x.second);
+    cerr << '}';
 }
+template <typename T>
+void __print(const T &x) {
+    int f = 0;
+    cerr << '{';
+    for (auto &i : x)
+        cerr << (f++ ? "," : ""), __print(i);
+    cerr << "}";
+}
+void _print() { cerr << "]\n"; }
+template <typename T, typename... V>
+void _print(T t, V... v) {
+    __print(t);
+    if (sizeof...(v))
+        cerr << ", ";
+    _print(v...);
+}
+#ifndef ONLINE_JUDGE
+#define debug(x...)               \
+    cerr << "[" << #x << "] = ["; \
+    _print(x)
+#else
+#define debug(x...)
+#endif
 
-void solve() {
-    int n, q;
-    std::cin >> n >> q;
+///@b PBDS
+// template <typename T>
+// using o_set = tree<T, null_type, less<T>, rb_tree_tag,
+// tree_order_statistics_node_update>; template <typename T> using o_set_g =
+// tree<T, null_type, greater<T>, rb_tree_tag,
+// tree_order_statistics_node_update>; template <typename T> using o_multiset =
+// tree<T, null_type, less_equal<T>, rb_tree_tag,
+// tree_order_statistics_node_update>; template <typename T> using o_multiset_g
+// = tree<T, null_type, greater_equal<T>, rb_tree_tag,
+// tree_order_statistics_node_update>;
 
-    std::string s;
-    std::cin >> s;
+bool isPal[5005][5005];
+int isPrePal[5005][5005];
+string s;
 
-    std::vector<int> f1(n), f2(n);
-    for (int i = n - 1; i >= 0; i--) {
-        f1[i] = i + 1 < n && s[i] == s[i + 1] ? f1[i + 1] : i + 1;
-        f2[i] = i + 2 < n && s[i] == s[i + 2] ? f2[i + 2] : i + 2;
+inline void solve() {
+    cin >> s;
+    for (int i = 0; i <= s.size(); i++) {
+        isPal[i][i] = 1;
+        isPrePal[i][i] = 1;
     }
-
-    auto rad = manacher(s);
-
+    for (int i = s.size() - 1; i >= 0; i--) {
+        for (int j = i + 1; j < s.size(); j++) {
+            if (s[i] == s[j]) {
+                if (i + 1 > j - 1) {
+                    isPal[i][j] = 1;
+                }
+                else
+                    isPal[i][j] = isPal[i + 1][j - 1];
+            }
+            isPrePal[i][j] = isPrePal[i][j - 1] + isPrePal[i + 1][j] -
+                             isPrePal[i + 1][j - 1] + isPal[i][j];
+        }
+    }
+    int q;
+    cin >> q;
     while (q--) {
         int l, r;
-        std::cin >> l >> r;
-        l--;
-
-        i64 ans = 0;
-        int len = r - l;
-        if (f1[l] < r) {
-            int mx = (len - 1) - (len - 1) % 2;
-            ans += 1LL * (mx / 2) * (mx + 2) / 2;
-        }
-        if (f2[l] < r || f2[l + 1] < r) {
-            int mx = len - 1 - len % 2;
-            ans += 1LL * ((mx - 1) / 2) * (mx + 3) / 2;
-        }
-        if (rad[l + r] <= len) {
-            ans += len;
-        }
-        std::cout << ans << "\n";
+        cin >> l >> r;
+        l--, r--;
+        cout << isPrePal[l][r] << endl;
     }
 }
 
-int main() {
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
-
-    int t;
-    std::cin >> t;
-
+auto main() -> int32_t {
+    IOS;
+    int t = 1, cs = 1;
     while (t--) {
         solve();
     }

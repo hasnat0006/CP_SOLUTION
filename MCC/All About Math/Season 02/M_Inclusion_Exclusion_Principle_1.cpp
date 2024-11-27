@@ -16,22 +16,25 @@ const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    ll n, k;
-    cin >> n >> k;
-    vector<ll> v(k);
-    for (int i = 0; i < k; i++)
-        cin >> v[i];
+    ll n;
+    cin >> n;
+    vector<ll> v = {2, 3, 5, 7};
+    ll ans = 0;
 
-    ll cnt = 0;
-    for(int i = 1; i <= n; i++) {
-        for(int j = 0; j < k; j++) {
-            if(i % v[j] == 0){
-                cnt++;
-                break;
+    function<ll(ll, ll)> findAns = [&](ll i, ll mask) -> ll {
+        if (i < 0) {
+            ll cnt = 0, num = 1;
+            for (int m = 0; m < 4; m++) {
+                if (mask & (1 << m))
+                    cnt++, num *= v[m];
             }
+            return (cnt % 2 ? -(n / num) : (n / num));
         }
-    }
-    cout << cnt << endl;
+        return findAns(i - 1, mask) + findAns(i - 1, mask | (1 << i));
+    };
+
+    cout << findAns(3, 0) << '\n';
+
 }
 
 int32_t main() {

@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 27|11|2024 14:34:01            !//
+//!             Created: 27|11|2024 11:23:53            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -16,22 +16,23 @@ const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    ll n, k;
-    cin >> n >> k;
-    vector<ll> v(k);
-    for (int i = 0; i < k; i++)
+    ll n;
+    cin >> n;
+    vector<ll> v(n);
+    for (ll i = 0; i < n; i++)
         cin >> v[i];
 
-    ll cnt = 0;
-    for(int i = 1; i <= n; i++) {
-        for(int j = 0; j < k; j++) {
-            if(i % v[j] == 0){
-                cnt++;
-                break;
-            }
+    ll ans = inf;
+    function<void(ll, ll, ll)> findMinAns = [&](ll i, ll a, ll b) -> void {
+        if (i < 0) {
+            ans = min(ans, abs(a - b));
+            return;
         }
-    }
-    cout << cnt << endl;
+        findMinAns(i - 1, a + v[i], b);
+        findMinAns(i - 1, a, b + v[i]);
+    };
+    findMinAns(n - 1, 0, 0);
+    cout << ans << endl;
 }
 
 int32_t main() {

@@ -5,7 +5,6 @@
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-
 using namespace std;
 
 #define ll long long
@@ -15,23 +14,32 @@ using namespace std;
 const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
-void solve() {
-    ll n, k;
-    cin >> n >> k;
-    vector<ll> v(k);
-    for (int i = 0; i < k; i++)
-        cin >> v[i];
+ll n, k;
+vector<ll> v;
 
-    ll cnt = 0;
-    for(int i = 1; i <= n; i++) {
-        for(int j = 0; j < k; j++) {
-            if(i % v[j] == 0){
-                cnt++;
-                break;
-            }
+ll LCM(__int128_t a, __int128_t b) { return (a * b) / __gcd(a, b); }
+
+ll findAns(ll i, ll mask) {
+    if (i < 0) {
+        ll cnt = 0;
+        __int128_t num = 1;
+        for (int m = 0; m < k; m++) {
+            if (mask & (1 << m))
+                cnt++, num = LCM(num, v[m]);
         }
+        return (cnt % 2 ? -(n / num) : (n / num));
     }
-    cout << cnt << endl;
+    return findAns(i - 1, mask) + findAns(i - 1, mask | (1 << i));
+}
+
+void solve() {
+    while (cin >> n >> k) {
+        v.clear();
+        v.resize(k);
+        for (int i = 0; i < k; i++)
+            cin >> v[i];
+        cout << findAns(k - 1, 0) << '\n';
+    }
 }
 
 int32_t main() {

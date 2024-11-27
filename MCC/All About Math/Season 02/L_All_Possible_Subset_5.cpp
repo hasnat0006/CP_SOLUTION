@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 27|11|2024 14:34:01            !//
+//!             Created: 27|11|2024 13:28:00            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -16,22 +16,27 @@ const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    ll n, k;
-    cin >> n >> k;
-    vector<ll> v(k);
-    for (int i = 0; i < k; i++)
+    ll n;
+    cin >> n;
+    vector<ll> v(n);
+    for (int i = 0; i < n; i++) {
         cin >> v[i];
-
-    ll cnt = 0;
-    for(int i = 1; i <= n; i++) {
-        for(int j = 0; j < k; j++) {
-            if(i % v[j] == 0){
-                cnt++;
-                break;
-            }
-        }
     }
-    cout << cnt << endl;
+    function<ll(ll, ll)> findAns = [&](ll i, ll mask) -> ll {
+        if (i < 0) {
+            ll add = 0;
+            for (int m = 0; m < n; m++) {
+                if (mask & (1LL << m))
+                    add += v[m];
+            }
+            ll notAdd = accumulate(vf(v), 0LL) - add;
+            return (add % 360) == (notAdd % 360);
+        }
+        ll ans = findAns(i - 1, mask) | findAns(i - 1, mask | (1LL << i));
+        return ans;
+    };
+
+    cout << (findAns(n - 1, 0) ? "YES" : "NO") << '\n';
 }
 
 int32_t main() {

@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 27|11|2024 14:34:01            !//
+//!             Created: 27|11|2024 11:51:49            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -15,23 +15,33 @@ using namespace std;
 const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
-void solve() {
-    ll n, k;
-    cin >> n >> k;
-    vector<ll> v(k);
-    for (int i = 0; i < k; i++)
-        cin >> v[i];
+ll ans;
 
-    ll cnt = 0;
-    for(int i = 1; i <= n; i++) {
-        for(int j = 0; j < k; j++) {
-            if(i % v[j] == 0){
-                cnt++;
-                break;
+void findAns(int i, string s) {
+    if (i == 0) {
+        string temp = "";
+        for (int id = 0; id < s.size(); id++) {
+            if (s[id] == '+') {
+                ans += stoll(temp);
+                temp = "";
             }
+            else
+                temp.push_back(s[id]);
         }
+        if(!temp.empty())
+            ans += stoll(temp);
+        return;
     }
-    cout << cnt << endl;
+    findAns(i - 1, s);
+    s.insert(s.begin() + i, '+');
+    findAns(i - 1, s);
+}
+
+void solve() {
+    string s;
+    cin >> s;
+    findAns(s.size() - 1, s);
+    cout << ans << '\n';
 }
 
 int32_t main() {

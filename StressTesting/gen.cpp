@@ -105,15 +105,10 @@ const int max_tests = 1;
 
 // complete this function according to the requirements
 void generate_test() {
-    int n = rand(1, 100), q = rand(1, 4);
-    string s = gen_string(n, false, 1, 20);
-    cout << s << endl;
-    cout << q << endl;
-    while(q--) {
-        int l = rand(1, n), r = rand(1, n);
-        cout << min(l, r) << " " << max(l, r) << endl;
-    }
-
+    int n = rand(5, 100), k = rand(1, n);
+    cout << n << " " << 2 << endl;
+    cout << 2 << " " << 5 << endl;
+    
 }
 
 

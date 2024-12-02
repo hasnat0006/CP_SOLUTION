@@ -1,13 +1,13 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 29|11|2024 19:41:29            !//
+//!             Created: 02|12|2024 20:39:03            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
 #ifndef ONLINE_JUDGE
 #include "D:\Documents\debug1.cpp"
-#else 
+#else
 #define dbg(x...)
 #define dbgc(x...)
 #endif
@@ -21,20 +21,29 @@ const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    int n;
-    cin >> n;
+    ll n, k;
+    cin >> n >> k;
     vector<ll> v(n);
-    for (ll &i : v) {
+    for (auto &i : v)
         cin >> i;
-        dbg(v);
+    sort(vr(v));
+    ll sum = 0;
+    ll ans = inf;
+    for (int i = 0; i < n; i++) {
+        sum += v[i];
+        if (sum > k) {
+            break;
+        }
+        else
+            ans = min(ans, abs(sum - k));
     }
-    cout << n << endl;
+    cout << ans << '\n';
 }
 
 int32_t main() {
-    ios_base::sync_with_stdio(false), cin.tie(nullptr);
+    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     ll t = 1;
-    // cin >> t;
+    cin >> t;
     for (ll i = 1; i <= t; i++) {
         // cout << "Case " << i << ": ";
         solve();

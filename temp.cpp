@@ -11,7 +11,7 @@
 #endif
 using namespace std;
 
-#define ll int
+#define ll long long
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 
@@ -19,45 +19,35 @@ const ll mod = 1e9 + 7;
 const ll inf = mod;
 
 void solve() {
-    ll n;
-    string s, p;
-    vector<ll> a, b;
-    cin >> n >> s >> p;
-    map<char, ll> id;
-    s = "#" + s;
-    p = "#" + p;
-    a.clear(), b.clear();
-    a.resize(s.size()), b.resize(s.size());
-    for (int i = 0; i < p.size(); i++) {
-        id[p[i]] = i;
-    }
-    string temp = "#";
-    for (int i = 1; i < s.size(); i++) {
-        ll index = 27 - id[s[i]];
-        temp.push_back(p[index]);
-    }
-    for (int i = 1; i < s.size(); i++) {
-        a[i] = s[i] - 'a' + 1;
-        b[i] = temp[i] - 'a' + 1;
-    }
-    ll dp[s.size()][30];
-    memset(dp, -1, sizeof(dp));
-    function<ll(ll, ll)> findMinCost = [&] (int i, int last) {
-        if (i == 0)
+    string a, b, c;
+    cin >> a >> b >> c;
+    ll n = a.size(), m = b.size(), o = c.size();
+
+    vector<vector<ll>> dp(n + 5, vector<ll>(m + 5, -1));
+    function<ll(ll, ll)> findMinAns = [&] (ll i, ll j) -> ll {
+        if (i == n and j == m or i + j >= o)
             return 0;
-        if (dp[i][last] != -1)
-            return dp[i][last];
+        if (dp[i][j] != -1)
+            return dp[i][j];
         ll ans1 = inf, ans2 = inf;
-        if (a[i] <= last)
-            ans1 = findMinCost(i - 1, a[i]);
-        if (b[i] <= last)
-            ans2 = 1 + findMinCost(i - 1, b[i]);
-        return dp[i][last] = min(ans1, ans2);
+        ll k = i + j;
+        if (i < n) {
+            if (c[k] == a[i])
+                ans1 = findMinAns(i + 1, j);
+            else {
+                ans1 = min(ans1, 1LL + findMinAns(i + 1, j));
+            }
+        }
+        if (j < m) {
+            if (c[k] == b[j])
+                ans2 = findMinAns(i, j + 1);
+            else {
+                ans2 = min(ans2, 1LL + findMinAns(i, j + 1));
+            }
+        }
+        return dp[i][j] = min(ans1, ans2);
     };
-
-    ll ans = findMinCost(s.size() - 1, 28);
-    cout << (ans == mod ? -1 : ans) << '\n';
-
+    cout << findMinAns(0, 0) << '\n';
 }
 
 int32_t main() {

@@ -18,36 +18,43 @@ using namespace std;
 const ll mod = 1e9 + 7;
 const ll inf = mod;
 
-void solve() {
-    string a, b, c;
-    cin >> a >> b >> c;
-    ll n = a.size(), m = b.size(), o = c.size();
 
-    vector<vector<ll>> dp(n + 5, vector<ll>(m + 5, -1));
-    function<ll(ll, ll)> findMinAns = [&] (ll i, ll j) -> ll {
-        if (i == n and j == m or i + j >= o)
-            return 0;
-        if (dp[i][j] != -1)
-            return dp[i][j];
-        ll ans1 = inf, ans2 = inf;
-        ll k = i + j;
-        if (i < n) {
-            if (c[k] == a[i])
-                ans1 = findMinAns(i + 1, j);
-            else {
-                ans1 = min(ans1, 1LL + findMinAns(i + 1, j));
+void solve() {
+    ll n, k;
+    cin >> n >> k;
+    vector<ll> v(n);
+    iota(vf(v), 1);
+    ll sum = 0;
+    for (int i = 1; i <= n; i++) {
+        sum += i * (n - i + 1);
+    }
+    dbg(sum);
+
+    auto rangeSum = [&] () {
+        ll sum = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                ll mn = inf;
+                for (int k = i; k <= j; k++) {
+                    mn = min(mn, v[k]);
+                }
+                sum += mn;
             }
         }
-        if (j < m) {
-            if (c[k] == b[j])
-                ans2 = findMinAns(i, j + 1);
-            else {
-                ans2 = min(ans2, 1LL + findMinAns(i, j + 1));
-            }
-        }
-        return dp[i][j] = min(ans1, ans2);
+        return sum;
     };
-    cout << findMinAns(0, 0) << '\n';
+
+    dbg(rangeSum());
+    ll cnt = 0;
+    do {
+        if (sum == rangeSum()) {
+            dbg(v);
+            cnt++;
+        }
+    } while (next_permutation(vf(v)));
+    dbg(cnt);
+
+    // ll max_possible = binaryExp()
 }
 
 int32_t main() {

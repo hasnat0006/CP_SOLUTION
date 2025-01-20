@@ -25,7 +25,7 @@ def git_commit_push(repo_path, commit_message):
         print(f"An error occurred: {e}")
 
 # Specify the path to your local repository
-repository_path = "C:\\Users\\Yusuf Reza Hasnat\\OneDrive\\Desktop\\CP\\CP_SOLUTION"
+repository_path = "C:\\Users\\Yusuf\\OneDrive\\Desktop\\CP\\CP_SOLUTION"
 
 # Generate the commit message with the current date
 commit_message ="DATE: " +  get_current_date()

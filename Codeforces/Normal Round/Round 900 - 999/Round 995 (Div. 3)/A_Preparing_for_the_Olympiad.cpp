@@ -1,15 +1,5 @@
-//!-----------------------------------------------------!//
-//!              Author: YUSUF REZA HASNAT              !//
-//!-----------------------------------------------------!//
-
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug1.cpp"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
 using namespace std;
 
 #define ll long long
@@ -22,15 +12,26 @@ const ll inf = 1e18;
 void solve() {
     ll n;
     cin >> n;
-    cout << n + 100 << endl;
-    dbg(n);
+    vector<ll> v(n);
+    for (int i = 0; i < n; i++)
+        cin >> v[i];
+    ll x;
+    cin >> x;
+    for (int i = 0; i < n - 1; i++) {
+        cin >> x;
+        if (v[i] > x)
+            v[i] -= x;
+        else
+            v[i] = 0;
+    }
+    cout << accumulate(vf(v), 0LL) << '\n';
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     int t = 1;
     cin >> t;
-    for (int i = 1; i <=t ; i++) {
+    for (int i = 1; i <= t; i++) {
         solve();
     }
     return 0;

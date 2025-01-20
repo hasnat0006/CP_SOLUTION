@@ -10,7 +10,19 @@ const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    
+    ll n, k;
+    cin >> n >> k;
+    ll last = n, first = 1;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < k - 1 and last > first; j++) {
+            cout << last << " ";
+            last--;
+            i++;
+        }
+        cout << first << " ";
+        first++;
+    }
+    cout << '\n';
 }
 
 int32_t main() {

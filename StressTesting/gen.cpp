@@ -100,15 +100,17 @@ ostream &operator<<(ostream &other, const vector<pair<int, int>> &v) {
 }
 
 // comment the just below line if test cases required
-#define SINGLE_TEST
+// #define SINGLE_TEST
 const int max_tests = 1;
 
 // complete this function according to the requirements
 void generate_test() {
-    int n = rand(5, 100), k = rand(1, n);
-    cout << n << " " << 2 << endl;
-    cout << 2 << " " << 5 << endl;
-    
+    int n = rand(1, 5);
+    cout << n << endl;
+    char arr[3] = {'.', 's', 'p'};
+    for(int i = 0; i < n; i++)
+        cout << arr[rand(0, 2)];
+    cout << endl;
 }
 
 

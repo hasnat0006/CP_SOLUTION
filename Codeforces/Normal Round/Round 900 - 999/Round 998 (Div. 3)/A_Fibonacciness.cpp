@@ -1,12 +1,12 @@
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-using namespace std;
 #ifndef ONLINE_JUDGE
 #include "D:\Documents\debug1.cpp"
 #else
 #define dbg(x...)
 #define dbgc(x...)
 #endif
+using namespace std;
 
 #define ll long long
 #define vf(v) (v).begin(), (v).end()
@@ -16,26 +16,22 @@ const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    ll n;
-    cin >> n;
-    string ban = "BAN", s = "";
-    while (n--) {
-        s += ban;
-    }
-    n = s.size();
-    vector<pair<long long, long long>> v;
-    ll i = 0, j = n - 2, f = 0;
-    while (i <= j) {
-        if (s[i] == 'B' and s[j] == 'A') {
-            swap(s[i], s[j]);
-            v.push_back({i, j});
-            i += 3, j-= 3;
+    int a, b, c, d;
+    cin >> a >> b >> c >> d;
+    vector<ll> v = {a, b, 0, c, d};
+    ll ans = 0;
+    for (int i = -1000; i <= 1000; i++) {
+        v[2] = i;
+        ll cnt = 0;
+        for (int j = 0; j <= 2; j++) {
+            if (v[j + 2] == (v[j] + v[j + 1]))
+                cnt++;
         }
+        if (cnt != 0)
+            dbg(i, v, cnt);
+        ans = max(ans, cnt);
     }
-    dbg(s);
-    cout << v.size() << '\n';
-    for (auto [i, j] : v)
-        cout << ++i << " " << ++j << '\n';
+    cout << ans << '\n';
 }
 
 int32_t main() {

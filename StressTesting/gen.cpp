@@ -105,14 +105,10 @@ const int max_tests = 1;
 
 // complete this function according to the requirements
 void generate_test() {
-    int n = rand(1, 5);
-    cout << n << endl;
-    char arr[3] = {'.', 's', 'p'};
-    for(int i = 0; i < n; i++)
-        cout << arr[rand(0, 2)];
-    cout << endl;
+    int n = rand(1, 10), l = rand(1, n), r = rand(l, n);
+    cout << n << " " << l << ' ' << r << endl;
+    cout << gen_array(1, 1, 100);
 }
-
 
 signed main() {
     srand(accuracy);

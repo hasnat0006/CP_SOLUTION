@@ -16,36 +16,42 @@ const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    ll n;
-    cin >> n;
-    string s;
-    cin >> s;
-    vector<ll> S, P;
-    for (int i = 0; i < n; i++) {
-        if (s[i] == 's')
-            S.push_back(i);
-        else if (s[i] == 'p')
-            P.push_back(i);
-    }
-    dbg(S, P);
-    if (s.front() == '.' and s.back() == '.' and S.size() > 0 and P.size() > 0)
-        cout << "NO" << '\n';
-    else if (S.empty() or P.empty()) {
-        cout << "YES" << '\n';
-    }
-    else if (P.back() < n - 1 and S.size() > 1)
-        cout << "NO" << '\n';
-    else {
-        if (S.back() > P.front()) 
-            cout << "NO" << '\n';
-        else if (s.front() == '.') {
-            cout << (P.size() == 1 ? "YES" : "NO") << '\n';
+    ll n, l, r;
+    cin >> n >> l >> r;
+    vector<ll> v(n + 1);
+    for (int i = 1; i <= n; i++)
+        cin >> v[i];
+    ll segSum = 0, ans = 0;
+    for (int i = l; i <= r; i++)
+        segSum += v[i], ans = segSum;
+    dbg(segSum);
+
+    auto findMin = [&](vector<ll> &a, int L, int R) {
+        vector<ll> pre(n + 1, 0);
+        sort(v.begin(), v.begin() + L);
+        sort(v.begin() + R + 1, v.end());
+        partial_sum(vf(v), pre.begin());
+        dbg(pre);
+        ll tempAns = segSum;
+        for (int i = L; i <= R; i++) {
+            for (int j = L - 1; j > 0; j--) {
+                ll len = i - L + 1;
+                ll curSum = pre[i] - pre[i - len];
+                dbg(pre[i], pre[i - len]);
+                ll changeSum = pre[j + len - 1] - pre[j - 1];
+                dbg(i, j, len, curSum, changeSum);
+                dbg(segSum - curSum + changeSum);
+                tempAns = min(tempAns, segSum - curSum + changeSum);
+            }
         }
-        else if(P.size() == 1)
-            cout << "YES" << '\n';
-        else
-            cout << "NO" << '\n';
-    }
+        return tempAns;
+    };
+    ans = min(ans, findMin(v, l, r));
+    reverse(v.begin() + 1, v.end());
+    int L = n - (r - 1), R = n - (l - 1);
+    dbg(L, R);
+    ans = min(ans, findMin(v, L, R));
+    cout << ans << '\n';
 }
 
 int32_t main() {

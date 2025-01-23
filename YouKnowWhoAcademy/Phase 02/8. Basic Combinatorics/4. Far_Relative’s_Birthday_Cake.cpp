@@ -1,17 +1,16 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 22|01|2025 12:11:14            !//
+//!             Created: 23|01|2025 19:59:30            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
+#include <bits/stdc++.h>
 #ifndef ONLINE_JUDGE
 #include "D:\Documents\debug1.cpp"
 #else
 #define dbg(x...)
 #define dbgc(x...)
 #endif
-#include <bits/stdc++.h>
-
 using namespace std;
 
 #define ll long long
@@ -21,19 +20,25 @@ using namespace std;
 const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
-__int128_t nFact(ll n) {
-    __int128_t ans = 1;
-    for (int i = 2; i <= n; i++)
-        ans *= i;
-    return ans;
-}
-
 void solve() {
     ll n;
     cin >> n;
+    string s[n];
+    for (int i = 0; i < n; i++)
+        cin >> s[i];
+    vector<ll> row(n), col(n);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (s[i][j] == 'C') {
+                row[i]++;
+                col[j]++;
+            }
+        }
+        dbg(row, col);
+    }
     ll ans = 0;
-    for (int i = 2; i <= n; i++) {
-        ans += (nFact(n) / (nFact(n - i) * (nFact(i))));
+    for (int i = 0; i < n; i++) {
+        ans += ((row[i] * (row[i] - 1)) / 2) + ((col[i] * (col[i] - 1)) / 2);
     }
     cout << ans << '\n';
 }

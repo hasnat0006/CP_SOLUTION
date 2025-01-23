@@ -27,7 +27,7 @@ def delete_files_and_directories(directory):
         print(f"An error occurred: {e}")
 
 # Specify the directory containing the files and directories to be deleted
-directory_path = "C:\\Users\\Yusuf Reza Hasnat\\OneDrive\\Desktop\\CP\\CP_SOLUTION"
+directory_path = "C:\\Users\\yusuf\\OneDrive\\Desktop\\CP\\CP_SOLUTION"
 
 # Call the function to delete the files and directories
 delete_files_and_directories(directory_path)

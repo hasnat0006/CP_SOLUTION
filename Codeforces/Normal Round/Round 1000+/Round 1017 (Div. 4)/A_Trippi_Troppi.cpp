@@ -4,11 +4,11 @@
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-#define ll   long long
+#define ll long long
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 
@@ -27,7 +27,7 @@ int32_t main() {
     cin >> t;
     for (ll i = 1; i <= t; i++) {
         // cout << "Case " << i << ": ";
-        solve(); 
+        solve();
     }
     return 0;
 }

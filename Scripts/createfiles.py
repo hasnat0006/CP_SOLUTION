@@ -3,7 +3,7 @@ import os
 def create_folders():
     try:
         # Create 20 folders
-        for i in range(870, 884):
+        for i in range(1001, 1025):
             folder_name = f"Round {i} (Div. 2)"
             os.makedirs(folder_name)
             print(f"Folder created: {folder_name}")

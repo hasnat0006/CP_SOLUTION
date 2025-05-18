@@ -8,6 +8,7 @@ using namespace std;
 #define rep(i, a, n) for (int i = a; i <= n; ++i)
 
 const int N = 1e6 + 4;
+#define ll long long
 
 int32_t permutation[N];
 
@@ -105,9 +106,11 @@ const int max_tests = 1;
 
 // complete this function according to the requirements
 void generate_test() {
-    int n = rand(1, 10), l = rand(1, n), r = rand(l, n);
-    cout << n << " " << l << ' ' << r << endl;
-    cout << gen_array(1, 1, 100);
+    int n = rand(2, 20);
+    int m = rand(2, 20);
+    int a = rand(1, n);
+    int b = rand(1, m);
+    cout << n << ' ' << m << ' ' << a << ' ' << b << '\n';
 }
 
 signed main() {

@@ -1,12 +1,12 @@
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
+using namespace std;
 #ifndef ONLINE_JUDGE
 #include "D:\Documents\debug1.cpp"
 #else
 #define dbg(x...)
 #define dbgc(x...)
 #endif
-using namespace std;
 
 #define ll long long
 #define vf(v) (v).begin(), (v).end()
@@ -16,42 +16,34 @@ const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    ll n, l, r;
-    cin >> n >> l >> r;
-    vector<ll> v(n + 1);
-    for (int i = 1; i <= n; i++)
-        cin >> v[i];
-    ll segSum = 0, ans = 0;
-    for (int i = l; i <= r; i++)
-        segSum += v[i], ans = segSum;
-    dbg(segSum);
-
-    auto findMin = [&](vector<ll> &a, int L, int R) {
-        vector<ll> pre(n + 1, 0);
-        sort(v.begin(), v.begin() + L);
-        sort(v.begin() + R + 1, v.end());
-        partial_sum(vf(v), pre.begin());
-        dbg(pre);
-        ll tempAns = segSum;
-        for (int i = L; i <= R; i++) {
-            for (int j = L - 1; j > 0; j--) {
-                ll len = i - L + 1;
-                ll curSum = pre[i] - pre[i - len];
-                dbg(pre[i], pre[i - len]);
-                ll changeSum = pre[j + len - 1] - pre[j - 1];
-                dbg(i, j, len, curSum, changeSum);
-                dbg(segSum - curSum + changeSum);
-                tempAns = min(tempAns, segSum - curSum + changeSum);
+    ll n, m, a, b;
+    cin >> n >> m >> a >> b;
+    ll cnt = 0;
+    while (n > 1 or m > 1) {
+        ll x = max(m * (a - 1), m * (n - a));
+        ll y = max(n * (b - 1), n * (m - b));
+        if (x > y) {
+            if (m * (a - 1) > m * (n - a)) {
+                n = n - (a - 1);
+            }
+            else {
+                n = n - (n - a);
             }
         }
-        return tempAns;
-    };
-    ans = min(ans, findMin(v, l, r));
-    reverse(v.begin() + 1, v.end());
-    int L = n - (r - 1), R = n - (l - 1);
-    dbg(L, R);
-    ans = min(ans, findMin(v, L, R));
-    cout << ans << '\n';
+        else {
+            if (n * (b - 1) > n * (m - b)) {
+                m = m - (b - 1);
+            }
+            else {
+                m = m - (m - b);
+            }
+        }
+        a = (n + 1) / 2;
+        b = (m + 1) / 2;
+        cnt++;
+        // dbg(n, m, a, b, cnt);
+    }
+    cout << cnt << endl;
 }
 
 int32_t main() {

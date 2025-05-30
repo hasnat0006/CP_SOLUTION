@@ -106,11 +106,11 @@ const int max_tests = 1;
 
 // complete this function according to the requirements
 void generate_test() {
-    int n = rand(2, 20);
-    int m = rand(2, 20);
-    int a = rand(1, n);
-    int b = rand(1, m);
-    cout << n << ' ' << m << ' ' << a << ' ' << b << '\n';
+    ll n = rand(5, 10);
+    ll m = rand(1, 10);
+    cout << n << ' ' << m << '\n';
+    cout << gen_array(n, 0, 10);
+    cout << simple_graph(n, m);
 }
 
 signed main() {

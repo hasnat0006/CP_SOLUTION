@@ -1,11 +1,5 @@
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
-#ifndef ONLINE_JUDGE
-#include "D:\Documents\debug1.cpp"
-#else
-#define dbg(x...)
-#define dbgc(x...)
-#endif
 using namespace std;
 
 #define ll long long
@@ -39,7 +33,7 @@ void solve() {
             dis[i] += battery[i];
             dis[i] = min(dis[i], cost);
             for (auto [v, w] : adj[i]) {
-                if (dis[i] >= w) 
+                if (dis[i] >= w)
                     dis[v] = max(dis[v], dis[i]);
             }
         }

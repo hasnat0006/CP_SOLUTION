@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 20|12|2024 20:37:44            !//
+//!             Created: 19|05|2025 23:41:33            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -16,22 +16,18 @@ const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    ll n;
+    float n;
     cin >> n;
-    vector<ll> zero;
-    for(int i = 0; i < n; i++) {
-        ll x; cin >> x;
-        if(x == 0) {
-            zero.push_back(i);
-        }
+    for(float i = 1; i <= n; i++) {
+        cout << i << ": " << ceil(n / i) << '\n';
     }
-    
+    cout << '\n';
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     ll t = 1;
-    cin >> t;
+    //cin >> t;
     for (ll i = 1; i <= t; i++) {
         // cout << "Case " << i << ": ";
         solve(); 

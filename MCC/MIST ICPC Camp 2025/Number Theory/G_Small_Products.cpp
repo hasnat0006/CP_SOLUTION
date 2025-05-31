@@ -20,10 +20,6 @@ void solve() {
                 product = max(product, v[i] * v[i - 1]);
             }
             if(product <= n) {
-                // for(ll x : v) {
-                //     cout << x << " ";
-                // }
-                // cout << "\n";
                 cnt++;
             }
             return;

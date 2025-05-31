@@ -15,6 +15,7 @@ using namespace std;
 const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
+
 void solve() {
     float n;
     cin >> n;

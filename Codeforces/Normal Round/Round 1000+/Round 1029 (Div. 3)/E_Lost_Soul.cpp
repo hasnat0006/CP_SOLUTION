@@ -34,7 +34,8 @@ void solve() {
         B[b[i]] = i;
     }
     for (int i = n - 1; i >= 0; i--) {
-        if (B[a[i]] > i + 1 || B[b[i]] > i + 1 || A[b[i]] > i + 1 || A[a[i]] > i + 1 || a[i] == b[i]) {
+        if (B[a[i]] > i + 1 || B[b[i]] > i + 1 || A[b[i]] > i + 1 ||
+            A[a[i]] > i + 1 || a[i] == b[i]) {
             cout << i + 1 << "\n";
             return;
         }

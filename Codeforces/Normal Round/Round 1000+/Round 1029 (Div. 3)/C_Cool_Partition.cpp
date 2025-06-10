@@ -3,7 +3,7 @@
 using namespace std;
 #ifndef ONLINE_JUDGE
 #include "D:\Documents\debug1.cpp"
-#else
+#else 
 #define dbg(x...)
 #define dbgc(x...)
 #endif
@@ -17,29 +17,21 @@ const ll inf = 1e18;
 void solve() {
     ll n;
     cin >> n;
-    vector<ll> a(n), b(n);
-    for (ll i = 0; i < n; i++)
-        cin >> a[i];
-    for (ll i = 0; i < n; i++)
-        cin >> b[i];
-    for (int i = n - 1; i >= 0; i--) {
-        if (a[i] == a[i - 1])
-            b[i - 1] = a[i];
-        if (b[i] == b[i - 1])
-            a[i - 1] = b[i];
-    }
-    map<ll, ll> A, B;
+    vector<ll> a(n);
+    map<ll, ll> mp, done;
     for (ll i = 0; i < n; i++) {
-        A[a[i]] = i;
-        B[b[i]] = i;
+        cin >> a[i];
+        mp[a[i]]++;
     }
-    for (int i = n - 1; i >= 0; i--) {
-        if (B[a[i]] > i + 1 || B[b[i]] > i + 1 || A[b[i]] > i + 1 || A[a[i]] > i + 1 || a[i] == b[i]) {
-            cout << i + 1 << "\n";
-            return;
-        }
+    ll ans = 0, freq = inf;
+    for(int i = 0; i < n; i++) {
+        if(done.count(a[i]))
+            continue;
+        done[a[i]] = 1;
+        freq = min(freq, mp[a[i]]);
+        ans = max(ans, freq);
     }
-    cout << 0 << "\n";
+    cout << ans << "\n";
 }
 
 int32_t main() {

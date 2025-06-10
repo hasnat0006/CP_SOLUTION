@@ -17,29 +17,23 @@ const ll inf = 1e18;
 void solve() {
     ll n;
     cin >> n;
-    vector<ll> a(n), b(n);
+    vector<ll> a(n);
     for (ll i = 0; i < n; i++)
         cin >> a[i];
-    for (ll i = 0; i < n; i++)
-        cin >> b[i];
-    for (int i = n - 1; i >= 0; i--) {
-        if (a[i] == a[i - 1])
-            b[i - 1] = a[i];
-        if (b[i] == b[i - 1])
-            a[i - 1] = b[i];
+    ll y = (a[0] * 2 - a[1]) / (n + 1);
+    ll x = a[1] - a[0] + y;
+    if (y < 0 || x < 0) {
+        cout << "NO\n";
+        return;
     }
-    map<ll, ll> A, B;
-    for (ll i = 0; i < n; i++) {
-        A[a[i]] = i;
-        B[b[i]] = i;
-    }
-    for (int i = n - 1; i >= 0; i--) {
-        if (B[a[i]] > i + 1 || B[b[i]] > i + 1 || A[b[i]] > i + 1 || A[a[i]] > i + 1 || a[i] == b[i]) {
-            cout << i + 1 << "\n";
+    for (int i = 0; i < n; i++) {
+        a[i] -= ((x * (i + 1)) + (y * (n - i)));
+        if (a[i] != 0) {
+            cout << "NO\n";
             return;
         }
     }
-    cout << 0 << "\n";
+    cout << "YES\n";
 }
 
 int32_t main() {

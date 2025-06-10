@@ -17,29 +17,27 @@ const ll inf = 1e18;
 void solve() {
     ll n;
     cin >> n;
-    vector<ll> a(n), b(n);
-    for (ll i = 0; i < n; i++)
-        cin >> a[i];
-    for (ll i = 0; i < n; i++)
-        cin >> b[i];
-    for (int i = n - 1; i >= 0; i--) {
-        if (a[i] == a[i - 1])
-            b[i - 1] = a[i];
-        if (b[i] == b[i - 1])
-            a[i - 1] = b[i];
-    }
-    map<ll, ll> A, B;
+    vector<ll> v(n);
     for (ll i = 0; i < n; i++) {
-        A[a[i]] = i;
-        B[b[i]] = i;
+        cin >> v[i];
     }
-    for (int i = n - 1; i >= 0; i--) {
-        if (B[a[i]] > i + 1 || B[b[i]] > i + 1 || A[b[i]] > i + 1 || A[a[i]] > i + 1 || a[i] == b[i]) {
-            cout << i + 1 << "\n";
-            return;
+    vector<pair<ll, pair<ll, ll>>> conRange;
+    ll ans = inf, firstId = 1;
+    for (ll i = 1; i < n; i++) {
+        if (v[i] != v[i - 1]) {
+            conRange.push_back({v[i - 1], {firstId, i}});
+            firstId = i + 1;
         }
     }
-    cout << 0 << "\n";
+    if (firstId <= n) {
+        conRange.push_back({v[n - 1], {firstId, n}});
+    }
+    dbg(conRange);
+    for (auto [l, r] : conRange) {
+        ans = min(ans, (l * (r.first - 1)) + (l * (n - r.second)));
+        dbg(ans, l, r.first, r.second);
+    }
+    cout << ans << endl;
 }
 
 int32_t main() {

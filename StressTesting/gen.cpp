@@ -105,12 +105,11 @@ ostream &operator<<(ostream &other, const vector<pair<int, int>> &v) {
 const int max_tests = 1;
 
 // complete this function according to the requirements
-void generate_test() {
-    ll n = rand(5, 10);
-    ll m = rand(1, 10);
-    cout << n << ' ' << m << '\n';
-    cout << gen_array(n, 0, 10);
-    cout << simple_graph(n, m);
+void generate_test() { ll n; 
+    n = rand(1, 10);
+    cout << n << '\n';
+    cout << gen_array(n, 1, n) << '\n';
+    cout << gen_array(n, 1, n) << '\n';
 }
 
 signed main() {

@@ -1,0 +1,132 @@
+#pragma GCC optimize("O3")
+#include <bits/stdc++.h>
+using namespace std;
+#ifndef ONLINE_JUDGE
+#include "D:\Documents\debug1.cpp"
+#else
+#define dbg(x...)
+#define dbgc(x...)
+#endif
+#define ll long long
+#define vf(v) (v).begin(), (v).end()
+#define vr(v) (v).rbegin(), (v).rend()
+
+const ll mod = 1e9 + 7;
+const ll inf = 1e18;
+
+ll binaryExp(ll base, ll power, ll MOD = mod) {
+    ll res = 1;
+    while (power) {
+        if (power & 1)
+            res = (res * base) % MOD;
+        base = ((base % MOD) * (base % MOD)) % MOD;
+        power /= 2;
+    }
+    return res;
+}
+
+const ll N = 1e6 + 5;
+const ll MOD1 = 127657753, MOD2 = 987654319;
+const ll p1 = 137, p2 = 277;
+ll ip1, ip2;
+pair<ll, ll> pw[N], ipw[N];
+
+void prec() {
+    pw[0] = {1, 1};
+    for (ll i = 1; i < N; i++) {
+        pw[i].first = 1LL * pw[i - 1].first * p1 % MOD1;
+        pw[i].second = 1LL * pw[i - 1].second * p2 % MOD2;
+    }
+    ip1 = binaryExp(p1, MOD1 - 2, MOD1);
+    ip2 = binaryExp(p2, MOD2 - 2, MOD2);
+    ipw[0] = {1, 1};
+    for (ll i = 1; i < N; i++) {
+        ipw[i].first = 1LL * ipw[i - 1].first * ip1 % MOD1;
+        ipw[i].second = 1LL * ipw[i - 1].second * ip2 % MOD2;
+    }
+}
+struct Hashing {
+    ll n;
+    string s;                 // 0 - indexed
+    vector<pair<ll, ll>> hs;  // 1 - indexed
+    Hashing() {}
+    Hashing(string _s) {
+        n = _s.size();
+        s = _s;
+        hs.emplace_back(0, 0);
+        for (ll i = 0; i < n; i++) {
+            pair<ll, ll> p;
+            p.first = (hs[i].first + 1LL * pw[i].first * s[i] % MOD1) % MOD1;
+            p.second = (hs[i].second + 1LL * pw[i].second * s[i] % MOD2) % MOD2;
+            hs.push_back(p);
+        }
+    }
+    pair<ll, ll> get_hash(ll l, ll r) {
+        // 1 - indexed
+        assert(1 <= l && l <= r && r <= n);
+        pair<ll, ll> ans;
+        ans.first = (hs[r].first - hs[l - 1].first + MOD1) * 1LL *
+                    ipw[l - 1].first % MOD1;
+        ans.second = (hs[r].second - hs[l - 1].second + MOD2) * 1LL *
+                     ipw[l - 1].second % MOD2;
+        return ans;
+    }
+    pair<ll, ll> get_hash() { return get_hash(1, n); }
+};
+
+void solve() {
+    string s;
+    cin >> s;
+    prec();
+    Hashing h1(s);
+    reverse(vf(s));
+    Hashing h2(s);
+    reverse(vf(s));
+    ll n = s.size();
+
+    auto isPalindrome = [&](ll i, ll j) {
+        return (h1.get_hash(i, j) == h2.get_hash(n - j + 1, n - i + 1));
+    };
+
+    auto isOK = [&](ll mid, ll center, ll even) {
+        return isPalindrome(center - mid, center + mid + even);
+    };
+
+    auto findMax = [&](ll center, ll even) {
+        ll low = 0, high = min(center - 1, n - center - even), ans = 0;
+        while (low <= high) {
+            ll mid = (low + high) / 2;
+            if (isOK(mid, center, even))
+                ans = mid + even, low = mid + 1;
+            else
+                high = mid - 1;
+        }
+        return ans;
+    };
+
+    ll maxLen = 0, st = -1;
+    auto cal = [&](ll i, ll len, ll even) {
+        if (2 * len + (even == 0) > maxLen) {
+            maxLen = 2 * len + (even == 0);
+            st = i - len + even;
+        }
+        return;
+    };
+
+    for (int center = 1; center <= n; center++) {
+        cal(center, findMax(center, 0), 0);
+        cal(center, findMax(center, 1), 1);
+    }
+
+    cout << s.substr(st - 1, maxLen) << '\n';
+}
+
+int32_t main() {
+    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
+    int t = 1;
+    // cin >> t;
+    for (int i = 1; i <= t; i++) {
+        solve();
+    }
+    return 0;
+}

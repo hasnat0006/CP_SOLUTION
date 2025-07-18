@@ -1,33 +1,29 @@
-//!-----------------------------------------------------!//
-//!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 13|04|2025 21:35:44            !//
-//!-----------------------------------------------------!//
+#include <bits/stdc++.h>
 
-#pragma GCC optimize("O3")
-#include<bits/stdc++.h>
-
+#include "testlib.h"
 using namespace std;
+typedef long long ll;
 
-#define ll   long long
-#define vf(v) (v).begin(), (v).end()
-#define vr(v) (v).rbegin(), (v).rend()
+ll gen_random(ll l, ll r) { return rnd.next(l, r); }
 
-const ll mod = 1e9 + 7;
-const ll inf = 1e18;
 
-void solve() {
-    string a, b, c;
-    cin >> a >> b >> c;
-    cout << a[0] << b[0] << c[0] << endl;
-}
-
-int32_t main() {
-    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
-    ll t = 1;
-    cin >> t;
-    for (ll i = 1; i <= t; i++) {
-        // cout << "Case " << i << ": ";
-        solve(); 
+int main(int argc, char* argv[]) {
+    registerGen(argc, argv, 1);
+    ll t = gen_random(1, 100);
+    cout << t << "\n";
+    while(t--) {
+        ll n = gen_random(1LL, 100);
+        ll m = gen_random(n, 110);
+        ll x = gen_random(0, 100);
+        ll y = gen_random(1, 100);
+        cout << n << " " << m << " " << x << " " << y << "\n";
     }
-    return 0;
 }
+
+/*
+
+<#list 1..10 as s>
+    Generator_Small  ${s} > $
+</#list>
+
+*/

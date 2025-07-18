@@ -10,7 +10,21 @@ const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    
+    ll n;
+    cin >> n;
+    string s;
+    cin >> s;
+    map<char, ll> cnt;
+    cnt[s[n - 1]]++;
+    cnt[s[0]]++;
+    for (int i = 1; i < n - 1; i++) {
+        if (cnt[s[i]] != 0) {
+            cout << "Yes" << "\n";
+            return;
+        }
+        cnt[s[i]]++;
+    }
+    cout << "No" << "\n";
 }
 
 int32_t main() {

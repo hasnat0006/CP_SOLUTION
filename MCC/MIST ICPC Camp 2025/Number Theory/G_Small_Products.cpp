@@ -2,7 +2,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define ll long long
+#define ll int
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
 
@@ -12,27 +12,25 @@ const ll inf = 1e18;
 void solve() {
     ll n, k;
     cin >> n >> k;
-    ll cnt = 0;
-    function<void(vector<ll>)> gen = [&](vector<ll> v) {
-        if(v.size() == k) {
-            ll product = 1;
-            for(int i = 1; i < k; i++) {
-                product = max(product, v[i] * v[i - 1]);
-            }
-            if(product <= n) {
-                cnt++;
-            }
-            return;
+    unordered_map<ll, unordered_map<ll, ll>> dp;
+    unordered_map<ll, ll> pref;
+    for (int i = 1, next; i <= n; i = next) {
+        next = n / (n / i) + 1;
+        pref[next - 1] = ((1LL * pref[i - 1]) + (next - i)) % mod;
+    }
+    for (int i = k - 1; i >= 0; i--) {
+        for (int j = 1, next; j <= n; j = next) {
+            next = n / (n / j) + 1;
+            dp[i][j] = pref[n / j];
+            dp[i][j] %= mod;
         }
-        for(ll i = 1; i <= n; i++) {
-            v.push_back(i);
-            gen(v);
-            v.pop_back();
+        for (int j = 1, next; j <= n; j = next) {
+            next = n / (n / j) + 1;
+            pref[next - 1] = (1LL * pref[j - 1]) + (1LL * dp[i][j] * (next - j)) % mod;
+            pref[next - 1] %= mod;
         }
-    };
-    vector<ll> v;
-    gen(v);
-    cout << cnt << "\n";
+    }
+    cout << dp[0][1] << "\n";
 }
 
 int32_t main() {

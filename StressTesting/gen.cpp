@@ -101,15 +101,18 @@ ostream &operator<<(ostream &other, const vector<pair<int, int>> &v) {
 }
 
 // comment the just below line if test cases required
-// #define SINGLE_TEST
+#define SINGLE_TEST
 const int max_tests = 1;
 
 // complete this function according to the requirements
-void generate_test() { ll n; 
-    n = rand(1, 10);
+void generate_test() {
+    ll n = rand(1, 10);
     cout << n << '\n';
-    cout << gen_array(n, 1, n) << '\n';
-    cout << gen_array(n, 1, n) << '\n';
+    vector<ll> v = gen_array(n, 1, 100);
+    ll sum = accumulate(v.begin(), v.end(), 0);
+    if (sum % 2 == 0)
+        v[n - 1]++;
+    cout << v << endl;
 }
 
 signed main() {

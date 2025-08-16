@@ -106,13 +106,10 @@ const int max_tests = 1;
 
 // complete this function according to the requirements
 void generate_test() {
-    ll n = rand(1, 10);
-    cout << n << '\n';
-    vector<ll> v = gen_array(n, 1, 100);
-    ll sum = accumulate(v.begin(), v.end(), 0);
-    if (sum % 2 == 0)
-        v[n - 1]++;
-    cout << v << endl;
+    ll n = rand(3, 10), m = rand(3, 10);
+    cout << n << " " << m << '\n';
+    cout << gen_array(n, m - 2, m + 10);
+    cout << gen_tree(n);
 }
 
 signed main() {

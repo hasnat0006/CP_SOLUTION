@@ -46,27 +46,26 @@ void solve() {
                 depth[u] = max(depth[v] + 1, depth[u]);
         }
         sort(vf(t));
-        if (t.size() == 1) {
+        dbg(t);
+        if (t.size()) {
             change[u] = t.back().first;
             depth[u] = max(depth[u], depth[t.back().second] + 1);
         }
-        else if (t.size() > 1) {
-            ll mx = 0, dep = 0;
+        if (t.size() > 1) {
+            t.pop_back();
             for (auto [val, node] : t) {
-                if (val + depth[node] + 1 >= mx) {
-                    mx = max(mx, val + depth[node] + 1);
-                    dep = max(dep, depth[node] + 1);
-                }
+                change[u] += val;
+                change[u] += depth[node] + 1;
+                dbg(u, val, depth[node]);
             }
-            change[u] = 0;
-            for (auto [val, node] : t) {
-                change[u] = change[u] + val + depth[node] + 1;
-            }
-            change[u] -= dep;
         }
+        dbg(u, depth[u], change[u]);
     };
 
     dfs(1, 0);
+    dbg(needToChange);
+    dbg(change);
+
     cout << max(0LL, change[1]) << '\n';
 }
 

@@ -55,19 +55,18 @@ void solve() {
                 }
                 if (f)
                     continue;
-                if (k < v[preId].size() and k < v[i].size()) {
+                if (k < v[preId].size() and k < v[preId].size()) {
                     if (v[preId][k] < v[i][k]) {
                         mn[j].second = preId;
+                        mp[{i, j, preId}] = preId;
                     }
                     else {
                         mn[j].second = i;
+                        mp[{i, j, preId}] = i;
                     }
                 }
-                else if (k == v[preId].size())
-                    mn[j].second = preId;
-                else if (k == v[i].size())
-                    mn[j].second = i;
-                mp[{i, j, preId}] = mn[j].second;
+                else
+                    mp[{i, j, preId}] = preId;
             }
         }
     }

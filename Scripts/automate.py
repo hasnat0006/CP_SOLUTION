@@ -38,18 +38,18 @@ for i in range(35):
     print(f"Search {i+1} in Chrome: {search_term_for_chrome}")
 
     # Wait before next searcha
-    time.sleep(random.randint(3, 6))
+    time.sleep(random.randint(1, 2))
 
     # Clear search bar (Edge)
     pyautogui.click(450, 200)
     pyautogui.hotkey('ctrl', 'a')
-    time.sleep(1)
+    time.sleep(0.5)
     pyautogui.press('delete')
 
     # Clear search bar (Chrome)
     pyautogui.click(1550, 160)
     pyautogui.hotkey('ctrl', 'a')
-    time.sleep(1)
+    time.sleep(0.5)
     pyautogui.press('delete')
 
 # Debug: Completion message

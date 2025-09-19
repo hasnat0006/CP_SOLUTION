@@ -1,6 +1,6 @@
 //!-----------------------------------------------------!//
 //!              Author: YUSUF REZA HASNAT              !//
-//!             Created: 16|08|2025 12:00:42            !//
+//!             Created: 08|09|2025 09:37:29            !//
 //!-----------------------------------------------------!//
 
 #pragma GCC optimize("O3")
@@ -21,46 +21,56 @@ const ll mod = 1e9 + 7;
 const ll inf = 1e18;
 
 void solve() {
-    ll n, m;
-    cin >> n >> m;
-    vector<ll> st[m + 5];
-    vector<ll> ans(m + 1, 0);
-    set<ll> s;
+    ll n, k;
+    cin >> n >> k;
+    vector<ll> v(n);
     for (int i = 0; i < n; i++) {
-        ll x;
-        cin >> x;
-        vector<ll> temp(x);
-        for (int j = 0; j < x; j++) {
-            cin >> temp[j];
-        }
-        ll next = 1, pre = 0;
-        for (int j = 0; j < x; j++) {
-            if(s.find(temp[j]) != s.end()) {
-                dbg(j, pre);
-                while(pre < j)
-                    ans[temp[pre++]] = 1;
-                pre = j + 1;
-            }
-            dbg(pre, j);
-        }
-        dbg(ans);
-        dbg(temp);
-        dbg(s);
-        s.clear();
-        s.insert(temp.begin(), temp.end());
-        dbg("---------");
+        cin >> v[i];
     }
-    for (int i = 1; i <= m; i++) {
-        cout << ans[i] << ' ';
+    sort(vf(v));
+    set<vector<ll>> st;
+    st.insert(v);
+    ll f = 0;
+    auto mexArray = [&]() {
+        dbg(v);
+        ll mex = 0;
+        map<ll, ll> cnt;
+        for (int i = 0; i < n; i++) {
+            if (v[i] == mex)
+                mex++;
+            cnt[v[i]]++;
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (cnt[v[i]] > 1)
+                v[i] = mex;
+            if (v[i] > mex)
+                v[i] = mex;
+        }
+        dbg(v);
+        if (st.find(v) != st.end()) {
+            f++;
+        }
+        st.insert(v);
+    };
+
+    ll turn = min(k, 3LL);
+    while (turn--) {
+        dbg("here");
+        mexArray();
+        k--;
     }
-    cout << '\n';
+    if(k)
+
+    dbg("-----------");
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
     ll t = 1;
-    // cin >> t;
+    cin >> t;
     for (ll i = 1; i <= t; i++) {
+        // cout << "Case " << i << ": ";
         solve();
     }
     return 0;

@@ -101,15 +101,17 @@ ostream &operator<<(ostream &other, const vector<pair<int, int>> &v) {
 }
 
 // comment the just below line if test cases required
-#define SINGLE_TEST
+// #define SINGLE_TEST
 const int max_tests = 1;
 
 // complete this function according to the requirements
 void generate_test() {
-    ll n = rand(3, 10), m = rand(3, 10);
-    cout << n << " " << m << '\n';
-    cout << gen_array(n, m - 2, m + 10);
-    cout << gen_tree(n);
+    ll n = rand(1, 10);
+    cout << n << '\n';
+    for(int i = 0; i < n; i++) {
+        ll x = rand(1, 10);
+        cout << x << " " << gen_array(x, 1, 10);
+    }
 }
 
 signed main() {

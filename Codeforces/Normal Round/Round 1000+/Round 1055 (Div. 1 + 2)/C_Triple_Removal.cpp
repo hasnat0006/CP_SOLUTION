@@ -1,6 +1,12 @@
 #pragma GCC optimize("O3")
 #include <bits/stdc++.h>
 using namespace std;
+#ifndef ONLINE_JUDGE
+#include "D:\Documents\debug1.cpp"
+#else 
+#define dbg(x...)
+#define dbgc(x...)
+#endif
 #define ll long long
 #define vf(v) (v).begin(), (v).end()
 #define vr(v) (v).rbegin(), (v).rend()
@@ -20,20 +26,22 @@ void solve() {
     vector<ll> v(n + 1, -1);
     for (int i = 1; i <= n; i++)
         cin >> v[i];
-
+        
     vector<Node> pre(n + 5);
     for (int i = 1; i <= n; i++) {
         pre[i].zc = pre[i - 1].zc;
         pre[i].oc = pre[i - 1].oc;
         pre[i].con = pre[i - 1].con;
-        if (v[i] == 0)
+        if (v[i] == 0) 
             pre[i].zc++;
         else
             pre[i].oc++;
         if (v[i] != v[i - 1])
             pre[i].con++;
     }
-
+    for(int i = 0; i < n; i++) {
+        dbg(i, pre[i].oc, pre[i].zc, pre[i].con);
+    }
     while (m--) {
         ll l, r;
         cin >> l >> r;
@@ -44,7 +52,7 @@ void solve() {
             cout << -1 << '\n';
             continue;
         }
-        ll conLen = R.con - L.con;
+        ll conLen = R.con - L.con + (L.con == pre[l].con);
         ll ans = 0;
         if (zero == one and conLen == (r - l + 1))
             ans++;

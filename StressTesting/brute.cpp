@@ -1,69 +1,71 @@
+#ifdef DeBuG
+#include "debug.h"
+#else
 #include <bits/stdc++.h>
+#define dbg(...)
+#endif
 using namespace std;
 
-#define all(x) x.begin(), x.end()
+#define fi first
+#define se second
 #define pb push_back
-#define FOR(i, a, b) for (int i = (a); i < (b); ++i)
-#define ROF(i, a, b) for (int i = (a); i >= (b); --i)
-#define trav(a, x) for (auto& a : x)
-#define sz(x) (int)x.size()
+#define sz(v) (int)(v).size()
+#define all(v) begin(v), end(v)
+#define rep(i, a, b) for (int i = (a); i < (b); ++i)
+using ll = long long;
+using pii = pair<int, int>;
+using pll = pair<ll, ll>;
+using vi = vector<int>;
 template <class T>
-bool ckmax(T& a, const T& b) {
-    return a < b ? a = b, 1 : 0;
-}
-template <typename T>
-ostream& operator<<(ostream& out, vector<T>& a) {
-    for (auto& x : a)
-        out << x << ' ';
-    return out;
-};
+using V = vector<T>;
 
-void solve() {
-    int n;
-    cin >> n;
-    vector<vector<int>> g(n), relevant;
-    int max_k = 0;
-    FOR(i, 0, n) {
-        int k;
-        cin >> k;
-        g[i].resize(k);
-        ckmax(max_k, k);
-        FOR(j, 0, k) {
-            cin >> g[i][j];
-            if (sz(relevant) == j)
-                relevant.pb({});
-            relevant[j].pb(i);
+void solvetc(int cs) {
+    int n, q;
+    cin >> n >> q;
+    V<int> a(n + 1);
+    rep(i, 1, n + 1) cin >> a[i];
+
+    V<int> alt(n + 2);
+    alt[n] = n;
+    for (int i = n - 1; i > 0; --i) {
+        if (a[i] != a[i + 1])
+            alt[i] = alt[i + 1];
+        else
+            alt[i] = i;
+    }
+
+    V<int> sum(n + 2);
+    rep(i, 1, n + 1) sum[i] = sum[i - 1] + a[i];
+
+    while (q--) {
+        int l, r;
+        cin >> l >> r;
+
+        int one = sum[r] - sum[l - 1];
+        int zer = (r - l + 1) - one;
+
+        if (one % 3 != 0 || zer % 3 != 0) {
+            cout << "-1\n";
+            continue;
         }
-    }
-    vector<int> lex_min(max_k), rank(n, -1);
-    ROF(i, max_k - 1, 0) {
-        vector<array<int, 3>> cur;
-        trav(j, relevant[i]) { cur.pb({g[j][i], rank[j], j}); }
-        sort(all(cur));
-        lex_min[i] = cur[0][2];
-        int rk = 0;
-        trav(j, cur) rank[j[2]] = rk++;
-    }
-    vector<int> ans;
-    while (sz(ans) < max_k) {
-        int tmp = sz(ans);
-        auto& v = g[lex_min[tmp]];
-        FOR(i, tmp, sz(v)) ans.pb(v[i]);
-    }
-    assert(sz(ans) == max_k);
-    cout << ans << "\n";
-}
 
-signed main() {
-    cin.tie(0)->sync_with_stdio(0);
-    int t = 1;
-    cin >> t;
-    for (int test = 1; test <= t; test++) {
-        solve();
+        int ans = (one + zer) / 3;
+
+        if (alt[l] >= r) {
+            ++ans;
+        }
+
+        cout << ans << "\n";
     }
 }
 
-/*   /\_/\
- *   (= ._.)
- *   / >  \>
- */
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    int tc, cs = 1;
+    cin >> tc;
+    while (tc--)
+        solvetc(cs++);
+    return 0;
+}

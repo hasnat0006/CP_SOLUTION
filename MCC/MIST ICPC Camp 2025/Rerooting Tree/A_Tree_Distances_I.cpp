@@ -1,7 +1,20 @@
+#pragma GCC optimize("O3")
 #include <bits/stdc++.h>
 using namespace std;
 
-const int MOD = (int)1e9 + 7;
+#ifndef ONLINE_JUDGE
+#include "D:\Documents\debug1.cpp"
+#else
+#define dbg(x...)
+#define dbgc(x...)
+#endif
+
+#define ll long long
+#define vf(v) (v).begin(), (v).end()
+#define vr(v) (v).rbegin(), (v).rend()
+
+const ll mod = 1e9 + 7;
+const ll inf = 1e18;
 
 namespace reroot {
 const auto exclusive = [](const auto& a, const auto& base,
@@ -80,39 +93,55 @@ const auto rerooter = [](const auto& g, const auto& base,
 };
 }  // namespace reroot
 
-int main() {
-    cin.tie(nullptr)->sync_with_stdio(false);
-    int n;
+void solve() {
+    ll n;
     cin >> n;
-
-    vector<int> P(n - 1);
-    for (auto& p : P)
-        cin >> p;
-
-    vector<vector<int>> g(n);
-    for (int v = 1; v < n; ++v) {
-        int u = P[v - 1] - 1;
+    vector<vector<ll>> g(n);
+    for (int i = 0; i < n - 1; i++) {
+        ll u, v;
+        cin >> u >> v;
+        u--, v--;
         g[u].push_back(v);
         g[v].push_back(u);
     }
 
+    function<ll(ll, ll)> dfs = [&](ll u, ll p) {
+        // base
+        ll dis = 0;
+        for (auto v : g[u]) {
+            if (v == p)
+                continue;
+            // merge_into
+            dis = max(dis, dfs(v, u) + 1);
+        }
+        // finalize_merge
+        return dis;
+    };
+
     using Aggregate = int;
     using Value = int;
 
-    auto base = [](int vertex) -> Aggregate { return 1; };
+    auto base = [](int vertex) -> Aggregate { return 0; };
     auto merge_into = [](Aggregate vertex_dp, Value neighbor_dp, int vertex,
                          int edge_index) -> Aggregate {
-        return (long long)vertex_dp * neighbor_dp % MOD;
+        return max(vertex_dp, neighbor_dp + 1);
     };
     auto finalize_merge = [](Aggregate vertex_dp, int vertex,
-                             int edge_index) -> Value {
-        return (vertex_dp + (edge_index != -1)) % MOD;
-    };
+                             int edge_index) -> Value { return vertex_dp; };
 
     auto [reroot_result, edge_dp, redge_dp] =
         reroot::rerooter(g, base, merge_into, finalize_merge);
-
-    for (auto dp : reroot_result)
-        cout << dp << ' ';
+    for (auto i : reroot_result)
+        cout << i << ' ';
     cout << '\n';
+}
+
+int32_t main() {
+    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
+    int t = 1;
+    // cin >> t;
+    for (int i = 1; i <= t; i++) {
+        solve();
+    }
+    return 0;
 }

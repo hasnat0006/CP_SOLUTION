@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int MOD = (int)1e9 + 7;
 
 namespace reroot {
 const auto exclusive = [](const auto& a, const auto& base,
@@ -102,11 +101,11 @@ int main() {
     auto base = [](int vertex) -> Aggregate { return 1; };
     auto merge_into = [](Aggregate vertex_dp, Value neighbor_dp, int vertex,
                          int edge_index) -> Aggregate {
-        return (long long)vertex_dp * neighbor_dp % MOD;
+        // return (long long)vertex_dp * neighbor_dp % MOD;
     };
     auto finalize_merge = [](Aggregate vertex_dp, int vertex,
                              int edge_index) -> Value {
-        return (vertex_dp + (edge_index != -1)) % MOD;
+        // return (vertex_dp + (edge_index != -1)) % MOD;
     };
 
     auto [reroot_result, edge_dp, redge_dp] =
